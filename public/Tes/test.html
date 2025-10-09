@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Health Tests - Khushipath</title>
+  <link rel="stylesheet" href="/FP/style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f9ff;
+      margin: 0;
+      /* padding: 20px; */
+      padding-top: 100px;
+    }
+    .test-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      max-width: 1100px;
+      margin: auto;
+    }
+    .test-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.2s ease;
+    }
+    .test-card:hover {
+      transform: translateY(-5px);
+    }
+    .test-card img {
+      width: 50px;
+      margin-bottom: 15px;
+    }
+    .test-card h3 {
+      color: #4a90e2;
+      font-size: 1.2em;
+      margin: 10px 0;
+    }
+    .test-card p {
+      font-size: 0.9em;
+      color: #555;
+      min-height: 40px;
+    }
+    .price {
+      font-weight: bold;
+      color: #222;
+      margin: 8px 0;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 8px 15px;
+      background: #4a90e2;
+      color: #fff;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 0.9em;
+    }
+    .btn:hover {
+      background: #3a78c2;
+    }
+  </style>
+</head>
+<body>
+  <!-- this is  start navigation bar code & style  -->
+   <nav class="navbar">
+        <div class="logo">
+            <img src="/FP/image/khushipath logo.png" alt="Khushipath Logo - A simplified image of a person meditating under a tree" />
+            <h1>Khushipath</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/About">About Us</a></li>
+            <li><a href="/Tes">Tests</a></li>
+            <li><a href="/Blog">Blog</a></li>
+            <li><a href="/Doctor">Doctors</a></li>
+            <li><a href="/Contact">Contact</a></li>
+            <li><a href="/Login">Login</a></li>
+        </ul>
+    </nav>
+    <!-- this is ending navigation bar code  -->
+
+  
+
+  <h1 style="text-align:center; color:#4a90e2; margin-bottom:30px;">Available Health Tests</h1>
+
+  <div class="test-section">
+
+    <!-- CBC -->
+    <div class="test-card">
+      <img src="/FP/image/cbc.png" alt="CBC">
+      <h3>Complete Blood Count (CBC)</h3>
+      <p>Evaluates blood health and detects anemia, infections, etc.</p>
+      <div class="price">₹299</div>
+      <a href="#" class="btn">Book Now</a>
+    </div>
+
+    <!-- Thyroid -->
+    <div class="test-card">
+      <img src="/FP/image/thyroid.jpg" alt="Thyroid">
+      <h3>Thyroid Profile</h3>
+      <p>Checks T3, T4, TSH for thyroid disorders.</p>
+      <div class="price">₹499</div>
+      <a href="#" class="btn">Book Now</a>
+    </div>
+
+    <!-- Allergy Panel -->
+    <div class="test-card">
+      <img src="/FP/image/alergy1.jpg" alt="Allergy">
+      <h3>Allergy Panel</h3>
+      <p>Detects sensitivity to common allergens.</p>
+      <div class="price">₹1299</div>
+      <a href="#" class="btn">Book Now</a>
+    </div>
+
+    <!-- Vitamin D -->
+    <div class="test-card">
+      <img src="/FP/image/vita D.png" alt="Vitamin D">
+      <h3>Vitamin D Test</h3>
+      <p>Checks Vitamin D deficiency for bone & immune health.</p>
+      <div class="price">₹799</div>
+      <a href="#" class="btn">Book Now</a>
+    </div>
+
+    <!-- HbA1c -->
+    <div class="test-card">
+      <img src="/FP/image/hba1c.png" alt="HbA1c">
+      <h3>HbA1c</h3>
+      <p>Average blood sugar of last 3 months (diabetes check).</p>
+      <div class="price">₹399</div>
+      <a href="#" class="btn">Book Now</a>
+    </div>
+
+    <!-- Liver Function Test -->
+    <div class="test-card">
+      <img src="/FP/image/liver-function-test-lft.avif" alt="LFT">
+      <h3>Liver Function Test (LFT)</h3>
+      <p>Measures enzymes & proteins for liver health.</p>
+      <div class="price">₹699</div>
+      <a href="#" class="btn">Book Now</a>
+    </div>
+
+    <!-- Kidney Function Test -->
+    <div class="test-card">
+      <img src="/FP/image/kidney.jpg" alt="KFT">
+      <h3>Kidney Function Test (KFT)</h3>
+      <p>Checks creatinine, urea, electrolytes for kidney health.</p>
+      <div class="price">₹599</div>
+      <a href="#" class="btn">Book Now</a>
+    </div>
+
+    <!-- Lipid Profile -->
+    <div class="test-card">
+      <img src="/FP/image/lipid.jpg" alt="Lipid">
+      <h3>Lipid Profile</h3>
+      <p>Measures cholesterol, HDL, LDL, triglycerides.</p>
+      <div class="price">₹499</div>
+      <a href="#" class="btn">Book Now</a>
+    </div>
+
+    <!-- Blood Sugar -->
+    <div class="test-card">
+      <img src="/FP/image/blood_sugar.jpg" alt="Blood Sugar">
+      <h3>Blood Sugar (Fasting/PP)</h3>
+      <p>Essential test for diabetes diagnosis.</p>
+      <div class="price">₹149</div>
+      <a href="#" class="btn">Book Now</a>
+    </div>
+
+    <!-- Vitamin B12 -->
+    <div class="test-card">
+      <img src="/FP/image/vitaB12.jpg" alt="Vitamin B12">
+      <h3>Vitamin B12</h3>
+      <p>Important for nerves, blood, and energy levels.</p>
+      <div class="price">₹899</div>
+      <a href="#" class="btn">Book Now</a>
+    </div>
+
+  </div>
+</body>
+</html>

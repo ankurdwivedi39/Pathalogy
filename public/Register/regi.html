@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Khushipath</title>
+    <link rel="stylesheet" href="/Register/regi.css">
+    <link rel="stylesheet" href="/FP/style.css">
+    <script src="https://kit.fontawesome.com/97ebdf5864.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="/FP/image/khushipath logo.png" alt="Khushipath Logo - A simplified image of a person meditating under a tree" />
+            <h1>Khushipath</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/About">About Us</a></li>
+            <li><a href="/Tes">Tests</a></li>
+            <li><a href="/Blog">Blog</a></li>
+            <li><a href="/Doctor">Doctors</a></li>
+            <li><a href="/Contact">Contact</a></li>
+            <li><a href="/Login">Login</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <h2>Register</h2>
+        <form action="/Register" method="POST">
+            <div class="form-group">
+                <input type="text" id="username" name="username"   required>
+                <label for="username">FullName</label>
+            </div>
+
+            <div class="form-group">
+                <input type="email"  id="email" name="email" required>
+                <label for="email">Email</label>
+            </div>
+
+            <div class="form-group">
+                <input type="password"  id="password" name="password" required>
+                <label for="password">password</label>
+            </div>
+
+            <div class="form-group">
+                <input type="password"  id="confirmpassword" name="confirmpassword" required>
+                <label for="confirmpassword">ConfirmPassword</label>
+            </div>
+
+            <p><input type="checkbox" required> I agree to the <a href="#">Terms & Conditions</a></p>
+
+            <input type="submit" id="btn" value="Register">
+            
+            <p>Already have an account? <a href="/Login/login.html">Login</a></p>
+        </form>
+    </div> 
+</body>
+</html>

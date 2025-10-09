@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog - Khushipath</title>
+  <link rel="stylesheet" href="/FP/style.css">
+  
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+       background-color: #fff;
+      margin: 0;
+      padding-top: 70px;
+      width: 100%;
+      flex-wrap: wrap;
+    }
+
+    .blog-section {
+      max-width: 1200px;
+      margin: auto;
+      padding: 50px 20px;
+    }
+
+    .blog-section h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #2d3748;
+    }
+
+    .blog-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .blog-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: 0.3s;
+    }
+
+    .blog-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+    }
+
+    .blog-card img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+    }
+
+    .blog-content {
+      padding: 20px;
+    }
+
+    .blog-content h3 {
+      margin: 0 0 10px;
+      font-size: 1.3rem;
+      color: #2b6cb0;
+    }
+
+    .blog-content p {
+      font-size: 0.95rem;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    .read-more {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 8px 16px;
+      background: #2b6cb0;
+      color: #fff;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .read-more:hover {
+      background: #1e4e8c;
+    }
+  </style>
+</head>
+<body>
+   <nav class="navbar">
+        <div class="logo">
+            <img src="/FP/image/khushipath logo.png" alt="Khushipath Logo - A simplified image of a person meditating under a tree" />
+            <h1>Khushipath</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/About">About Us</a></li>
+            <li><a href="/Tes">Tests</a></li>
+            <li><a href="/Blog">Blog</a></li>
+            <li><a href="/Doctor">Doctors</a></li>
+            <li><a href="/Contact">Contact</a></li>
+            <li><a href="/Login">Login</a></li>
+        </ul>
+    </nav>
+
+  <section class="blog-section">
+    <h2>Our Blogs & Articles</h2>
+    <div class="blog-container">
+
+      <!-- Blog Card 1 -->
+      <div class="blog-card">
+        <img src="/FP/image/blog 1.jpg" alt="Health Checkup">
+        <div class="blog-content">
+          <h3>Why Regular Health Checkups are Important</h3>
+          <p>Regular checkups help in early detection of diseases and ensure better treatment outcomes. Know why you shouldn’t miss them.</p>
+          <a href="#" class="read-more">Read More</a>
+        </div>
+      </div>
+
+      <!-- Blog Card 2 -->
+      <div class="blog-card">
+        <img src="/FP/image/blog 2.jpg" alt="Blood Test">
+        <div class="blog-content">
+          <h3>Understanding Your Blood Report</h3>
+          <p>Confused about medical terms in your blood report? This guide explains common tests in simple language.</p>
+          <a href="#" class="read-more">Read More</a>
+        </div>
+      </div>
+
+      <!-- Blog Card 3 -->
+      <div class="blog-card">
+        <img src="/FP/image/blog 3.jpg" alt="Healthy Living">
+        <div class="blog-content">
+          <h3>5 Tips for a Healthy Lifestyle</h3>
+          <p>Adopt small changes like balanced diet, regular exercise, and proper sleep to lead a healthier life.</p>
+          <a href="#" class="read-more">Read More</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</body>
+</html>
