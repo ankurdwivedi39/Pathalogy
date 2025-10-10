@@ -1,225 +1,350 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <link rel="stylesheet" href="/FP/style.css">
-  <title>Khusipath - Token & Package Booking</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Khushipath - Token & Package Booking</title>
 
-  <!-- Font Awesome (for icons)
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"> -->
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    :root{
-      --bg:#f5f7fb;
-      --card:#ffffff;
-      --accent:#0d6efd;
-      --muted:#64748b;
-      --shadow: 0 6px 18px rgba(15,23,42,0.08);
-      --radius:12px;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin-right: 100px;
-      font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
-      background:var(--bg);
-      color:#0f172a;
-      padding-top: 100px;
-      
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --accent: #0d6efd;
+      --muted: #64748b;
+      --shadow: 0 8px 20px rgba(0,0,0,0.05);
+      --radius: 16px;
     }
 
-    .container{
-      max-width:1100px;
-      margin:0 auto;
-      background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.95));
-      border-radius:16px;
-      padding:22px;
-      box-shadow:var(--shadow);
-      display:flex;
-      gap:22px;
-      align-items:flex-start;
-      flex-wrap:wrap;
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+    body { background: var(--bg); color: #0f172a; }
+
+    /* Navbar */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 40px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    nav .logo { display: flex; align-items: center; gap: 12px; }
+    nav .logo img { height: 40px; }
+    nav .logo h1 { font-size: 22px; font-weight: 700; color: var(--accent); }
+    nav ul { display: flex; gap: 20px; list-style: none; }
+    nav ul li a { text-decoration: none; color: #0f172a; font-weight: 500; transition: color 0.3s; }
+    nav ul li a:hover { color: var(--accent); }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+      padding: 0 20px;
     }
 
-    /* Left: packages */
-    .packages{
-      flex:1 1 420px;
-      min-width:300px;
-      background:var(--card);
-      padding:18px;
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
+    /* Left Section */
+    .left-section { flex: 1 1 600px; display: flex; flex-direction: column; gap: 30px; }
+    h3.section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 20px;
+      margin-bottom: 12px;
+      color: var(--accent);
     }
-    .packages h3{margin:0 0 12px 0}
-    .pkg-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-      gap:12px;
-    }
-    .pkg{
-      border:1px solid #e6eefb;
-      padding:12px;
-      border-radius:10px;
-      text-align:center;
-      cursor:pointer;
-      transition:transform .15s, box-shadow .15s;
-      background:linear-gradient(180deg,#fff,#fbfdff);
-    }
-    .pkg:hover{ transform:translateY(-6px); box-shadow: 0 6px 18px rgba(13,110,253,0.08); }
-    .pkg img{width:100%; height:100px; object-fit:cover; border-radius:8px; margin-bottom:8px;}
-    .pkg .title{font-weight:600}
-    .pkg .price{color:var(--accent); font-weight:700; margin-top:6px;}
 
-    /* Right: token form */
-    .form-wrap{
-      width:420px;
-      min-width:280px;
-      background:var(--card);
-      padding:18px;
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
+    /* Packages & Tests Grid */
+    .pkg-grid, .pkg-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
     }
-    .form-wrap h3{margin:0 0 12px 0}
-    .field{margin-bottom:12px}
-    label{display:block; font-size:13px; color:var(--muted); margin-bottom:6px}
-    input[type="text"], input[type="tel"], select, textarea{
-      width:100%;
-      padding:10px 12px;
-      border-radius:8px;
-      border:1px solid #e6eefb;
-      outline:none;
-      font-size:15px;
-      background:#fbfdff;
-    }
-    input[type="text"]:focus, input[type="tel"]:focus, select:focus, textarea:focus{
-      border-color:rgba(13,110,253,0.6);
-      box-shadow:0 6px 14px rgba(13,110,253,0.06);
-    }
-    .btn{display:inline-flex; align-items:center; gap:8px; background:var(--accent); color:#fff; padding:10px 14px; border-radius:10px; border:none; cursor:pointer; font-weight:600;}
-    .btn.secondary{background:#0b74d1}
-    .note{font-size:13px; color:var(--muted); margin-top:8px}
 
-    /* token box */
-    .token-box{
-      margin-top:12px;
-      padding:12px;
-      border-radius:10px;
-      border:1px dashed #e6eefb;
-      text-align:center;
-      background:linear-gradient(180deg,#ffffff,#f8fbff);
+    .pkg {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 12px;
     }
-    .token-number{font-size:28px; font-weight:800; color:var(--accent); letter-spacing:1px}
-    .small{font-size:13px; color:var(--muted)}
+    .pkg:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 24px rgba(13,110,253,0.1);
+    }
+    .pkg img { width: 100%; height: 120px; object-fit: cover; border-radius: 12px; margin-bottom: 10px; }
+    .pkg .title { font-weight: 600; margin-bottom: 4px; }
+    .pkg .small { font-size: 13px; color: var(--muted); }
+    .pkg .price { color: var(--accent); font-weight: 700; margin-top: 6px; }
 
-    /* responsive */
-    @media (max-width:920px){
-      .container{padding:18px}
-      .form-wrap{width:100%}
+    /* Right Section - Form */
+    .form-wrap {
+      flex: 0 0 420px;
+      background: var(--card);
+      padding: 24px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .form-wrap .field { margin-bottom: 16px; }
+    .form-wrap label {
+      display: block;
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+    .form-wrap input, .form-wrap select, .form-wrap textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #e6eefb;
+      font-size: 15px;
+      background: #fbfdff;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .form-wrap input:focus, .form-wrap select:focus, .form-wrap textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 6px 14px rgba(13,110,253,0.1);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 12px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn:hover { background: #0b5ed7; }
+    .btn.secondary { background: #0b74d1; }
+    .btn.secondary:hover { background: #095cb5; }
+
+    /* Token Box */
+    .token-box {
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px dashed #e6eefb;
+      background: linear-gradient(180deg,#ffffff,#f8fbff);
+      text-align: center;
+    }
+    .token-number { font-size: 28px; font-weight: 800; color: var(--accent); margin: 8px 0; }
+    .small { font-size: 13px; color: var(--muted); }
+    #message { margin-top: 16px; padding: 12px; border-radius: 10px; display: none; font-weight: 500; }
+
+    /* Responsive */
+    @media(max-width: 1024px){
+      .container { flex-direction: column; gap: 30px; }
+      .form-wrap { width: 100%; }
     }
   </style>
 </head>
+
 <body>
-<nav class="navbar">
-        <div class="logo">
-            <img src="/FP/image/khushipath logo.png" alt="Khushipath Logo - A simplified image of a person meditating under a tree" />
-            <h1>Khushipath</h1>
-        </div>
-        <ul class="nav-links">
-            <li><a href="/">Home</a></li>
-            <li><a href="/About">About Us</a></li>
-            <li><a href="/Tes">Tests</a></li>
-            <li><a href="/Blog">Blog</a></li>
-            <li><a href="/Doctor">Doctors</a></li>
-            <li><a href="/Contact">Contact</a></li>
-            <li><a href="/Login">Login</a></li>
-        </ul>
-    </nav>
+  <nav>
+    <div class="logo">
+      <img src="/FP/image/khushipath logo.png" alt="Khushipath Logo" />
+      <h1>Khushipath</h1>
+    </div>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/About">About Us</a></li>
+      <li><a href="/Tes">Tests</a></li>
+      <li><a href="/Blog">Blog</a></li>
+      <li><a href="/Doctor">Doctors</a></li>
+      <li><a href="/Contact">Contact</a></li>
+      <li><a href="/Login">Login</a></li>
+    </ul>
+  </nav>
+
   <div class="container">
-    <!-- Left: Package booking -->
-    <div class="packages" id="packages">
-      <h3><i class="fa-solid fa-box-open" style="color:var(--accent); margin-right:8px;"></i>Available Packages</h3>
-      <p class="small">Choose a package — क्लिक करके select करो। select करने पर वो form में auto fill होगा।</p>
-
-      <div class="pkg-grid" id="pkgGrid">
-        <!-- Example packages -->
-        <div class="pkg" data-service="Basic Health Checkup" data-price="499">
-          <img src="https://via.placeholder.com/300x100?text=Basic" alt="Basic">
-          <div class="title">Basic Health Checkup</div>
-          <div class="small">Includes CBC, Sugar, BP</div>
-          <div class="price">₹499</div>
-        </div>
-
-        <div class="pkg" data-service="Full Body Checkup" data-price="1999">
-          <img src="https://via.placeholder.com/300x100?text=Full+Body" alt="Full">
-          <div class="title">Full Body Checkup</div>
-          <div class="small">Complete Profile + Imaging</div>
-          <div class="price">₹1999</div>
-        </div>
-
-        <div class="pkg" data-service="Women's Wellness" data-price="899">
-          <img src="https://via.placeholder.com/300x100?text=Women" alt="Women">
-          <div class="title">Women's Wellness</div>
-          <div class="small">Hormone + Iron tests</div>
-          <div class="price">₹899</div>
-        </div>
-
-        <div class="pkg" data-service="Senior Citizen Pack" data-price="1299">
-          <img src="https://via.placeholder.com/300x100?text=Senior" alt="Senior">
-          <div class="title">Senior Citizen Pack</div>
-          <div class="small">Heart & Kidney focus</div>
-          <div class="price">₹1299</div>
+    <!-- Left Section -->
+    <div class="left-section">
+      <!-- Packages -->
+      <div class="packages">
+        <h3 class="section-title">Available Packages</h3>
+        <p class="small">Choose a package — क्लिक करके select करो।</p>
+        <div class="pkg-grid" id="pkgGrid">
+          <!-- All Packages -->
+          <div class="pkg" data-service="Basic Health Checkup" data-price="499">
+            <img src="https://via.placeholder.com/300x100?text=Basic" alt="Basic">
+            <div class="title">Basic Health Checkup</div>
+            <div class="small">Includes CBC, Sugar, BP</div>
+            <div class="price">₹499</div>
+          </div>
+          <div class="pkg" data-service="Full Body Checkup" data-price="1999">
+            <img src="https://via.placeholder.com/300x100?text=Full+Body" alt="Full">
+            <div class="title">Full Body Checkup</div>
+            <div class="small">Complete Profile + Imaging</div>
+            <div class="price">₹1999</div>
+          </div>
+          <div class="pkg" data-service="Women's Wellness" data-price="899">
+            <img src="https://via.placeholder.com/300x100?text=Women" alt="Women">
+            <div class="title">Women's Wellness</div>
+            <div class="small">Hormone + Iron tests</div>
+            <div class="price">₹899</div>
+          </div>
+          <div class="pkg" data-service="Senior Citizen Pack" data-price="1299">
+            <img src="https://via.placeholder.com/300x100?text=Senior" alt="Senior">
+            <div class="title">Senior Citizen Pack</div>
+            <div class="small">Heart & Kidney focus</div>
+            <div class="price">₹1299</div>
+          </div>
+          <div class="pkg" data-service="HEALTHKIND ACTIVE" data-price="1499">
+            <img src="https://via.placeholder.com/300x100?text=Healthkind" alt="Healthkind">
+            <div class="title">HEALTHKIND ACTIVE</div>
+            <div class="small">8 Profiles, 11 Tests</div>
+            <div class="price">₹1499</div>
+          </div>
+          <div class="pkg" data-service="Healthkind Total Plus" data-price="2249">
+            <img src="https://via.placeholder.com/300x100?text=Healthkind+Total" alt="Healthkind Total">
+            <div class="title">Healthkind Total Plus</div>
+            <div class="small">12 Profiles, 15 Tests</div>
+            <div class="price">₹2249</div>
+          </div>
+          <div class="pkg" data-service="Healthkind Advance" data-price="3999">
+            <img src="https://via.placeholder.com/300x100?text=Healthkind+Advance" alt="Healthkind Advance">
+            <div class="title">Healthkind Advance</div>
+            <div class="small">15 Profiles, 19 Tests</div>
+            <div class="price">₹3999</div>
+          </div>
+          <div class="pkg" data-service="Hair Fall Panel (Male & Female)" data-price="2999">
+            <img src="https://via.placeholder.com/300x100?text=Hair+Fall" alt="Hair Fall">
+            <div class="title">Hair Fall Panel (Male & Female)</div>
+            <div class="small">10 Profiles, 11 Tests</div>
+            <div class="price">₹2999</div>
+          </div>
+          <div class="pkg" data-service="Gym Ready" data-price="2299">
+            <img src="https://via.placeholder.com/300x100?text=Gym+Ready" alt="Gym Ready">
+            <div class="title">Gym Ready</div>
+            <div class="small">7 Profiles, 8 Tests</div>
+            <div class="price">₹2299</div>
+          </div>
+          <div class="pkg" data-service="Marriage Ready (Bridegroom)" data-price="2999">
+            <img src="https://via.placeholder.com/300x100?text=Bridegroom" alt="Bridegroom">
+            <div class="title">Marriage Ready (Bridegroom)</div>
+            <div class="small">6 Profiles, 9 Tests</div>
+            <div class="price">₹2999</div>
+          </div>
+          <div class="pkg" data-service="Marriage Ready (Bride)" data-price="2999">
+            <img src="https://via.placeholder.com/300x100?text=Bride" alt="Bride">
+            <div class="title">Marriage Ready (Bride)</div>
+            <div class="small">6 Profiles, 9 Tests</div>
+            <div class="price">₹2999</div>
+          </div>
         </div>
       </div>
 
-      <p class="note">Tip: पैकेज पर क्लिक करने से ऊपर वाले form का "Which Service" update होगा।</p>
+      <!-- Tests -->
+      <div class="tests">
+        <h3 class="section-title">Available Tests</h3>
+        <p class="small">Choose a Test — क्लिक करके select करो।</p>
+        <div class="pkg-grid-2" id="pkgGrid2">
+          <div class="pkg" data-service="Thyroid" data-price="499">
+            <img src="/public/FP/image/thyroid.jpg" alt="Thyroid">
+            <div class="title">Thyroid</div>
+            <div class="price">₹499</div>
+          </div>
+          <div class="pkg" data-service="CBC-Checkup" data-price="299">
+            <img src="/public/FP/image/cbc.png" alt="CBC">
+            <div class="title">CBC-Checkup</div>
+            <div class="price">₹299</div>
+          </div>
+          <div class="pkg" data-service="Allergy" data-price="1299">
+            <img src="/public/FP/image/alergy1.jpg" alt="Allergy">
+            <div class="title">Allergy</div>
+            <div class="price">₹1299</div>
+          </div>
+          <div class="pkg" data-service="Vitamin-D" data-price="799">
+            <img src="/public/FP/image/vita D.png" alt="Vitamin D">
+            <div class="title">Vitamin-D</div>
+            <div class="price">₹799</div>
+          </div>
+          <div class="pkg" data-service="Vitamin-B12" data-price="899">
+            <img src="/public/FP/image/vitaB12.jpg" alt="Vitamin B12">
+            <div class="title">Vitamin-B12</div>
+            <div class="price">₹899</div>
+          </div>
+          <div class="pkg" data-service="HbA1C-Test" data-price="399">
+            <img src="/public/FP/image/hba1c.png" alt="HbA1C">
+            <div class="title">HbA1C-Test</div>
+            <div class="price">₹399</div>
+          </div>
+          <div class="pkg" data-service="Liver Function Test" data-price="699">
+            <img src="/public/FP/image/liver-function-test-lft.avif" alt="Liver Function">
+            <div class="title">Liver Function Test</div>
+            <div class="price">₹699</div>
+          </div>
+          <div class="pkg" data-service="Kidney Function Test" data-price="599">
+            <img src="/public/FP/image/kidney.jpg" alt="Kidney Function">
+            <div class="title">Kidney Function Test</div>
+            <div class="price">₹599</div>
+          </div>
+          <div class="pkg" data-service="Lipid Profile Test" data-price="499">
+            <img src="/public/FP/image/lipid.jpg" alt="Lipid Profile">
+            <div class="title">Lipid Profile Test</div>
+            <div class="price">₹499</div>
+          </div>
+          <div class="pkg" data-service="Blood Sugar Test" data-price="149">
+            <img src="/public/FP/image/blood_sugar.jpg" alt="Blood Sugar">
+            <div class="title">Blood Sugar Test</div>
+            <div class="price">₹149</div>
+          </div>
+          <div class="pkg" data-service="Sperm Count Test" data-price="499">
+            <img src="https://via.placeholder.com/300x100?text=Sperm+Count" alt="Sperm Count">
+            <div class="title">Sperm Count Test</div>
+            <div class="price">₹499</div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Right: Token generation & Booking form -->
+    <!-- Right Section -->
     <div class="form-wrap">
-      <h3><i class="fa-solid fa-ticket" style="color:var(--accent); margin-right:8px;"></i>Token Generation & Booking</h3>
-
+      <h3 class="section-title">Token Generation & Booking</h3>
       <form id="bookingForm">
         <div class="field">
           <label for="name">Name</label>
           <input id="name" name="name" type="text" placeholder="Your full name">
         </div>
-
         <div class="field">
           <label for="service">Which service / Package</label>
           <select id="service" name="service">
             <option value="">-- Select service or click package --</option>
-            <option>Basic Health Checkup</option>
-            <option>Full Body Checkup</option>
-            <option>Women's Wellness</option>
-            <option>Senior Citizen Pack</option>
-            <option>Thyroid</option>
-            <option>CBC Check-up</option>
-            <option>Allergy</option>
-            <option>Vitamin - D</option>
-            <option>Vitamin B12</option>
-            <option>HbA1C Test</option>   
-            <option>liver Function Test</option>
-            <option>Kidney Function Test</option>
-            <option>Lipid Profile</option> 
-            <option>Blood Sugar</option>
-            <option>Sperm count Test</option>
-            
-        </select>
+          </select>
         </div>
-
         <div class="field">
           <label for="mobile">Mobile Number</label>
           <input id="mobile" name="mobile" type="tel" placeholder="10 digit mobile number">
         </div>
-
         <div class="field">
           <label for="note">Note (optional)</label>
           <textarea id="note" name="note" rows="3" placeholder="Any additional info"></textarea>
         </div>
-
-        <div style="display:flex; gap:10px; align-items:center;">
-          <button type="button" class="btn" id="generateBtn"><i class="fa-solid fa-circle-plus"></i> Generate Token</button>
-          <button type="button" class="btn secondary" id="bookBtn"><i class="fa-solid fa-calendar-check"></i> Book & Confirm</button>
+        <div style="display:flex; gap:10px;">
+          <button type="button" class="btn" id="generateBtn">Generate Token</button>
+          <button type="button" class="btn secondary" id="bookBtn">Book & Confirm</button>
         </div>
       </form>
 
@@ -229,52 +354,35 @@
         <div class="small" id="tokenDetails">Name, Service, Time slot info shown here</div>
       </div>
 
-      <div id="message" style="margin-top:12px;display:none;padding:10px;border-radius:8px;background:#e9f7ee;color:#064d22"></div>
+      <div id="message"></div>
     </div>
   </div>
 
-  <!-- <script>
-    // Helper: generate token
-    function makeToken(){
-      // simple incremental/random based token
-      const now = Date.now().toString().slice(-6); // last 6 digits timestamp
-      const rand = Math.floor(Math.random()*90 + 10); // 2-digit random
-      return 'KPS-' + rand + now.slice(-4); // e.g. KPS-129123
-    }
+  <!-- JS -->
+  <script>
+    // Populate service select dynamically from packages/tests
+    const serviceSelect = document.getElementById('service');
+    const allPkgs = document.querySelectorAll('.pkg');
+    allPkgs.forEach(pkg => {
+      const svc = pkg.dataset.service;
+      if(!Array.from(serviceSelect.options).some(opt=>opt.text===svc)){
+        const opt = document.createElement('option');
+        opt.text = svc;
+        serviceSelect.add(opt);
+      }
+    });
 
-    // package click -> fill service select
-    document.querySelectorAll('.pkg').forEach(pkg=>{
-      pkg.addEventListener('click', ()=> {
-        const svc = pkg.dataset.service || '';
-        const price = pkg.dataset.price || '';
-        const serviceSelect = document.getElementById('service');
-
-        // If exact option exists, select it; otherwise add a temporary option
-        let found=false;
-        for(let i=0;i<serviceSelect.options.length;i++){
-          if(serviceSelect.options[i].text === svc){
-            serviceSelect.selectedIndex = i;
-            found=true;
-            break;
-          }
-        }
-        if(!found){
-          const opt = document.createElement('option');
-          opt.text = svc + (price ? ' — ₹'+price : '');
-          opt.value = svc;
-          opt.selected = true;
-          serviceSelect.appendChild(opt);
-        }
-
-        // small highlight effect
-        pkg.style.boxShadow='0 10px 24px rgba(13,110,253,0.08)';
-        setTimeout(()=> pkg.style.boxShadow='',400);
+    // Package click -> fill service
+    allPkgs.forEach(pkg=>{
+      pkg.addEventListener('click', ()=>{
+        const svc = pkg.dataset.service;
+        serviceSelect.value = svc;
+        pkg.style.boxShadow='0 12px 24px rgba(13,110,253,0.1)';
+        setTimeout(()=>pkg.style.boxShadow='',400);
       });
     });
 
-    // form elements
     const nameEl = document.getElementById('name');
-    const serviceEl = document.getElementById('service');
     const mobileEl = document.getElementById('mobile');
     const noteEl = document.getElementById('note');
     const tokenBox = document.getElementById('tokenBox');
@@ -282,50 +390,47 @@
     const tokenDetailsEl = document.getElementById('tokenDetails');
     const msgEl = document.getElementById('message');
 
+    function makeToken(){
+      const now = Date.now().toString().slice(-6);
+      const rand = Math.floor(Math.random()*90+10);
+      return 'KPS-'+rand+now.slice(-4);
+    }
+
     function validate(){
-      const name = nameEl.value.trim();
-      const service = serviceEl.value.trim();
-      const mobile = mobileEl.value.trim();
-      if(!name){ showMessage('कृपया नाम भरें'); return false; }
-      if(!service){ showMessage('कृपया service चुनें'); return false; }
-      // mobile basic check
-      if(!/^\d{10}$/.test(mobile)){ showMessage('कृपया 10-digit mobile नंबर दें'); return false; }
+      const name=nameEl.value.trim();
+      const service=serviceSelect.value.trim();
+      const mobile=mobileEl.value.trim();
+      if(!name){ showMessage('कृपया नाम भरें',false); return false; }
+      if(!service){ showMessage('कृपया service चुनें',false); return false; }
+      if(!/^\d{10}$/.test(mobile)){ showMessage('कृपया 10-digit mobile नंबर दें',false); return false; }
       return true;
     }
 
-    function showMessage(text, ok=true){
+    function showMessage(text,ok=true){
       msgEl.style.display='block';
-      msgEl.style.background = ok ? '#e9f7ee' : '#fff1f0';
-      msgEl.style.color = ok ? '#064d22' : '#6b1a1a';
+      msgEl.style.background = ok?'#e9f7ee':'#fff1f0';
+      msgEl.style.color = ok?'#064d22':'#6b1a1a';
       msgEl.innerText = text;
-      setTimeout(()=>{ msgEl.style.display='none'; }, 4500);
+      setTimeout(()=>{msgEl.style.display='none';},4000);
     }
 
-    // Generate token button behavior
-    document.getElementById('generateBtn').addEventListener('click', ()=>{
+    document.getElementById('generateBtn').addEventListener('click',()=>{
       if(!validate()) return;
-      const token = makeToken();
-      tokenNumberEl.innerText = token;
-      tokenDetailsEl.innerText = `${nameEl.value.trim()} • ${serviceEl.value.trim()} • ${mobileEl.value.trim()}`;
-      tokenBox.style.display = 'block';
-      showMessage('Token generated: ' + token);
+      const token=makeToken();
+      tokenNumberEl.innerText=token;
+      tokenDetailsEl.innerText=`${nameEl.value.trim()} • ${serviceSelect.value.trim()} • ${mobileEl.value.trim()}`;
+      tokenBox.style.display='block';
+      showMessage('Token generated: '+token);
     });
 
-    // Book & Confirm button
-    document.getElementById('bookBtn').addEventListener('click', ()=>{
+    document.getElementById('bookBtn').addEventListener('click',()=>{
       if(!validate()) return;
-      const token = tokenNumberEl.innerText && tokenBox.style.display !== 'none' ? tokenNumberEl.innerText : makeToken();
-      // simulate booking (in real app: send to server via fetch/AJAX)
-      tokenNumberEl.innerText = token;
-      tokenDetailsEl.innerText = `${nameEl.value.trim()} • ${serviceEl.value.trim()} • ${mobileEl.value.trim()}`;
-      tokenBox.style.display = 'block';
-      showMessage('Booking confirmed. Your token: ' + token);
-      // Optionally clear fields after booking:
-      // nameEl.value=''; serviceEl.selectedIndex=0; mobileEl.value=''; noteEl.value='';
+      const token=tokenBox.style.display!=='none'?tokenNumberEl.innerText:makeToken();
+      tokenNumberEl.innerText=token;
+      tokenDetailsEl.innerText=`${nameEl.value.trim()} • ${serviceSelect.value.trim()} • ${mobileEl.value.trim()}`;
+      tokenBox.style.display='block';
+      showMessage('Booking confirmed. Your token: '+token);
     });
-
-    // optional: preselect first package
-    // document.querySelector('.pkg')?.click();
-  </script> -->
+  </script>
 </body>
 </html>

@@ -183,3 +183,97 @@
   </div>
 </body>
 </html>
+<!-- <script>
+    // Helper: generate token
+    function makeToken(){
+      // simple incremental/random based token
+      const now = Date.now().toString().slice(-6); // last 6 digits timestamp
+      const rand = Math.floor(Math.random()*90 + 10); // 2-digit random
+      return 'KPS-' + rand + now.slice(-4); // e.g. KPS-129123
+    }
+
+    // package click -> fill service select
+    document.querySelectorAll('.pkg').forEach(pkg=>{
+      pkg.addEventListener('click', ()=> {
+        const svc = pkg.dataset.service || '';
+        const price = pkg.dataset.price || '';
+        const serviceSelect = document.getElementById('service');
+
+        // If exact option exists, select it; otherwise add a temporary option
+        let found=false;
+        for(let i=0;i<serviceSelect.options.length;i++){
+          if(serviceSelect.options[i].text === svc){
+            serviceSelect.selectedIndex = i;
+            found=true;
+            break;
+          }
+        }
+        if(!found){
+          const opt = document.createElement('option');
+          opt.text = svc + (price ? ' — ₹'+price : '');
+          opt.value = svc;
+          opt.selected = true;
+          serviceSelect.appendChild(opt);
+        }
+
+        // small highlight effect
+        pkg.style.boxShadow='0 10px 24px rgba(13,110,253,0.08)';
+        setTimeout(()=> pkg.style.boxShadow='',400);
+      });
+    });
+
+    // form elements
+    const nameEl = document.getElementById('name');
+    const serviceEl = document.getElementById('service');
+    const mobileEl = document.getElementById('mobile');
+    const noteEl = document.getElementById('note');
+    const tokenBox = document.getElementById('tokenBox');
+    const tokenNumberEl = document.getElementById('tokenNumber');
+    const tokenDetailsEl = document.getElementById('tokenDetails');
+    const msgEl = document.getElementById('message');
+
+    function validate(){
+      const name = nameEl.value.trim();
+      const service = serviceEl.value.trim();
+      const mobile = mobileEl.value.trim();
+      if(!name){ showMessage('कृपया नाम भरें'); return false; }
+      if(!service){ showMessage('कृपया service चुनें'); return false; }
+      // mobile basic check
+      if(!/^\d{10}$/.test(mobile)){ showMessage('कृपया 10-digit mobile नंबर दें'); return false; }
+      return true;
+    }
+
+    function showMessage(text, ok=true){
+      msgEl.style.display='block';
+      msgEl.style.background = ok ? '#e9f7ee' : '#fff1f0';
+      msgEl.style.color = ok ? '#064d22' : '#6b1a1a';
+      msgEl.innerText = text;
+      setTimeout(()=>{ msgEl.style.display='none'; }, 4500);
+    }
+
+    // Generate token button behavior
+    document.getElementById('generateBtn').addEventListener('click', ()=>{
+      if(!validate()) return;
+      const token = makeToken();
+      tokenNumberEl.innerText = token;
+      tokenDetailsEl.innerText = `${nameEl.value.trim()} • ${serviceEl.value.trim()} • ${mobileEl.value.trim()}`;
+      tokenBox.style.display = 'block';
+      showMessage('Token generated: ' + token);
+    });
+
+    // Book & Confirm button
+    document.getElementById('bookBtn').addEventListener('click', ()=>{
+      if(!validate()) return;
+      const token = tokenNumberEl.innerText && tokenBox.style.display !== 'none' ? tokenNumberEl.innerText : makeToken();
+      // simulate booking (in real app: send to server via fetch/AJAX)
+      tokenNumberEl.innerText = token;
+      tokenDetailsEl.innerText = `${nameEl.value.trim()} • ${serviceEl.value.trim()} • ${mobileEl.value.trim()}`;
+      tokenBox.style.display = 'block';
+      showMessage('Booking confirmed. Your token: ' + token);
+      // Optionally clear fields after booking:
+      // nameEl.value=''; serviceEl.selectedIndex=0; mobileEl.value=''; noteEl.value='';
+    });
+
+    // optional: preselect first package
+    // document.querySelector('.pkg')?.click();
+  </script> -->
