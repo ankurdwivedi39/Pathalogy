@@ -1,19 +1,13 @@
-const mongoose = require("mongoose")
+const mongoose = require('mongoose');
 
 const connectDB = async () => {
-    try{
-        await mongoose.connect("mongodb://127.0.0.1:27017/UserDatabase")
-        console.log("MongoDB Connected...")
-
-//          // 🔹 Cleanup code starts here
-//   const result = await User.deleteMany({ usernmae: null });
-//   console.log('Deleted documents with usernmae:null ->', result.deletedCount);
-//   // 🔹 Cleanup code ends here
-
-    }catch{
-        console.error("MongoDB connection Failed :",err);
-        process.exit(1)
+    try {
+        await mongoose.connect('mongodb://localhost:27017/pathalogy');
+        console.log("✅ MongoDB Connected...");
+    } catch (err) { // <-- Yahan err define kar diya
+        console.error("❌ MongoDB connection Failed:", err.message);
+        process.exit(1); // Optional: server band kar do agar DB nahi chala
     }
-}
+};
 
-module.exports = connectDB
+module.exports = connectDB;
