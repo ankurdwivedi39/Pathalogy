@@ -170,11 +170,12 @@
     <ul class="nav-links">
       <li><a href="/">Home</a></li>
       <li><a href="/About">About Us</a></li>
-      <li><a href="/Tes">Tests</a></li>
+      <li><a href="/Login/login.html">Tests</a></li>
       <li><a href="/Blog">Blog</a></li>
       <li><a href="/Doctor">Doctors</a></li>
       <li><a href="/Contact">Contact</a></li>
-      <li><a href="/Login">Login</a></li>
+      <li><a href="/Login/login.html">All tests</a></li>
+      <li><a href="/cart.html" class="cart-link"><i class="fas fa-shopping-cart"></i> Cart</a></li>
     </ul>
   </nav>
 
@@ -390,6 +391,7 @@
     const tokenDetailsEl = document.getElementById('tokenDetails');
     const msgEl = document.getElementById('message');
 
+
     function makeToken(){
       const now = Date.now().toString().slice(-6);
       const rand = Math.floor(Math.random()*90+10);
@@ -414,6 +416,34 @@
       setTimeout(()=>{msgEl.style.display='none';},4000);
     }
 
+    function startTestCountdown() {
+        // Set the date we're counting down to
+        const testEstimateTime = new Date().getTime() + (60 * 60 * 1000); // 1 hour from now
+
+        // Update the countdown every 1 second
+        const x = setInterval(function() {
+
+            // Get today's date and time
+            const now = new Date().getTime();
+
+            // Find the distance between now and the count down date
+            const distance = testEstimateTime - now;
+
+            // Time calculations for hours, minutes and seconds
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Output the result in an element with id="testTimer"
+            document.getElementById("testTimer").innerText = hours + "h "
+            + minutes + "m " + seconds + "s ";
+
+            // If the countdown is over, write some text
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("testTimer").innerText = "Your test is now!";
+            }
+    }, 1000);
     document.getElementById('generateBtn').addEventListener('click',()=>{
       if(!validate()) return;
       const token=makeToken();
@@ -430,6 +460,7 @@
       tokenDetailsEl.innerText=`${nameEl.value.trim()} • ${serviceSelect.value.trim()} • ${mobileEl.value.trim()}`;
       tokenBox.style.display='block';
       showMessage('Booking confirmed. Your token: '+token);
+        startTestCountdown();
     });
   </script>
 </body>

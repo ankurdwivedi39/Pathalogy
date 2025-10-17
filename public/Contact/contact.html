@@ -6,6 +6,87 @@
   <title>Contact - Khushipath</title>
   <link rel="stylesheet" href="contact.css">
   <link rel="stylesheet" href="/FP/style.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    /* START: Login Modal Styles */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed;
+        z-index: 1001; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+    }
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 400px;
+        border-radius: 10px;
+        position: relative;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        animation: animatetop 0.4s;
+    }
+    @keyframes animatetop {
+        from {top: -300px; opacity: 0}
+        to {top: 0; opacity: 1}
+    }
+    .close-button {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        position: absolute;
+        top: 10px;
+        right: 20px;
+    }
+    .close-button:hover,
+    .close-button:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    /* Styles from login.css adapted for the modal */
+    .modal-content h2 { text-align: center; margin-bottom: 20px; color: #333; }
+    .modal-content .form-group { position: relative; margin-bottom: 30px; }
+    .modal-content .form-group input { width: 100%; padding: 10px 0; font-size: 16px; border: none; border-bottom: 1px solid #ccc; outline: none; background: transparent; }
+    .modal-content .form-group label { position: absolute; top: 0; left: 0; padding: 10px 0; font-size: 16px; color: #999; pointer-events: none; transition: .5s; }
+    .modal-content .form-group input:focus ~ label,
+    .modal-content .form-group input:valid ~ label { top: -20px; left: 0; color: #0056b3; font-size: 12px; }
+    .modal-content p { color: #555; font-size: 14px; }
+    .modal-content a { color: #0056b3; text-decoration: none; }
+    .modal-content #btn {
+        width: 100%;
+        background: #0056b3;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+    .modal-content #btn-register {
+        width: 100%;
+        background: #0056b3;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+    .modal-content .switch-modal {
+        color: #0056b3; text-decoration: none; cursor: pointer;
+    }
+    /* END: Login Modal Styles */
+  </style>
 </head>
 <body>
   <nav class="navbar">
@@ -16,11 +97,12 @@
         <ul class="nav-links">
             <li><a href="/">Home</a></li>
             <li><a href="/About">About Us</a></li>
-            <li><a href="/Tes">Tests</a></li>
+            <li><a href="/Login/login.html">Tests</a></li>
             <li><a href="/Blog">Blog</a></li>
             <li><a href="/Doctor">Doctors</a></li>
             <li><a href="/Contact">Contact</a></li>
-            <li><a href="/Login">Login</a></li>
+            <li id="auth-link-container"><a href="#" id="login-modal-trigger">Login</a></li>
+            <li><a href="/cart.html" class="cart-link"><i class="fas fa-shopping-cart"></i> Cart</a></li>
         </ul>
     </nav>
   <!-- Hero Section -->
@@ -93,6 +175,132 @@
   <footer class="footer">
     © 2025 Khushipath. All rights reserved.
   </footer>
+
+  <!-- The Register Modal -->
+    <div id="register-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Register</h2>
+            <form action="/Register" method="POST">
+                <div class="form-group">
+                    <input type="text" id="username" name="username" required>
+                    <label for="username">FullName</label>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email-register" name="email" required>
+                    <label for="email-register">Email</label>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password-register" name="password" required>
+                    <label for="password-register">Password</label>
+                </div>
+                <p><input type="checkbox" required> I agree to the <a href="#">Terms & Conditions</a></p>
+                <input type="submit" id="btn-register" class="btn" value="Register">
+                <p style="margin-top: 15px; text-align: center;">Already have an account? <a href="#" class="switch-modal" id="show-login-modal">Login</a></p>
+            </form>
+        </div>
+    </div>
+  <!-- The Login Modal -->
+  <div id="login-modal" class="modal">
+      <div class="modal-content">
+          <span class="close-button">&times;</span>
+          <h2>Login</h2>
+          <form id="login-form">
+              <div class="form-group">
+                  <input type="email" name="email" required>
+                  <label for="email">Email</label>
+              </div>
+              <div class="form-group">
+                  <input type="password" name="password" required>
+                  <label for="password">Password</label>
+              </div>
+              <p><input type="checkbox"> Remember Me <a href="#">Forget Password</a></p>
+              <input type="submit" id="btn" value="Login">
+              <p style="margin-top: 15px; text-align: center;">Don't have an account? <a href="#" class="switch-modal" id="show-register-modal">Register</a></p>
+          </form>
+      </div>
+  </div>
+
+  <script>
+      // JavaScript for the Login Modal
+        // --- START: Persistent Login & UI Management ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const authLinkContainer = document.getElementById('auth-link-container');
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+
+            if (user && user.loggedIn) {
+                authLinkContainer.innerHTML = '<a href="#" id="logout-button">Logout</a>';
+                document.getElementById('logout-button').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    localStorage.removeItem('currentUser');
+                    window.location.reload();
+                });
+            } else {
+                authLinkContainer.innerHTML = '<a href="#" id="login-modal-trigger">Login</a>';
+                document.getElementById('login-modal-trigger').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    loginModal.style.display = 'block';
+                });
+            }
+        });
+        // --- END: Persistent Login & UI Management ---
+
+      const loginModal = document.getElementById('login-modal');
+      const registerModal = document.getElementById('register-modal');
+      const loginTrigger = document.getElementById('login-modal-trigger'); // May be null if logged in
+        
+      const showRegisterLink = document.getElementById('show-register-modal');
+      const showLoginLink = document.getElementById('show-login-modal');
+
+      const closeButtons = document.querySelectorAll('.close-button');
+
+      // Handle Login Form Submission
+      document.getElementById('login-form').addEventListener('submit', function(event) {
+          event.preventDefault();
+          const email = this.elements.email.value;
+          const user = { email: email, loggedIn: true };
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          window.location.href = '/TokenGen/token.html';
+      });
+
+      // When the user clicks the button, open the modal 
+      if (loginTrigger) {
+          loginTrigger.onclick = function(event) {
+            event.preventDefault(); // Prevent default link behavior
+              loginModal.style.display = "block";
+          }
+        }
+
+        // Switch from Login to Register
+        showRegisterLink.onclick = function(event) {
+            event.preventDefault();
+            loginModal.style.display = "none";
+            registerModal.style.display = "block";
+        }
+
+        // Switch from Register to Login
+        showLoginLink.onclick = function(event) {
+            event.preventDefault();
+            registerModal.style.display = "none";
+            loginModal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the active modal
+        closeButtons.forEach(button => {
+            button.onclick = function() {
+                loginModal.style.display = "none";
+                registerModal.style.display = "none";
+            }
+        });
+
+      // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == loginModal || event.target == registerModal) {
+                loginModal.style.display = "none";
+                registerModal.style.display = "none";
+            }
+        }
+  </script>
 
 </body>
 </html>

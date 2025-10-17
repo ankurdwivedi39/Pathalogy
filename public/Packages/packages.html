@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Packages - Khushipath</title>
+    <link rel="stylesheet" href="/FP/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f4f7fa;
+            padding-top: 100px;
+        }
+        .packages-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .packages-container h1 {
+            text-align: center;
+            color: #1b3c59;
+            margin-bottom: 15px;
+            font-family: 'Martel', serif;
+        }
+        .packages-container .subtitle {
+            text-align: center;
+            color: #6c757d;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+        .package-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        .package-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .package-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        .package-card .card-header {
+            padding: 20px;
+        }
+        .package-card h3 {
+            font-size: 1.3em;
+            color: #1b3c59;
+            margin: 0 0 8px 0;
+        }
+        .package-card .parameters {
+            font-size: 0.9em;
+            color: #007bff;
+            font-weight: bold;
+        }
+        .package-card .price-section {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: baseline;
+            gap: 15px;
+        }
+        .package-card .current-price {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333;
+        }
+        .package-card .original-price {
+            font-size: 1.1em;
+            color: #777;
+            text-decoration: line-through;
+        }
+        .package-card .discount {
+            background-color: #28a745;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        .package-card .card-footer {
+            padding: 20px;
+            margin-top: auto;
+        }
+        .add-to-cart-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .add-to-cart-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="/FP/image/khushipath logo.png" alt="Khushipath Logo" />
+            <h1>Khushipath</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/About/about.html">About Us</a></li>
+            <li><a href="/Login/login.html">Tests</a></li>
+            <li><a href="/Blog/blog.html">Blog</a></li>
+            <li><a href="/Doctor/doctor.html">Doctors</a></li>
+            <li><a href="/Contact/contact.html">Contact</a></li>
+            <li id="auth-link-container"><a href="#">Login</a></li>
+            <li><a href="/cart.html" class="cart-link"><i class="fas fa-shopping-cart"></i> Cart</a></li>
+        </ul>
+    </nav>
+
+    <div class="packages-container">
+        <h1>Our Health Packages</h1>
+        <p class="subtitle">Choose from our curated packages for a comprehensive health overview at a discounted price.</p>
+
+        <div class="package-grid">
+            <div class="package-card" data-price="499">
+                <div class="card-header">
+                    <h3>Basic Health Checkup</h3>
+                    <p class="parameters">Covers 35 Parameters</p>
+                </div>
+                <div class="price-section">
+                    <span class="current-price">₹499</span>
+                    <span class="original-price">₹750</span>
+                    <span class="discount">33% OFF</span>
+                </div>
+                <div class="card-footer">
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="package-card" data-price="1800">
+                <div class="card-header">
+                    <h3>Swasth Fit Package</h3>
+                    <p class="parameters">Covers 83 Parameters</p>
+                </div>
+                <div class="price-section">
+                    <span class="current-price">₹1800</span>
+                    <span class="original-price">₹2500</span>
+                    <span class="discount">28% OFF</span>
+                </div>
+                <div class="card-footer">
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="package-card" data-price="4500">
+                <div class="card-header">
+                    <h3>Full Body Checkup - Advanced</h3>
+                    <p class="parameters">Covers 95 Parameters</p>
+                </div>
+                <div class="price-section">
+                    <span class="current-price">₹4500</span>
+                    <span class="original-price">₹6000</span>
+                    <span class="discount">25% OFF</span>
+                </div>
+                <div class="card-footer">
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+            </div>
+
+            <div class="package-card" data-price="1299">
+                <div class="card-header">
+                    <h3>Women's Wellness Package</h3>
+                    <p class="parameters">Covers 55 Parameters</p>
+                </div>
+                <div class="price-section">
+                    <span class="current-price">₹1299</span>
+                    <span class="original-price">₹1800</span>
+                    <span class="discount">28% OFF</span>
+                </div>
+                <div class="card-footer">
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add to Cart Functionality
+            const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const card = event.target.closest('.package-card');
+                    const packageName = card.querySelector('h3').innerText;
+                    const parameters = card.querySelector('.parameters').innerText;
+                    const price = parseFloat(card.dataset.price);
+
+                    const item = {
+                        name: packageName,
+                        price: price,
+                        parameters: parameters,
+                        id: packageName.replace(/\s+/g, '-')
+                    };
+
+                    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+                    if (cart.some(cartItem => cartItem.id === item.id)) {
+                        alert('This package is already in your cart.');
+                        return;
+                    }
+
+                    cart.push(item);
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    alert(`${item.name} has been added to your cart.`);
+                });
+            });
+
+            // Persistent Login UI Management
+            const authLinkContainer = document.getElementById('auth-link-container');
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+
+            if (user && user.loggedIn) {
+                authLinkContainer.innerHTML = '<a href="#" id="logout-button">Logout</a>';
+                document.getElementById('logout-button').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    localStorage.removeItem('currentUser');
+                    window.location.reload();
+                });
+            } else {
+                // This page doesn't have a login modal, so we link to a page that does.
+                authLinkContainer.innerHTML = '<a href="/FP/Fp.html">Login</a>';
+            }
+        });
+    </script>
+
+</body>
+</html>

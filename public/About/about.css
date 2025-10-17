@@ -10,7 +10,7 @@ body {
   /* background: #f8fafc; */
   background: linear-gradient(135deg, #def198 , #db232300);
   color: #333;
-  line-height: 1.6;
+  line-height: 0;
   padding-top: 70px; 
   
 }
@@ -34,36 +34,32 @@ body {
 }
 
 .about-text h2 {
-  font-size: 2rem;
+  font-size: 3rem;
   margin-bottom: 15px;
   color: #0f172a;
 }
 
 .about-text h2 span {
-  color: #16a34a;  /* Green highlight */
+  color: #07984f;  /* Green highlight */
 }
 
 .about-text p {
   margin-bottom: 15px;
-  font-size: 1rem;
+  font-size: 1.4rem;
   color: #475569;
 }
 
+/* Assuming the parent is a flex container */
+.about-section {
+  display: flex;
+  align-items: center; /* This is the only line you need to add */
+  gap: 2rem;
+}
+
+/* In this case, your original .about-image CSS would work perfectly fine without changes. */
 .about-image {
   flex: 1 1 350px;
   text-align: center;
-}
-
-.about-image img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease;
-}
-
-.about-image img:hover {
-  transform: scale(1.05);
 }
 
 /* Responsive */
@@ -195,3 +191,83 @@ section {
   font-size: 16px;
   font-weight: bold;
 }
+
+/* START: Login Modal Styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1001; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+}
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: animatetop 0.4s;
+}
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Styles from login.css adapted for the modal */
+.modal-content h2 { text-align: center; margin-bottom: 20px; color: #333; }
+.modal-content .form-group { position: relative; margin-bottom: 30px; }
+.modal-content .form-group input { width: 100%; padding: 10px 0; font-size: 16px; border: none; border-bottom: 1px solid #ccc; outline: none; background: transparent; }
+.modal-content .form-group label { position: absolute; top: 0; left: 0; padding: 10px 0; font-size: 16px; color: #999; pointer-events: none; transition: .5s; }
+.modal-content .form-group input:focus ~ label,
+.modal-content .form-group input:valid ~ label { top: -20px; left: 0; color: #0056b3; font-size: 12px; }
+.modal-content p { color: #555; font-size: 14px; }
+.modal-content a { color: #0056b3; text-decoration: none; }
+.modal-content #btn {
+    width: 100%;
+    background: #0056b3;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.modal-content #btn-register {
+    width: 100%;
+    background: #0056b3;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.modal-content .switch-modal {
+    color: #0056b3; text-decoration: none; cursor: pointer;
+}
+/* END: Login Modal Styles */

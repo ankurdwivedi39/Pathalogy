@@ -3,9 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><s>About Us - Khushipath</s> </title>
+  <title>About Us - Khushipath</title>
   <link rel="stylesheet" href="/About/about.css">
   <link rel="stylesheet" href="/FP/style.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 </head>
 <body>
@@ -18,14 +19,16 @@
         <ul class="nav-links">
             <li><a href="/">Home</a></li>
             <li><a href="/About">About Us</a></li>
-            <li><a href="/Tes">Tests</a></li>
+            <li><a href="/Login/login.html">Tests</a></li>
             <li><a href="/Blog">Blog</a></li>
             <li><a href="/Doctor">Doctors</a></li>
             <li><a href="/Contact">Contact</a></li>
-            <li><a href="/Login">Login</a></li>
+            <li id="auth-link-container"><a href="#" id="login-modal-trigger">Login</a></li>
+            <li><a href="/cart.html" class="cart-link"><i class="fas fa-shopping-cart"></i> Cart</a></li>
         </ul>
     </nav>
   <section class="about-section">
+
     <div class="about-container">
       <div class="about-text">
         <h2>About <span>Khushipath</span></h2>
@@ -97,9 +100,132 @@
       </div>
     </div>
   </section>
+  <!-- The Register Modal -->
+    <div id="register-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Register</h2>
+            <form action="/Register" method="POST">
+                <div class="form-group">
+                    <input type="text" id="username" name="username" required>
+                    <label for="username">FullName</label>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email-register" name="email" required>
+                    <label for="email-register">Email</label>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password-register" name="password" required>
+                    <label for="password-register">Password</label>
+                </div>
+                <p><input type="checkbox" required> I agree to the <a href="#">Terms & Conditions</a></p>
+                <input type="submit" id="btn-register" class="btn" value="Register">
+                <p style="margin-top: 15px; text-align: center;">Already have an account? <a href="#" class="switch-modal" id="show-login-modal">Login</a></p>
+            </form>
+        </div>
+    </div>
 
+  <!-- The Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Login</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <input type="email" name="email" required>
+                    <label for="email">Email</label>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" required>
+                    <label for="password">Password</label>
+                </div>
+                <p><input type="checkbox"> Remember Me <a href="#">Forget Password</a></p>
+                <input type="submit" id="btn" value="Login">
+                <p style="margin-top: 15px; text-align: center;">Don't have an account? <a href="#" class="switch-modal" id="show-register-modal">Register</a></p>
+            </form>
+        </div>
+    </div>
 
+<script>
+        // JavaScript for the Login Modal
+        // --- START: Persistent Login & UI Management ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const authLinkContainer = document.getElementById('auth-link-container');
+            const user = JSON.parse(localStorage.getItem('currentUser'));
 
+            if (user && user.loggedIn) {
+                authLinkContainer.innerHTML = '<a href="#" id="logout-button">Logout</a>';
+                document.getElementById('logout-button').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    localStorage.removeItem('currentUser');
+                    window.location.reload();
+                });
+            } else {
+                authLinkContainer.innerHTML = '<a href="#" id="login-modal-trigger">Login</a>';
+                document.getElementById('login-modal-trigger').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    loginModal.style.display = 'block';
+                });
+            }
+        });
+        // --- END: Persistent Login & UI Management ---
+
+        const loginModal = document.getElementById('login-modal');
+        const registerModal = document.getElementById('register-modal');
+        const loginTrigger = document.getElementById('login-modal-trigger'); // May be null if logged in
+        
+        const showRegisterLink = document.getElementById('show-register-modal');
+        const showLoginLink = document.getElementById('show-login-modal');
+
+        const closeButtons = document.querySelectorAll('.close-button');
+
+        // Handle Login Form Submission
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const email = this.elements.email.value;
+            const user = { email: email, loggedIn: true };
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            window.location.href = '/TokenGen/token.html';
+        });
+
+        // When the user clicks the button, open the modal 
+        if (loginTrigger) {
+            loginTrigger.onclick = function(event) {
+                event.preventDefault(); // Prevent default link behavior
+                loginModal.style.display = "block";
+            }
+        }
+
+        // Switch from Login to Register
+        showRegisterLink.onclick = function(event) {
+            event.preventDefault();
+            loginModal.style.display = "none";
+            registerModal.style.display = "block";
+        }
+
+        // Switch from Register to Login
+        showLoginLink.onclick = function(event) {
+            event.preventDefault();
+            registerModal.style.display = "none";
+            loginModal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the active modal
+        closeButtons.forEach(button => {
+            button.onclick = function() {
+                loginModal.style.display = "none";
+                registerModal.style.display = "none";
+            }
+        });
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == loginModal || event.target == registerModal) {
+                loginModal.style.display = "none";
+                registerModal.style.display = "none";
+            }
+        }
+    </script>
  
 </body>
 </html>

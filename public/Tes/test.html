@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Health Tests - Khushipath</title>
   <link rel="stylesheet" href="/FP/style.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -19,6 +20,7 @@
       gap: 20px;
       max-width: 1100px;
       margin: auto;
+      padding: 0 20px; /* Added padding for better spacing on smaller screens */
     }
     .test-card {
       background: #fff;
@@ -26,13 +28,17 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.08);
       padding: 20px;
       text-align: center;
-      transition: transform 0.2s ease;
+      transition: transform 0.2s ease; /* Added flex properties to align content */
+      display: flex;
+      flex-direction: column;
     }
     .test-card:hover {
       transform: translateY(-5px);
     }
     .test-card img {
       width: 50px;
+      height: 50px; /* Set a fixed height for uniform image sizes */
+      object-fit: contain; /* Ensures images fit well */
       margin-bottom: 15px;
     }
     .test-card h3 {
@@ -49,6 +55,7 @@
       font-weight: bold;
       color: #222;
       margin: 8px 0;
+      margin-top: auto; /* Pushes the price and button to the bottom */
     }
     .btn {
       display: inline-block;
@@ -63,34 +70,108 @@
     .btn:hover {
       background: #3a78c2;
     }
+
+    /* START: Login Modal Styles */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed;
+        z-index: 1001; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+    }
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 400px;
+        border-radius: 10px;
+        position: relative;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        animation: animatetop 0.4s;
+    }
+    @keyframes animatetop {
+        from {top: -300px; opacity: 0}
+        to {top: 0; opacity: 1}
+    }
+    .close-button {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        position: absolute;
+        top: 10px;
+        right: 20px;
+    }
+    .close-button:hover,
+    .close-button:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    /* Styles from login.css adapted for the modal */
+    .modal-content h2 { text-align: center; margin-bottom: 20px; color: #333; }
+    .modal-content .form-group { position: relative; margin-bottom: 30px; }
+    .modal-content .form-group input { width: 100%; padding: 10px 0; font-size: 16px; border: none; border-bottom: 1px solid #ccc; outline: none; background: transparent; }
+    .modal-content .form-group label { position: absolute; top: 0; left: 0; padding: 10px 0; font-size: 16px; color: #999; pointer-events: none; transition: .5s; }
+    .modal-content .form-group input:focus ~ label,
+    .modal-content .form-group input:valid ~ label { top: -20px; left: 0; color: #0056b3; font-size: 12px; }
+    .modal-content p { color: #555; font-size: 14px; }
+    .modal-content a { color: #0056b3; text-decoration: none; }
+    .modal-content #btn {
+        width: 100%;
+        background: #0056b3;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+    .modal-content #btn-register {
+        width: 100%;
+        background: #0056b3;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+    .modal-content .switch-modal {
+        color: #0056b3; text-decoration: none; cursor: pointer;
+    }
+    /* END: Login Modal Styles */
   </style>
 </head>
 <body>
-  <!-- this is  start navigation bar code & style  -->
-   <nav class="navbar">
-        <div class="logo">
-            <img src="/FP/image/khushipath logo.png" alt="Khushipath Logo - A simplified image of a person meditating under a tree" />
-            <h1>Khushipath</h1>
-        </div>
-        <ul class="nav-links">
-            <li><a href="/">Home</a></li>
-            <li><a href="/About">About Us</a></li>
-            <li><a href="/Tes">Tests</a></li>
-            <li><a href="/Blog">Blog</a></li>
-            <li><a href="/Doctor">Doctors</a></li>
-            <li><a href="/Contact">Contact</a></li>
-            <li><a href="/Login">Login</a></li>
-        </ul>
-    </nav>
-    <!-- this is ending navigation bar code  -->
-
-  
-
-  <h1 style="text-align:center; color:#4a90e2; margin-bottom:30px;">Available Health Tests</h1>
+  <nav class="navbar">
+       <div class="logo">
+           <img src="/FP/image/khushipath logo.png" alt="Khushipath Logo - A simplified image of a person meditating under a tree" />
+           <h1>Khushipath</h1>
+       </div>
+       <ul class="nav-links">
+           <li><a href="/">Home</a></li>
+           <li><a href="/About">About Us</a></li>
+           <li><a href="/Tes/test.html">Tests</a></li>
+           <li><a href="/Blog">Blog</a></li>
+           <li><a href="/Doctor">Doctors</a></li>
+           <li><a href="/Contact">Contact</a></li>
+           <li id="auth-link-container"><a href="#" id="login-modal-trigger">Login</a></li>
+           <li><a href="/cart.html" class="cart-link"><i class="fas fa-shopping-cart"></i> Cart</a></li>
+       </ul>
+   </nav>
+   <h1 style="text-align:center; color:#4a90e2; margin-bottom:30px;">Available Health Tests</h1>
 
   <div class="test-section">
 
-    <!-- CBC -->
     <div class="test-card">
       <img src="/FP/image/cbc.png" alt="CBC">
       <h3>Complete Blood Count (CBC)</h3>
@@ -99,7 +180,6 @@
       <a href="#" class="btn">Book Now</a>
     </div>
 
-    <!-- Thyroid -->
     <div class="test-card">
       <img src="/FP/image/thyroid.jpg" alt="Thyroid">
       <h3>Thyroid Profile</h3>
@@ -108,7 +188,6 @@
       <a href="#" class="btn">Book Now</a>
     </div>
 
-    <!-- Allergy Panel -->
     <div class="test-card">
       <img src="/FP/image/alergy1.jpg" alt="Allergy">
       <h3>Allergy Panel</h3>
@@ -117,7 +196,6 @@
       <a href="#" class="btn">Book Now</a>
     </div>
 
-    <!-- Vitamin D -->
     <div class="test-card">
       <img src="/FP/image/vita D.png" alt="Vitamin D">
       <h3>Vitamin D Test</h3>
@@ -126,7 +204,6 @@
       <a href="#" class="btn">Book Now</a>
     </div>
 
-    <!-- HbA1c -->
     <div class="test-card">
       <img src="/FP/image/hba1c.png" alt="HbA1c">
       <h3>HbA1c</h3>
@@ -135,7 +212,6 @@
       <a href="#" class="btn">Book Now</a>
     </div>
 
-    <!-- Liver Function Test -->
     <div class="test-card">
       <img src="/FP/image/liver-function-test-lft.avif" alt="LFT">
       <h3>Liver Function Test (LFT)</h3>
@@ -144,7 +220,6 @@
       <a href="#" class="btn">Book Now</a>
     </div>
 
-    <!-- Kidney Function Test -->
     <div class="test-card">
       <img src="/FP/image/kidney.jpg" alt="KFT">
       <h3>Kidney Function Test (KFT)</h3>
@@ -153,7 +228,6 @@
       <a href="#" class="btn">Book Now</a>
     </div>
 
-    <!-- Lipid Profile -->
     <div class="test-card">
       <img src="/FP/image/lipid.jpg" alt="Lipid">
       <h3>Lipid Profile</h3>
@@ -162,7 +236,6 @@
       <a href="#" class="btn">Book Now</a>
     </div>
 
-    <!-- Blood Sugar -->
     <div class="test-card">
       <img src="/FP/image/blood_sugar.jpg" alt="Blood Sugar">
       <h3>Blood Sugar (Fasting/PP)</h3>
@@ -171,7 +244,6 @@
       <a href="#" class="btn">Book Now</a>
     </div>
 
-    <!-- Vitamin B12 -->
     <div class="test-card">
       <img src="/FP/image/vitaB12.jpg" alt="Vitamin B12">
       <h3>Vitamin B12</h3>
@@ -180,100 +252,335 @@
       <a href="#" class="btn">Book Now</a>
     </div>
 
-  </div>
+    <div class="test-card">
+        <img src="/FP/image/urine_test.png" alt="Urine Test">
+        <h3>Urine Routine</h3>
+        <p>Analyzes urine for signs of common diseases.</p>
+        <div class="price">₹199</div>
+        <a href="#" class="btn">Book Now</a>
+    </div>
+
+    <div class="test-card">
+        <img src="/FP/image/iron_profile.png" alt="Iron Profile">
+        <h3>Iron Profile</h3>
+        <p>Measures different iron substances in the blood.</p>
+        <div class="price">₹899</div>
+        <a href="#" class="btn">Book Now</a>
+    </div>
+
+    <div class="test-card">
+        <img src="/FP/image/full_body.png" alt="Full Body Checkup">
+        <h3>Full Body Checkup</h3>
+        <p>A comprehensive panel for overall health screening.</p>
+        <div class="price">₹1999</div>
+        <a href="#" class="btn">Book Now</a>
+    </div>
+
+    <div class="test-card">
+        <img src="/FP/image/uric_acid.png" alt="Uric Acid">
+        <h3>Uric Acid Test</h3>
+        <p>Measures uric acid levels, often for gout diagnosis.</p>
+        <div class="price">₹249</div>
+        <a href="#" class="btn">Book Now</a>
+    </div>
+
+    <div class="test-card">
+        <img src="/FP/image/testosterone.png" alt="Testosterone">
+        <h3>Testosterone Test</h3>
+        <p>Checks the level of the primary male sex hormone.</p>
+        <div class="price">₹999</div>
+        <a href="#" class="btn">Book Now</a>
+    </div>
+    
+    <div class="test-card">
+        <img src="/FP/image/dengue.png" alt="Dengue Test">
+        <h3>Dengue NS1 Antigen</h3>
+        <p>Detects Dengue virus early in the infection.</p>
+        <div class="price">₹1199</div>
+        <a href="#" class="btn">Book Now</a>
+    </div>
+
+    <div class="test-card">
+        <img src="/FP/image/malaria.png" alt="Malaria Test">
+        <h3>Malaria Parasite Test</h3>
+        <p>Screens for the parasite that causes malaria.</p>
+        <div class="price">₹349</div>
+        <a href="#" class="btn">Book Now</a>
+    </div>
+
+    <div class="test-card">
+        <img src="/FP/image/typhoid.png" alt="Typhoid Test">
+        <h3>Widal Test for Typhoid</h3>
+        <p>Helps in the diagnosis of typhoid fever.</p>
+        <div class="price">₹299</div>
+        <a href="#" class="btn">Book Now</a>
+    </div>
+
+    <div class="test-card">
+        <img src="/FP/image/hiv.png" alt="HIV Test">
+        <h3>HIV Test</h3>
+        <p>Screens for the Human Immunodeficiency Virus.</p>
+        <div class="price">₹799</div>
+        <a href="#" class="btn">Book Now</a>
+    </div>
+
+    <div class="test-card">
+        <img src="/FP/image/hepatitis.png" alt="Hepatitis B">
+        <h3>Hepatitis B (HBsAg)</h3>
+        <p>Detects the presence of Hepatitis B virus.</p>
+        <div class="price">₹599</div>
+        <a href="#" class="btn">Book Now</a>
+    </div>
+
+    <div class="test-card">
+        <img src="/FP/image/psa.png" alt="PSA Test">
+        <h3>PSA (Prostate-Specific Antigen)</h3>
+        <p>Screens for prostate health issues in men.</p>
+        <div class="price">₹749</div>
+        <a href="#" class="btn">Book Now</a>
+    </div>
+
+    <div class="test-card">
+        <img src="/FP/image/rheumatoid.png" alt="RA Factor">
+        <h3>Rheumatoid Factor (RA)</h3>
+        <p>Helps diagnose rheumatoid arthritis.</p>
+        <div class="price">₹499</div>
+        <a href="#" class="btn">Book Now</a>
+    </div>
+
+    <div class="test-card">
+        <img src="/FP/image/blood_group.png" alt="Blood Group">
+        <h3>Blood Grouping & Rh Type</h3>
+        <p>Determines your ABO blood type and Rh factor.</p>
+        <div class="price">₹199</div>
+        <a href="#" class="btn">Book Now</a>
+    </div>
+
+    <div class="test-card">
+        <img src="/FP/image/electrolytes.png" alt="Electrolytes">
+        <h3>Electrolyte Panel</h3>
+        <p>Measures key electrolytes like sodium and potassium.</p>
+        <div class="price">₹399</div>
+        <a href="#" class="btn">Book Now</a>
+    </div>
+
+    <div class="test-card">
+        <img src="/FP/image/calcium.png" alt="Calcium">
+        <h3>Calcium Test</h3>
+        <p>Measures the level of calcium in your blood.</p>
+        <div class="price">₹249</div>
+        <a href="#" class="btn">Book Now</a>
+    </div>
+
+    <div class="test-card">
+        <img src="/FP/image/amylase.png" alt="Amylase">
+        <h3>Amylase Test</h3>
+        <p>Checks for pancreatic and salivary gland issues.</p>
+        <div class="price">₹449</div>
+        <a href="#" class="btn">Book Now</a>
+    </div>
+
+    <div class="test-card">
+        <img src="/FP/image/lipase.png" alt="Lipase">
+        <h3>Lipase Test</h3>
+        <p>Measures the level of lipase for pancreas health.</p>
+        <div class="price">₹449</div>
+        <a href="#" class="btn">Book Now</a>
+    </div>
+
+    <div class="test-card">
+        <img src="/FP/image/ferritin.png" alt="Ferritin">
+        <h3>Ferritin Test</h3>
+        <p>Measures the amount of stored iron in the body.</p>
+        <div class="price">₹699</div>
+        <a href="#" class="btn">Book Now</a>
+    </div>
+
+    <div class="test-card">
+        <img src="/FP/image/esr.png" alt="ESR">
+        <h3>ESR Test</h3>
+        <p>Detects non-specific inflammation in the body.</p>
+        <div class="price">₹149</div>
+        <a href="#" class="btn">Book Now</a>
+    </div>
+
+    <div class="test-card">
+        <img src="/FP/image/hscrp.png" alt="hs-CRP">
+        <h3>High-Sensitivity CRP (hs-CRP)</h3>
+        <p>Assesses risk for cardiovascular disease.</p>
+        <div class="price">₹799</div>
+        <a href="#" class="btn">Book Now</a>
+    </div>
+
+    <div class="test-card">
+        <img src="/FP/image/prolactin.png" alt="Prolactin">
+        <h3>Prolactin (PRL) Test</h3>
+        <p>Measures prolactin hormone levels in blood.</p>
+        <div class="price">₹599</div>
+        <a href="#" class="btn">Book Now</a>
+    </div>
+
+    </div>
+
+    <!-- The Register Modal -->
+    <div id="register-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Register</h2>
+            <form action="/Register" method="POST">
+                <div class="form-group">
+                    <input type="text" id="username" name="username" required>
+                    <label for="username">FullName</label>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email-register" name="email" required>
+                    <label for="email-register">Email</label>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password-register" name="password" required>
+                    <label for="password-register">Password</label>
+                </div>
+                <p><input type="checkbox" required> I agree to the <a href="#">Terms & Conditions</a></p>
+                <input type="submit" id="btn-register" class="btn" value="Register">
+                <p style="margin-top: 15px; text-align: center;">Already have an account? <a href="#" class="switch-modal" id="show-login-modal">Login</a></p>
+            </form>
+        </div>
+    </div>
+    <!-- The Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Login</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <input type="email" name="email" required>
+                    <label for="email">Email</label>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" required>
+                    <label for="password">Password</label>
+                </div>
+                <p><input type="checkbox"> Remember Me <a href="#">Forget Password</a></p>
+                <input type="submit" id="btn" value="Login">
+                <p style="margin-top: 15px; text-align: center;">Don't have an account? <a href="#" class="switch-modal" id="show-register-modal">Register</a></p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for the Login Modal
+        // --- START: Persistent Login & UI Management ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const authLinkContainer = document.getElementById('auth-link-container');
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+
+            if (user && user.loggedIn) {
+                authLinkContainer.innerHTML = '<a href="#" id="logout-button">Logout</a>';
+                document.getElementById('logout-button').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    localStorage.removeItem('currentUser');
+                    window.location.reload();
+                });
+            } else {
+                authLinkContainer.innerHTML = '<a href="#" id="login-modal-trigger">Login</a>';
+                document.getElementById('login-modal-trigger').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    loginModal.style.display = 'block';
+                });
+            }
+        });
+        // --- END: Persistent Login & UI Management ---
+
+        const loginModal = document.getElementById('login-modal');
+        const registerModal = document.getElementById('register-modal');
+        const loginTrigger = document.getElementById('login-modal-trigger'); // May be null if logged in
+        
+        const showRegisterLink = document.getElementById('show-register-modal');
+        const showLoginLink = document.getElementById('show-login-modal');
+
+        const closeButtons = document.querySelectorAll('.close-button');
+
+        // Handle Login Form Submission
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const email = this.elements.email.value;
+            const user = { email: email, loggedIn: true };
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            window.location.href = '/TokenGen/token.html';
+        });
+
+        // When the user clicks the button, open the modal 
+        if (loginTrigger) {
+            loginTrigger.onclick = function(event) {
+                event.preventDefault(); // Prevent default link behavior
+                loginModal.style.display = "block";
+            }
+        }
+
+        // Switch from Login to Register
+        showRegisterLink.onclick = function(event) {
+            event.preventDefault();
+            loginModal.style.display = "none";
+            registerModal.style.display = "block";
+        }
+
+        // Switch from Register to Login
+        showLoginLink.onclick = function(event) {
+            event.preventDefault();
+            registerModal.style.display = "none";
+            loginModal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the active modal
+        closeButtons.forEach(button => {
+            button.onclick = function() {
+                loginModal.style.display = "none";
+                registerModal.style.display = "none";
+            }
+        });
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == loginModal || event.target == registerModal) {
+                loginModal.style.display = "none";
+                registerModal.style.display = "none";
+            }
+        }
+
+        // --- START: Add to Cart Functionality ---
+        const addToCartButtons = document.querySelectorAll('.btn');
+        addToCartButtons.forEach(button => {
+            if (button.innerText.toLowerCase() === 'book now') {
+                button.addEventListener('click', (event) => {
+                    event.preventDefault(); // Prevent link from navigating
+                    const card = event.target.closest('.test-card');
+                    const testName = card.querySelector('h3').innerText;
+                    const parameters = card.querySelector('p').innerText;
+                    const priceText = card.querySelector('.price').innerText;
+                    const price = parseFloat(priceText.replace(/[^0-9.-]+/g, ""));
+
+                    const item = {
+                        name: testName,
+                        price: price,
+                        parameters: parameters,
+                        id: testName.replace(/\s+/g, '-')
+                    };
+
+                    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+                    if (cart.some(cartItem => cartItem.id === item.id)) {
+                        alert('This test is already in your cart.');
+                        return;
+                    }
+
+                    cart.push(item);
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    alert(`${item.name} has been added to your cart.`);
+                });
+            }
+        });
+        // --- END: Add to Cart Functionality ---
+
+    </script>
 </body>
 </html>
-<!-- <script>
-    // Helper: generate token
-    function makeToken(){
-      // simple incremental/random based token
-      const now = Date.now().toString().slice(-6); // last 6 digits timestamp
-      const rand = Math.floor(Math.random()*90 + 10); // 2-digit random
-      return 'KPS-' + rand + now.slice(-4); // e.g. KPS-129123
-    }
-
-    // package click -> fill service select
-    document.querySelectorAll('.pkg').forEach(pkg=>{
-      pkg.addEventListener('click', ()=> {
-        const svc = pkg.dataset.service || '';
-        const price = pkg.dataset.price || '';
-        const serviceSelect = document.getElementById('service');
-
-        // If exact option exists, select it; otherwise add a temporary option
-        let found=false;
-        for(let i=0;i<serviceSelect.options.length;i++){
-          if(serviceSelect.options[i].text === svc){
-            serviceSelect.selectedIndex = i;
-            found=true;
-            break;
-          }
-        }
-        if(!found){
-          const opt = document.createElement('option');
-          opt.text = svc + (price ? ' — ₹'+price : '');
-          opt.value = svc;
-          opt.selected = true;
-          serviceSelect.appendChild(opt);
-        }
-
-        // small highlight effect
-        pkg.style.boxShadow='0 10px 24px rgba(13,110,253,0.08)';
-        setTimeout(()=> pkg.style.boxShadow='',400);
-      });
-    });
-
-    // form elements
-    const nameEl = document.getElementById('name');
-    const serviceEl = document.getElementById('service');
-    const mobileEl = document.getElementById('mobile');
-    const noteEl = document.getElementById('note');
-    const tokenBox = document.getElementById('tokenBox');
-    const tokenNumberEl = document.getElementById('tokenNumber');
-    const tokenDetailsEl = document.getElementById('tokenDetails');
-    const msgEl = document.getElementById('message');
-
-    function validate(){
-      const name = nameEl.value.trim();
-      const service = serviceEl.value.trim();
-      const mobile = mobileEl.value.trim();
-      if(!name){ showMessage('कृपया नाम भरें'); return false; }
-      if(!service){ showMessage('कृपया service चुनें'); return false; }
-      // mobile basic check
-      if(!/^\d{10}$/.test(mobile)){ showMessage('कृपया 10-digit mobile नंबर दें'); return false; }
-      return true;
-    }
-
-    function showMessage(text, ok=true){
-      msgEl.style.display='block';
-      msgEl.style.background = ok ? '#e9f7ee' : '#fff1f0';
-      msgEl.style.color = ok ? '#064d22' : '#6b1a1a';
-      msgEl.innerText = text;
-      setTimeout(()=>{ msgEl.style.display='none'; }, 4500);
-    }
-
-    // Generate token button behavior
-    document.getElementById('generateBtn').addEventListener('click', ()=>{
-      if(!validate()) return;
-      const token = makeToken();
-      tokenNumberEl.innerText = token;
-      tokenDetailsEl.innerText = `${nameEl.value.trim()} • ${serviceEl.value.trim()} • ${mobileEl.value.trim()}`;
-      tokenBox.style.display = 'block';
-      showMessage('Token generated: ' + token);
-    });
-
-    // Book & Confirm button
-    document.getElementById('bookBtn').addEventListener('click', ()=>{
-      if(!validate()) return;
-      const token = tokenNumberEl.innerText && tokenBox.style.display !== 'none' ? tokenNumberEl.innerText : makeToken();
-      // simulate booking (in real app: send to server via fetch/AJAX)
-      tokenNumberEl.innerText = token;
-      tokenDetailsEl.innerText = `${nameEl.value.trim()} • ${serviceEl.value.trim()} • ${mobileEl.value.trim()}`;
-      tokenBox.style.display = 'block';
-      showMessage('Booking confirmed. Your token: ' + token);
-      // Optionally clear fields after booking:
-      // nameEl.value=''; serviceEl.selectedIndex=0; mobileEl.value=''; noteEl.value='';
-    });
-
-    // optional: preselect first package
-    // document.querySelector('.pkg')?.click();
-  </script> -->

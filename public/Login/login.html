@@ -2,49 +2,500 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible"
-    content="IE-edge">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Khushipath</title>
-    <link rel="stylesheet" href="/Login/login.css">
-    <link rel="stylesheet" href="/FP/style.css">
-    <script src="https://kit.fontawesome.com/97ebdf5864.js" crossorigin="anonymous"></script>
+    <title>Book a Test - Khushipath</title>
+    <link rel="stylesheet" href="/FP/style.css"> <script src="https://kit.fontawesome.com/97ebdf5864.js" crossorigin="anonymous"></script>
+    <style>
+        /* CSS for the Test Booking Page Layout */
+        body {
+            background-color: #f4f7fa;
+            font-family: Arial, sans-serif;
+        }
 
+        .test-booking-container {
+            display: flex;
+            max-width: 1200px;
+            margin: 20px auto;
+            gap: 20px;
+            padding: 0 15px;
+            height: calc(100vh - 120px); /* Set a fixed height for the container */
+        }
+
+        /* Sidebar Styling (Left Column) */
+        .sidebar {
+            flex: 0 0 280px; /* Give sidebar a fixed width */
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex; /* Use flexbox to manage inner content */
+            flex-direction: column; /* Stack content vertically */
+        }
+
+        .sidebar h3 {
+            font-size: 1.1em;
+            color: #333;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            overflow-y: auto; /* Enable scrolling for the list */
+            flex-grow: 1; /* Allow the list to fill the available space */
+        }
+
+        .sidebar-nav li a {
+            display: block;
+            padding: 10px 5px;
+            color: #555;
+            text-decoration: none;
+            font-size: 0.95em;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .sidebar-nav li a:hover, .sidebar-nav li a.active {
+            background-color: #eef5ff;
+            color: #0056b3;
+            font-weight: bold;
+        }
+
+        /* Main Content Styling (Right Column) */
+        .main-content {
+            flex: 1; /* Allow main content to take remaining space */
+            overflow-y: auto; /* Enable scrolling */
+            padding: 15px;
+            background-color: #fff; /* Add background to match sidebar */
+            border-radius: 8px; /* Add border-radius to match sidebar */
+        }
+
+        .main-content h2 {
+            font-size: 1.8em;
+            color: #1b3c59;
+            margin-bottom: 20px;
+        }
+
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Set to a fixed 3-column grid */
+            gap: 20px;
+        }
+        .test-card img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            margin: 0 auto 15px;
+        }
+        
+        /* Test Card Styling */
+        .test-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: box-shadow 0.3s;
+            display: flex; /* Add flex display */
+            text-align: center;
+            flex-direction: column; /* Arrange items vertically */
+        }
+        .test-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .test-card h4 {
+            font-size: 1.1em;
+            color: #1b3c59;
+            margin: 0 0 5px 0;
+        }
+
+        .test-card .parameters {
+            font-size: 0.85em;
+            color: #777;
+            margin-bottom: 15px;
+        }
+
+        .test-card .price {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .collection-options {
+            display: flex;
+            flex-wrap: wrap; /* Allow wrapping on very small screens */
+            gap: 15px; /* Use gap for consistent spacing */
+        }
+        .collection-options span {
+            font-size: 0.9em;
+            color: #333; 
+        }
+        .collection-options i {
+            color: #28a745; /* Green checkmark */
+            margin-right: 5px;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: center; /* Center the button */
+            align-items: center; 
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+            margin-top: auto; /* Push footer to the bottom */
+        }
+        
+        .add-to-cart-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: #0056b3;
+        }
+        
+    </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="logo">
-            <img src="/FP/image/khushipath logo.png" alt="Khushipath Logo - A simplified image of a person meditating under a tree" />
+            <img src="/FP/image/khushipath logo.png" alt="Khushipath Logo" />
             <h1>Khushipath</h1>
         </div>
         <ul class="nav-links">
             <li><a href="/">Home</a></li>
             <li><a href="/About">About Us</a></li>
-            <li><a href="/Tes">Tests</a></li>
+            <li><a href="/Tes/test.html">Tests</a></li>
             <li><a href="/Blog">Blog</a></li>
             <li><a href="/Doctor">Doctors</a></li>
             <li><a href="/Contact">Contact</a></li>
-            <li><a href="/Login">Login</a></li>
+            <li id="auth-link-container"><a href="/Login">Login</a></li>
+            <li><a href="/cart.html" class="cart-link"><i class="fas fa-shopping-cart"></i> Cart</a></li>
         </ul>
     </nav>
-       <div class="container">
-        <h2>Login</h2>
-       <form action="">
-        <div class="form-group">
-            <input type="email" required>
-            <label for="">Email</label>
-            </div>
-            <div class="form-group">
-                 <input type="password" required>
-            <label for="">Password</label>
-            </div>
-            <p><input type="checkbox">Remember Me <a href="#">Forget Password</a> </p>
-           <a href = "/TokenGen"> <input type="button" id="btn" value="Login"></a>
-            <!-- <input type="submit" id="btn" value="Register"> -->
-            <p>Don't have an account? <a href="/Register/regi.html">Register</a>
-            </p>
-            
-       </form>
-    </div> 
+
+    <div class="test-booking-container">
+        <aside class="sidebar">
+            <h3>Show all categories</h3>
+            <ul class="sidebar-nav">
+                <li><a href="#" class="active">All Tests</a></li>
+                <li><a href="#">ABO Incompatibility</a></li>
+                <li><a href="#">Acid Base Imbalance</a></li>
+                <li><a href="#">Acute Phase Reactant</a></li>
+                <li><a href="#">AIDS</a></li>
+                <li><a href="#">Allergy</a></li>
+                <li><a href="#">Alzheimer's Disease</a></li>
+                <li><a href="#">Anemia - Diagnosis</a></li>
+                <li><a href="#">Antenatal Health Check Up</a></li>
+                <li><a href="#">Arthritis</a></li>
+                <li><a href="#">Autoimmune Disorders</a></li>
+                <li><a href="#">Bone Health</a></li>
+                <li><a href="#">Cancer Markers</a></li>
+                <li><a href="#">Cardiac Risk Markers</a></li>
+                <li><a href="#">Coagulation Profile</a></li>
+                <li><a href="#">COVID-19</a></li>
+                <li><a href="#">Diabetes Profile</a></li>
+                <li><a href="#">Fever Panel</a></li>
+                <li><a href="#">Growth Disorders</a></li>
+                <li><a href="#">Hepatitis Markers</a></li>
+                <li><a href="#">Hormonal (Female)</a></li>
+                <li><a href="#">Hormonal (Male)</a></li>
+                <li><a href="#">Infertility Profile</a></li>
+                <li><a href="#">Iron Deficiency</a></li>
+                <li><a href="#">Kidney Profile</a></li>
+                <li><a href="#">Liver Profile</a></li>
+                <li><a href="#">Metabolism</a></li>
+                <li><a href="#">Pregnancy Panel</a></li>
+                <li><a href="#">STD Panel</a></li>
+                <li><a href="#">Thyroid Profile</a></li>
+                <li><a href="#">Toxicology</a></li>
+                <li><a href="#">Tuberculosis</a></li>
+                <li><a href="#">Vitamin Profile</a></li>
+                <li><a href="#">Wellness Packages</a></li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <h2>Lab Tests at Home</h2>
+            <div class="test-grid">
+                <div class="test-card">
+                    <h4>COMPLETE BLOOD COUNT; CBC</h4>
+                    <p class="parameters">20 Parameter(s) Covered</p>
+                    <div class="price">₹ 350</div>
+                    <div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div>
+                    <div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div>
+                </div>
+                <div class="test-card">
+                    <h4>HbA1c; GLYCOSYLATED HEMOGLOBIN</h4>
+                    <p class="parameters">2 Parameter(s) Covered</p>
+                    <div class="price">₹ 440</div>
+                    <div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div>
+                    <div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div>
+                </div>
+                <div class="test-card">
+                    <h4>THYROID PROFILE, TOTAL</h4>
+                    <p class="parameters">3 Parameter(s) Covered</p>
+                    <div class="price">₹ 550</div>
+                    <div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div>
+                    <div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div>
+                </div>
+                <div class="test-card">
+                    <h4>URINE EXAMINATION, ROUTINE; URINE, R/E</h4>
+                    <p class="parameters">16 Parameter(s) Covered</p>
+                    <div class="price">₹ 120</div>
+                    <div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div>
+                    <div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div>
+                </div>
+                <div class="test-card">
+                    <h4>GLUCOSE, FASTING (F) AND POST MEAL (PP)</h4>
+                    <p class="parameters">2 Parameter(s) Covered</p>
+                    <div class="price">₹ 150</div>
+                    <div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div>
+                    <div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div>
+                </div>
+                <div class="test-card">
+                    <h4>LIVER PANEL 1; LFT</h4>
+                    <p class="parameters">11 Parameter(s) Covered</p>
+                    <div class="price">₹ 800</div>
+                    <div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div>
+                    <div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div>
+                </div>
+                <div class="test-card">
+                    <h4>KIDNEY PANEL 1; KFT</h4>
+                    <p class="parameters">8 Parameter(s) Covered</p>
+                    <div class="price">₹ 750</div>
+                    <div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div>
+                    <div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div>
+                </div>
+                <div class="test-card">
+                    <h4>LIPID PROFILE</h4>
+                    <p class="parameters">8 Parameter(s) Covered</p>
+                    <div class="price">₹ 600</div>
+                    <div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div>
+                    <div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div>
+                </div>
+                <div class="test-card">
+                    <h4>VITAMIN D-25 HYDROXY</h4>
+                    <p class="parameters">1 Parameter(s) Covered</p>
+                    <div class="price">₹ 1200</div>
+                    <div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div>
+                    <div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div>
+                </div>
+                <div class="test-card">
+                    <h4>VITAMIN B12</h4>
+                    <p class="parameters">1 Parameter(s) Covered</p>
+                    <div class="price">₹ 900</div>
+                    <div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div>
+                    <div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div>
+                </div>
+                <div class="test-card">
+                    <h4>IRON PROFILE</h4>
+                    <p class="parameters">4 Parameter(s) Covered</p>
+                    <div class="price">₹ 850</div>
+                    <div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div>
+                    <div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div>
+                </div>
+                <div class="test-card">
+                    <h4>CALCIUM, SERUM</h4>
+                    <p class="parameters">1 Parameter(s) Covered</p>
+                    <div class="price">₹ 200</div>
+                    <div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div>
+                    <div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div>
+                </div>
+                <div class="test-card">
+                    <h4>PROSTATE SPECIFIC ANTIGEN; PSA</h4>
+                    <p class="parameters">1 Parameter(s) Covered</p>
+                    <div class="price">₹ 700</div>
+                    <div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div>
+                    <div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div>
+                </div>
+                <div class="test-card">
+                    <h4>TESTOSTERONE, TOTAL</h4>
+                    <p class="parameters">1 Parameter(s) Covered</p>
+                    <div class="price">₹ 800</div>
+                    <div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div>
+                    <div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div>
+                </div>
+                <div class="test-card">
+                    <h4>AMH (ANTI MULLERIAN HORMONE)</h4>
+                    <p class="parameters">1 Parameter(s) Covered</p>
+                    <div class="price">₹ 2200</div>
+                    <div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div>
+                    <div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div>
+                </div>
+                <div class="test-card">
+                    <h4>C-REACTIVE PROTEIN (CRP), QUANTITATIVE</h4>
+                    <p class="parameters">1 Parameter(s) Covered</p>
+                    <div class="price">₹ 500</div>
+                    <div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div>
+                    <div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div>
+                </div>
+                <div class="test-card">
+                    <h4>DENGUE PROFILE 1</h4>
+                    <p class="parameters">3 Parameter(s) Covered</p>
+                    <div class="price">₹ 1500</div>
+                    <div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div>
+                    <div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div>
+                </div>
+                <div class="test-card">
+                    <h4>COVID-19 RT-PCR</h4>
+                    <p class="parameters">1 Parameter(s) Covered</p>
+                    <div class="price">₹ 500</div>
+                    <div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div>
+                    <div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div>
+                </div>
+                <div class="test-card"><h4>HEPATITIS B SURFACE ANTIGEN (HBsAg)</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 650</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>HIV 1 & 2 ANTIBODIES</h4><p class="parameters">2 Parameter(s) Covered</p><div class="price">₹ 700</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>CULTURE & SENSITIVITY, URINE</h4><p class="parameters">2 Parameter(s) Covered</p><div class="price">₹ 950</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>ELECTROLYTES, SERUM</h4><p class="parameters">3 Parameter(s) Covered</p><div class="price">₹ 400</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>RHEUMATOID FACTOR (RA), QUANTITATIVE</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 550</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>ALLERGY PANEL - FOOD (VEG)</h4><p class="parameters">25 Parameter(s) Covered</p><div class="price">₹ 3000</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>SWASTH FIT PACKAGE</h4><p class="parameters">83 Parameter(s) Covered</p><div class="price">₹ 1800</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>FULL BODY CHECKUP - ADVANCED</h4><p class="parameters">95 Parameter(s) Covered</p><div class="price">₹ 4500</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>CANCER SCREENING - MALE</h4><p class="parameters">5 Parameter(s) Covered</p><div class="price">₹ 2500</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>CANCER SCREENING - FEMALE</h4><p class="parameters">6 Parameter(s) Covered</p><div class="price">₹ 3000</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>DOUBLE MARKER TEST</h4><p class="parameters">3 Parameter(s) Covered</p><div class="price">₹ 2500</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>FOLATE (FOLIC ACID)</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 1000</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>PROLACTIN (PRL)</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 600</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>D-DIMER</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 1500</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>FERRITIN</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 700</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>24 HOUR URINARY PROTEIN</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 300</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>ALKALINE PHOSPHATASE (ALP)</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 250</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>BLOOD GROUPING (A,B,O,Rh)</h4><p class="parameters">2 Parameter(s) Covered</p><div class="price">₹ 200</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>CHIKUNGUNYA ANTIBODY, IgM</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 1100</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>CREATININE, SERUM</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 200</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>ESTRADIOL (E2)</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 800</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>FOLLICLE STIMULATING HORMONE (FSH)</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 600</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>GGT (GAMMA GT)</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 350</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>INSULIN, FASTING</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 900</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>LACTATE DEHYDROGENASE (LDH)</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 500</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>LUTEINIZING HORMONE (LH)</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 600</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>MAGNESIUM, SERUM</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 400</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>PHOSPHORUS, SERUM</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 300</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>PLATELET COUNT</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 200</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>POTASSIUM, SERUM</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 250</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>PROGESTERONE</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 800</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>PROTEIN, TOTAL, SERUM</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 250</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>PT with INR</h4><p class="parameters">2 Parameter(s) Covered</p><div class="price">₹ 400</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>SODIUM, SERUM</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 250</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>TOTAL IGE, SERUM</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 800</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>URIC ACID, SERUM</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 250</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>WIDAL TEST</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 300</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>SENIOR CITIZEN PROFILE - MALE</h4><p class="parameters">75 Parameter(s) Covered</p><div class="price">₹ 2200</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>SENIOR CITIZEN PROFILE - FEMALE</h4><p class="parameters">78 Parameter(s) Covered</p><div class="price">₹ 2500</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>ARTHRITIS PROFILE - MINI</h4><p class="parameters">8 Parameter(s) Covered</p><div class="price">₹ 1500</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>FEVER PANEL - BASIC</h4><p class="parameters">5 Parameter(s) Covered</p><div class="price">₹ 1800</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>ALBUMIN, SERUM</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 200</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>BILIRUBIN, TOTAL, DIRECT & INDIRECT</h4><p class="parameters">3 Parameter(s) Covered</p><div class="price">₹ 300</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>BUN (BLOOD UREA NITROGEN)</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 200</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>CA 125</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 1500</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>CHLORIDE, SERUM</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 250</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>CHOLESTEROL, TOTAL</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 200</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>CPK (CREATINE KINASE)</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 600</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>ESR (ERYTHROCYTE SEDIMENTATION RATE)</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 150</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>HDL CHOLESTEROL</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 250</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>LDL CHOLESTEROL, DIRECT</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 350</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>SGOT (AST)</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 200</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>SGPT (ALT)</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 200</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>TRIGLYCERIDES</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 250</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>VDRL</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 300</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>ANTI CCP</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 1400</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>ANA (ANTINUCLEAR ANTIBODY)</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 1000</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>AMYLASE</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 450</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>LIPASE</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 450</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>CORTISOL</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 1000</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+                <div class="test-card"><h4>HOMOCYSTEINE</h4><p class="parameters">1 Parameter(s) Covered</p><div class="price">₹ 1300</div><div class="collection-options"><span><i class="fas fa-check-circle"></i>Home Collection</span><span><i class="fas fa-check-circle"></i>Lab Visit</span></div><div class="card-footer"><button class="add-to-cart-btn">Add to cart</button></div></div>
+
+                </div>
+        </main>
+    </div>
+
+    <script>
+        // --- START: Persistent Login & UI Management ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const authLinkContainer = document.getElementById('auth-link-container');
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+
+            if (user && user.loggedIn) {
+                // On this specific page, "Logout" is less useful than a link to the token page.
+                authLinkContainer.innerHTML = '<a href="/TokenGen/token.html">My Bookings</a>';
+            } else {
+                // The default link is for the modal, but this page doesn't have one.
+                // We'll keep the simple link to the old login page if needed.
+                authLinkContainer.innerHTML = '<a href="/Login">Login</a>';
+            }
+        });
+        // --- END: Persistent Login & UI Management ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const card = event.target.closest('.test-card');
+                    const testName = card.querySelector('h4').innerText;
+                    const priceText = card.querySelector('.price').innerText;
+                    const parameters = card.querySelector('.parameters').innerText;
+                    
+                    // Extract number from price string like "₹ 350"
+                    const price = parseFloat(priceText.replace(/[^0-9.-]+/g,""));
+
+                    const item = {
+                        name: testName,
+                        price: price,
+                        parameters: parameters,
+                        id: testName.replace(/\s+/g, '-') // Create a unique ID from the name
+                    };
+
+                    // Get existing cart from localStorage or create a new one
+                    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+                    // Prevent adding the same item twice
+                    if (cart.some(cartItem => cartItem.id === item.id)) {
+                        alert('This item is already in your cart.');
+                        return;
+                    }
+
+                    // Add new item to cart
+                    cart.push(item);
+
+                    // Save updated cart back to localStorage
+                    localStorage.setItem('cart', JSON.stringify(cart));
+
+                    // Provide user feedback
+                    alert(`${item.name} has been added to your cart.`);
+                });
+            });
+
+            // --- START: Search Result Filtering ---
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchQuery = urlParams.get('search');
+
+            if (searchQuery) {
+                const decodedQuery = decodeURIComponent(searchQuery).toLowerCase();
+                const allTestCards = document.querySelectorAll('.test-card');
+                
+                document.querySelector('.main-content h2').innerText = `Search Results for "${searchQuery}"`;
+
+                allTestCards.forEach(card => {
+                    const testName = card.querySelector('h4').innerText.toLowerCase();
+                    if (!testName.includes(decodedQuery)) {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+            // --- END: Search Result Filtering ---
+        });
+    </script>
 </body>
 </html>
