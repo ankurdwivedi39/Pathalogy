@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khushipath | Path-04: Platinum Complete Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* --- General Reset & Utilities --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f9fc;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* --- Header & Summary Section (Platinum Styling) --- */
+        .details-header {
+            background-color: #fffbef; /* Light Gold/Cream Background */
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(241, 196, 15, 0.2); /* Soft Gold Shadow */
+            border-left: 8px solid #f1c40f; /* Gold Accent */
+        }
+
+        .details-header h1 {
+            color: #d35400; /* Darker accent for title */
+            font-size: 2.4em;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .details-header h1 i {
+            margin-right: 15px;
+            color: #f1c40f;
+        }
+
+        .summary-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            padding: 15px 0;
+            border-top: 1px dashed #e6e6e6;
+        }
+
+        .price-info {
+            font-size: 1.6em;
+            font-weight: 700;
+            color: #2980b9; /* Stronger Blue for price */
+        }
+        
+        .price-info .original {
+            font-size: 0.6em;
+            color: #999;
+            text-decoration: line-through;
+            margin-right: 10px;
+        }
+
+        .btn-book {
+            display: inline-block;
+            padding: 14px 30px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 700;
+            background-color: #f1c40f; /* Gold Button */
+            color: #1a4e69;
+            border: none;
+            transition: background-color 0.3s;
+        }
+
+        .btn-book:hover {
+            background-color: #e67e22;
+            color: white;
+        }
+
+        /* --- Tabs Navigation --- */
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+
+        .tab-button {
+            background-color: #1a4e69; /* Dark Primary Color */
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: background-color 0.3s, color 0.3s;
+            margin-right: 5px;
+            border-radius: 5px 5px 0 0;
+            opacity: 0.8;
+        }
+
+        .tab-button.active {
+            background-color: #1a4e69;
+            color: #f1c40f;
+            border-bottom: 3px solid #f1c40f; 
+            opacity: 1;
+        }
+
+        .tab-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        /* --- Content Layout --- */
+        .content-section {
+            margin-bottom: 30px;
+        }
+
+        .content-section h2 {
+            color: #3498db;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            background: #f0f7ff;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 4px solid #f1c40f;
+        }
+
+        .feature-list li i {
+            margin-right: 10px;
+            color: #2ecc71;
+        }
+
+        /* --- Parameters Table --- */
+        .parameters-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .parameters-table th, .parameters-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .parameters-table th {
+            background-color: #f0f4f8;
+            color: #1a4e69;
+            font-weight: 600;
+        }
+
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 600px) {
+            .summary-box {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .btn-book {
+                width: 100%;
+                margin-top: 15px;
+            }
+            .details-header {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="details-header">
+            <a href="/Packages/packages.html" style="text-decoration: none; color: #3498db; font-weight: 600;">
+                <i class="fas fa-arrow-left"></i> Back to All Packages
+            </a>
+            <h1><i class="fas fa-medal"></i> Path-04: **Platinum Complete**</h1>
+            <p>The ultimate comprehensive health checkup. This package includes full organ screening, advanced disease markers, and a crucial follow-up with our in-house doctor.</p>
+            
+            <div class="summary-box">
+                <div class="price-info">
+                    <span class="original">M.R.P: ₹12999</span>
+                    Final Price: ₹4999
+                </div>
+                <a href="checkout.html?package=path-04" class="btn btn-book">BOOK PLATINUM NOW & SAVE 61%</a>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('overview')">Overview</button>
+            <button class="tab-button" onclick="showTab('parameters')">106 Parameters Covered</button>
+            <button class="tab-button" onclick="showTab('preparation')">Test Preparation</button>
+        </div>
+
+        <div class="tab-content" id="overview">
+            <div class="content-section">
+                <h2>Key Benefits & Profiles</h2>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check-circle"></i> **106 Parameters** (Full Body Scan)</li>
+                    <li><i class="fas fa-check-circle"></i> **FREE Doctor Tele-Consultation**</li>
+                    <li><i class="fas fa-check-circle"></i> Advanced Cardiac (Apo A1/B, HsCRP)</li>
+                    <li><i class="fas fa-check-circle"></i> All Essential Vitamins (D, B12) & Iron</li>
+                    <li><i class="fas fa-check-circle"></i> Full Diabetic Panel (HbA1c Included)</li>
+                    <li><i class="fas fa-check-circle"></i> Highest Priority Home Collection</li>
+                </ul>
+            </div>
+
+            <div class="content-section">
+                <h2>Who Should Book This?</h2>
+                <p>Recommended for proactive individuals aged 35+, those with a complex medical history, or anyone who wants the most detailed picture of their health and future risk factors. It is the gold standard for annual preventive health checks.</p>
+            </div>
+        </div>
+
+        <div class="tab-content" id="parameters" style="display:none;">
+            <div class="content-section">
+                <h2>Detailed Parameter Breakdown (106 Tests)</h2>
+                
+                <table class="parameters-table">
+                    <thead>
+                        <tr>
+                            <th>Profile</th>
+                            <th>Tests Included</th>
+                            <th>No. of Parameters</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>**Complete Hemogram**</td>
+                            <td>CBC (29), ESR</td>
+                            <td>30</td>
+                        </tr>
+                        <tr>
+                            <td>**Advanced Cardiac**</td>
+                            <td>Lipid Profile (8), HsCRP, Apo B/A1 Ratio</td>
+                            <td>11</td>
+                        </tr>
+                        <tr>
+                            <td>**Diabetic Assessment**</td>
+                            <td>Fasting Glucose, Glucose Random, HbA1c (eAG)</td>
+                            <td>4</td>
+                        </tr>
+                        <tr>
+                            <td>**L/K Function (Comprehensive)**</td>
+                            <td>LFT (11), KFT (15), Urine R/M (15)</td>
+                            <td>41</td>
+                        </tr>
+                        <tr>
+                            <td>**Vitamins & Hormones**</td>
+                            <td>Vitamin D, B12, Thyroid Total (T3, T4, TSH)</td>
+                            <td>8</td>
+                        </tr>
+                        <tr>
+                            <td>**Minerals & Others**</td>
+                            <td>Iron Studies, Calcium, Phosphorus, Uric Acid</td>
+                            <td>12</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="tab-content" id="preparation" style="display:none;">
+            <div class="content-section">
+                <h2>Test Preparation Guidelines (Crucial for Accuracy)</h2>
+                <ul>
+                    <li><i class="fas fa-star-of-life"></i> **Fasting:** Strict 10-12 hours of overnight fasting is mandatory. Only water is allowed.</li>
+                    <li><i class="fas fa-pill"></i> **Medication:** Consult your doctor. For the TSH test, consistency in medication intake timing is crucial.</li>
+                    <li><i class="fas fa-wine-glass-slash"></i> **Avoid:** Avoid alcohol, smoking, or heavy meals 48 hours prior to the test.</li>
+                    <li><i class="fas fa-sun"></i> **Timing:** Recommended sample collection time is early morning (7 AM - 10 AM) for accurate hormone and fasting sugar readings.</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    
+    <script>
+        // JavaScript for handling tab switching
+        function showTab(tabId) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.style.display = 'none';
+            });
+
+            // Deactivate all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Show the selected content and activate the button
+            document.getElementById(tabId).style.display = 'block';
+            document.querySelector(`.tab-button[onclick="showTab('${tabId}')"]`).classList.add('active');
+        }
+
+        // Initialize to show the first tab on load
+        document.addEventListener('DOMContentLoaded', () => {
+            showTab('overview');
+        });
+    </script>
+
+</body>
+</html>

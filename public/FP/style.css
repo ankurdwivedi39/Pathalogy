@@ -97,9 +97,16 @@ body {
             flex-wrap: wrap;
             gap: 20px;
             max-width: 2000px;
+<<<<<<< HEAD
             /* margin-top: 150px auto;
             margin-left: 150px auto; */
             
+=======
+            /* margin-top: 150px auto; */
+            /* margin-left: 150px auto; */
+            align-items: center;
+            /* justify-content: center */
+>>>>>>> e01a94b73ee6aa3ec5a6d3d8956a381307ce08c8
             padding-top: 110px;
         }
 
