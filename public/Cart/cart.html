@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Queue Token System</title>
+
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #f8fafc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+    .card {
+      background: #fff;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      width: 400px;
+      text-align: center;
+    }
+    input, select, button {
+      margin: 10px 0;
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+    button {
+      background: #2b6cb0;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #2c5282;
+    }
+    .result {
+      background: #edf2f7;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 15px;
+      display: none;
+    }
+    .live {
+      color: #2b6cb0;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>Generate Your Token</h2>
+
+    <input type="text" id="name" placeholder="Enter Your Name" />
+    <input type="text" id="testName" placeholder="Enter Test Name" />
+    <select id="type">
+      <option value="lab">Visit in Lab</option>
+      <option value="home">Home Collection</option>
+    </select>
+
+    <button id="generateBtn">Generate Token</button>
+
+    <div class="result" id="resultBox">
+      <h3>🎟️ Token Generated</h3>
+      <p><b>Token No:</b> <span id="tokenNo"></span></p>
+      <p><b>People Before You:</b> <span id="before"></span></p>
+      <p><b>Estimated Waiting Time:</b> <span id="time"></span> minutes</p>
+      <p><b>Status:</b> <span id="status" class="live">Waiting...</span></p>
+    </div>
+  </div>
+
+  <script>
+    const generateBtn = document.getElementById("generateBtn");
+    const resultBox = document.getElementById("resultBox");
+    const tokenNo = document.getElementById("tokenNo");
+    const before = document.getElementById("before");
+    const time = document.getElementById("time");
+    const statusEl = document.getElementById("status");
+
+    let currentToken = "";
+
+    generateBtn.addEventListener("click", async () => {
+      const name = document.getElementById("name").value;
+      const testName = document.getElementById("testName").value;
+      const type = document.getElementById("type").value;
+
+      if (!name || !testName) {
+        alert("Please fill all fields");
+        return;
+      }
+
+      try {
+        const res = await fetch("http://localhost:5000/api/token/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, testName, type }),
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          resultBox.style.display = "block";
+          currentToken = data.token.tokenNumber;
+          tokenNo.textContent = currentToken;
+          before.textContent = data.peopleBefore;
+          time.textContent = data.estimatedTime;
+          statusEl.textContent = "Waiting...";
+
+          startAutoRefresh();
+        } else {
+          alert("Error generating token");
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Server error. Make sure backend is running.");
+      }
+    });
+
+    function startAutoRefresh() {
+      setInterval(async () => {
+        if (!currentToken) return;
+        try {
+          const res = await fetch(`http://localhost:5000/api/token/status/${currentToken}`);
+          const data = await res.json();
+
+          if (data.success) {
+            before.textContent = data.peopleBefore;
+            time.textContent = data.estimatedTime;
+            statusEl.textContent = data.currentStatus;
+          }
+        } catch (err) {
+          console.error("Auto refresh error:", err);
+        }
+      }, 10000); // refresh every 10 seconds
+    }
+  </script>
+
+</body>
+</html>
