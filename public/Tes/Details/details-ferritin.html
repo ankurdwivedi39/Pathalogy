@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khushipath | Ferritin Test Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* General Styling remains consistent */
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f7f9fc; line-height: 1.6; color: #333; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .details-header { background-color: #ffffff; padding: 30px; margin-bottom: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); border-left: 8px solid #c0392b; }
+        .details-header h1 { color: #1a4e69; font-size: 2.2em; margin-top: 0; display: flex; align-items: center; }
+        .details-header h1 i { margin-right: 15px; color: #c0392b; }
+        .summary-box { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-top: 20px; padding: 15px 0; border-top: 1px dashed #eee; }
+        .price-info { font-size: 1.5em; font-weight: 700; color: #e74c3c; }
+        .btn-book { display: inline-block; padding: 12px 25px; text-align: center; text-decoration: none; border-radius: 6px; font-weight: 600; background-color: #3498db; color: white; border: none; transition: background-color 0.3s; }
+        .btn-book:hover { background-color: #2980b9; }
+        .tabs { display: flex; margin-bottom: 20px; overflow-x: auto; }
+        .tab-button { background-color: #e9f0f7; color: #1a4e69; border: none; padding: 12px 20px; cursor: pointer; font-size: 1em; font-weight: 600; transition: background-color 0.3s, color 0.3s; margin-right: 5px; border-radius: 5px 5px 0 0; }
+        .tab-button.active { background-color: #1a4e69; color: white; border-bottom: 3px solid #c0392b; }
+        .tab-content { background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); }
+        .content-section { margin-bottom: 30px; }
+        .content-section h2 { color: #3498db; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; }
+        .feature-list { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
+        .feature-list li { display: flex; align-items: center; background: #f7faff; padding: 10px; border-radius: 5px; border-left: 4px solid #c0392b; }
+        .feature-list li i { margin-right: 10px; color: #2ecc71; }
+        .parameters-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .parameters-table th, .parameters-table td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        .parameters-table th { background-color: #f0f4f8; color: #1a4e69; font-weight: 600; }
+        @media (max-width: 600px) { .summary-box { flex-direction: column; align-items: flex-start; } .btn-book { width: 100%; margin-top: 15px; } .details-header { padding: 20px; } }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="details-header">
+            <a href="/Tes/test.html" style="text-decoration: none; color: #3498db; font-weight: 600;">
+                <i class="fas fa-arrow-left"></i> Back to All Tests
+            </a>
+            <h1><i class="fas fa-shield-alt"></i> Ferritin Test</h1>
+            <p>Measures the level of **Ferritin**, a protein that stores iron in the body. It is the most reliable single indicator of the body's iron reserves and is crucial for diagnosing early-stage iron deficiency anemia.  </p>
+            
+            <div class="summary-box">
+                <div class="price-info">
+                    Test Price: ₹699
+                </div>
+                <a href="checkout.html?test=ferritin" class="btn btn-book">Add to Cart</a>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('overview')">Overview</button>
+            <button class="tab-button" onclick="showTab('parameters')">1 Key Parameter Measured</button>
+            <button class="tab-button" onclick="showTab('preparation')">Test Preparation</button>
+        </div>
+
+        <div class="tab-content" id="overview">
+            <div class="content-section">
+                <h2>What It Measures</h2>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check-circle"></i> **Serum Ferritin:** Directly measures the amount of iron stored in cells.</li>
+                    <li><i class="fas fa-check-circle"></i> Low levels indicate depleted iron stores, a definitive sign of iron deficiency.</li>
+                    <li><i class="fas fa-check-circle"></i> Often used to monitor iron supplementation treatment.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="tab-content" id="parameters" style="display:none;">
+            <div class="content-section">
+                <h2>Detailed Parameter Breakdown</h2>
+                <table class="parameters-table">
+                    <thead><tr><th>Marker</th><th>Test</th><th>Primary Role</th></tr></thead>
+                    <tbody>
+                        <tr><td>**Iron Storage**</td><td>Serum Ferritin</td><td>Definitive indicator of the body's stored iron reserves.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="tab-content" id="preparation" style="display:none;">
+            <div class="content-section">
+                <h2>Preparation Guidelines</h2>
+                <ul>
+                    <li><i class="fas fa-star-of-life"></i> **Fasting:** Fasting is **not required**, but is sometimes preferred if done alongside Iron Profile.</li>
+                    <li><i class="fas fa-pills"></i> **Supplements:** Avoid taking iron supplements for **24 hours** prior to the test.</li>
+                    <li><i class="fas fa-notes-medical"></i> **Inflammation:** Ferritin can also be elevated in inflammatory conditions (making it harder to diagnose deficiency during illness).</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
+            document.querySelectorAll('.tab-button').forEach(button => button.classList.remove('active'));
+            document.getElementById(tabId).style.display = 'block';
+            document.querySelector(`.tab-button[onclick="showTab('${tabId}')"]`).classList.add('active');
+        }
+        document.addEventListener('DOMContentLoaded', () => showTab('overview'));
+    </script>
+
+</body>
+</html>
