@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khushipath | Path-02: Wellness Total Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* --- General Reset & Utilities --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f9fc;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* --- Header & Summary Section --- */
+        .details-header {
+            background-color: #ffffff;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-left: 8px solid #3498db;
+        }
+
+        .details-header h1 {
+            color: #1a4e69;
+            font-size: 2.2em;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .details-header h1 i {
+            margin-right: 15px;
+            color: #3498db;
+        }
+
+        .summary-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            padding: 15px 0;
+            border-top: 1px dashed #eee;
+        }
+
+        .price-info {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #e74c3c;
+        }
+        
+        .price-info .original {
+            font-size: 0.6em;
+            color: #999;
+            text-decoration: line-through;
+            margin-right: 10px;
+        }
+
+        .btn-book {
+            display: inline-block;
+            padding: 12px 25px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            transition: background-color 0.3s;
+        }
+
+        .btn-book:hover {
+            background-color: #27ae60;
+        }
+
+        /* --- Tabs Navigation --- */
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+
+        .tab-button {
+            background-color: #e9f0f7;
+            color: #1a4e69;
+            border: none;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: background-color 0.3s, color 0.3s;
+            margin-right: 5px;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .tab-button.active {
+            background-color: #1a4e69;
+            color: white;
+            border-bottom: 3px solid #f1c40f; /* Accent */
+        }
+
+        .tab-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        /* --- Content Layout --- */
+        .content-section {
+            margin-bottom: 30px;
+        }
+
+        .content-section h2 {
+            color: #3498db;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            background: #f7faff;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+        }
+
+        .feature-list li i {
+            margin-right: 10px;
+            color: #2ecc71;
+        }
+
+        /* --- Parameters Table --- */
+        .parameters-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .parameters-table th, .parameters-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .parameters-table th {
+            background-color: #f0f4f8;
+            color: #1a4e69;
+            font-weight: 600;
+        }
+
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 600px) {
+            .summary-box {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .btn-book {
+                width: 100%;
+                margin-top: 15px;
+            }
+            .details-header {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="details-header">
+            <a href="/Packages/packages.html" style="text-decoration: none; color: #3498db; font-weight: 600;">
+                <i class="fas fa-arrow-left"></i> Back to All Packages
+            </a>
+            <h1><i class="fas fa-heartbeat"></i> Path-02: **Wellness Total**</h1>
+            <p>A comprehensive checkup covering key metabolic, cardiovascular, and hormonal functions. Highly recommended for a complete annual review.</p>
+            
+            <div class="summary-box">
+                <div class="price-info">
+                    <span class="original">M.R.P: ₹3499</span>
+                    Final Price: ₹1599
+                </div>
+                <a href="checkout.html?package=path-02" class="btn btn-book">Book Now & Get 54% OFF</a>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="showTab('overview')">Overview</button>
+            <button class="tab-button" onclick="showTab('parameters')">68 Parameters Covered</button>
+            <button class="tab-button" onclick="showTab('preparation')">Test Preparation</button>
+        </div>
+
+        <div class="tab-content" id="overview">
+            <div class="content-section">
+                <h2>Key Benefits & Profiles</h2>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check-circle"></i> **Thyroid Profile Total** (3 tests)</li>
+                    <li><i class="fas fa-check-circle"></i> Complete Lipid Profile (8 tests)</li>
+                    <li><i class="fas fa-check-circle"></i> Liver Function Test (LFT - 11 tests)</li>
+                    <li><i class="fas fa-check-circle"></i> Kidney Function Test (KFT - 12 tests)</li>
+                    <li><i class="fas fa-check-circle"></i> **Free Home Sample Collection** (Included)</li>
+                    <li><i class="fas fa-check-circle"></i> Consultation Guide with Report</li>
+                </ul>
+            </div>
+
+            <div class="content-section">
+                <h2>Who Should Book This?</h2>
+                <p>Ideal for individuals over 30, those with a history of hypertension, cholesterol, or diabetes in the family, or anyone seeking a deep dive into their health status beyond the basic screen.</p>
+            </div>
+        </div>
+
+        <div class="tab-content" id="parameters" style="display:none;">
+            <div class="content-section">
+                <h2>Detailed Parameter Breakdown (68 Tests)</h2>
+                
+                <table class="parameters-table">
+                    <thead>
+                        <tr>
+                            <th>Profile</th>
+                            <th>Tests Included</th>
+                            <th>No. of Parameters</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>**Hemogram (CBC + ESR)**</td>
+                            <td>Complete Blood Count, ESR</td>
+                            <td>24</td>
+                        </tr>
+                        <tr>
+                            <td>**Kidney Function (KFT)**</td>
+                            <td>Creatinine, Uric Acid, Urea, Electrolytes, etc.</td>
+                            <td>12</td>
+                        </tr>
+                        <tr>
+                            <td>**Liver Function (LFT)**</td>
+                            <td>Bilirubin, SGOT, SGPT, ALP, Total Protein, etc.</td>
+                            <td>11</td>
+                        </tr>
+                        <tr>
+                            <td>**Lipid Profile**</td>
+                            <td>Total Cholesterol, HDL, LDL, VLDL, Triglycerides</td>
+                            <td>8</td>
+                        </tr>
+                        <tr>
+                            <td>**Thyroid Profile**</td>
+                            <td>T3, T4, TSH (Total)</td>
+                            <td>3</td>
+                        </tr>
+                        <tr>
+                            <td>**Diabetes Screen**</td>
+                            <td>Fasting Glucose, Random Glucose</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td>**Essential Vitamins**</td>
+                            <td>Vitamin D (25-OH), Vitamin B12</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td>**Urine R/M**</td>
+                            <td>Routine Urine Examination</td>
+                            <td>6</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="tab-content" id="preparation" style="display:none;">
+            <div class="content-section">
+                <h2>Test Preparation Guidelines</h2>
+                <ul>
+                    <li><i class="fas fa-star-of-life"></i> **Fasting:** Mandatory 10-12 hours of overnight fasting is required (only water is allowed).</li>
+                    <li><i class="fas fa-pill"></i> **Medication:** Consult your doctor regarding any medication before the test. Do not stop routine medication unless advised.</li>
+                    <li><i class="fas fa-wine-glass-slash"></i> **Avoid:** Avoid alcohol or strenuous exercise 24 hours prior to sample collection.</li>
+                    <li><i class="fas fa-calendar-alt"></i> **Appointment:** Ensure you are available at the collection time for optimal results.</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    
+    <script>
+        // JavaScript for handling tab switching
+        function showTab(tabId) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.style.display = 'none';
+            });
+
+            // Deactivate all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Show the selected content and activate the button
+            document.getElementById(tabId).style.display = 'block';
+            document.querySelector(`.tab-button[onclick="showTab('${tabId}')"]`).classList.add('active');
+        }
+
+        // Initialize to show the first tab on load
+        document.addEventListener('DOMContentLoaded', () => {
+            showTab('overview');
+        });
+    </script>
+
+</body>
+</html>

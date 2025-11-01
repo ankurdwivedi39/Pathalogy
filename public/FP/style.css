@@ -96,11 +96,12 @@ body {
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
-            max-width: 1200px;
-            margin-top: 150px ;
-            margin-left: 150px ;
-            
-            padding: 0 20px;
+            max-width: 2000px;
+            /* margin-top: 150px auto; */
+            /* margin-left: 150px auto; */
+            align-items: center;
+            /* justify-content: center */
+            padding-top: 110px;
         }
 
         /* Left Column: Slider */

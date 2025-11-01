@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khushipath - All Diagnostic Packages</title>
+    <link rel="stylesheet" href="/FP/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* --- General Styling --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f9fc; /* Very light, clean background */
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* --- Section Header Styling --- */
+        .packages-section {
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 2.8em;
+            color: #1a4e69; /* Deep Path Color */
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .section-subtitle {
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 40px;
+        }
+
+        /* --- CSS Grid for Packages (4 Columns on Desktop) --- */
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr); /* Mobile: 1 Column */
+            gap: 25px; /* Spacing between cards */
+        }
+
+        @media (min-width: 768px) {
+            .packages-grid {
+                grid-template-columns: repeat(2, 1fr); /* Tablet: 2 Columns */
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .packages-grid {
+                grid-template-columns: repeat(3, 1fr); /* Desktop: 3 Columns */
+            }
+        }
+        
+        @media (min-width: 1400px) {
+            .packages-grid {
+                grid-template-columns: repeat(4, 1fr); /* Large Desktop: 4 Columns (Handles 30+ better) */
+            }
+        }
+
+        /* --- Package Card Styling --- */
+        .package-card {
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            padding: 25px;
+            transition: transform 0.3s, box-shadow 0.3s, border 0.3s;
+            text-align: left;
+            border-top: 5px solid #3498db;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .package-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .package-header {
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+
+        .package-header h3 {
+            font-size: 1.4em;
+            color: #1a4e69;
+            margin: 0;
+        }
+        
+        .package-header .original-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 0.9em;
+            display: block;
+            margin-top: 5px;
+        }
+
+        .price {
+            font-size: 1.8em;
+            color: #e74c3c; /* Discount Red */
+            font-weight: 700;
+            margin: 5px 0 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .price span {
+            font-size: 0.6em;
+            font-weight: 400;
+            color: #2ecc71; /* Accent Green for Savings */
+            background: #e9f9f0;
+            padding: 3px 8px;
+            border-radius: 5px;
+        }
+        
+        /* --- Features List --- */
+        .features-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 20px 0;
+            flex-grow: 1;
+            font-size: 0.9em;
+        }
+
+        .features-list li {
+            padding: 8px 0;
+            color: #555;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .features-list li:last-child {
+            border-bottom: none;
+        }
+
+        .features-list i {
+            margin-right: 10px;
+            color: #3498db; /* Blue checkmark */
+            font-size: 1em;
+        }
+
+        /* --- Button Styling --- */
+        .btn {
+            display: block;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            margin-top: auto; 
+        }
+
+        .btn-book {
+            background-color: #2e6dcc; /* Green Book Button */
+            color: white;
+            border: 2px solid #fff;
+        }
+
+        .btn-book:hover {
+            background-color: #27ae60;
+        }
+
+        .btn-details {
+            margin-top: 8px;
+            background-color: transparent;
+            color: #3498db;
+            border: 1px solid #c9e2f2;
+        }
+
+        .btn-details:hover {
+            background-color: #f7f9fc;
+        }
+
+        /* --- Featured Card Styling (The "Swasthfit Complete" or "Healthkind Platinum") --- */
+        .package-card.featured {
+            border-top: 5px solid #f1c40f; /* Gold accent */
+            box-shadow: 0 8px 20px rgba(241, 196, 15, 0.4);
+            transform: scale(1.03);
+            background: #fffbef; /* Light gold background */
+        }
+        
+        .package-card.featured h3 {
+            color: #d35400; /* Darker accent for title */
+        }
+
+        .package-card.featured .price {
+            color: #2980b9; /* Strong price blue */
+        }
+
+        .package-card.featured .btn-book {
+            background-color: #f1c40f;
+            color: #1a4e69;
+            border-color: #f1c40f;
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="/FP/image/khushipath logo.png" alt="Khushipath Logo - A simplified image of a person meditating under a tree" />
+            <h1>Khushipath</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/About">About Us</a></li>
+            <li><a href="/Tes">Tests</a></li>
+            <li><a href="/Packages/packages.html">Packages</a></li>
+            <li><a href="/Doctor">Doctors</a></li>
+            <li><a href="/Contact">Contact</a></li>
+            <li><a href="/Login">Login</a></li>
+        </ul>
+    </nav>
+
+    <section id="packages-section" class="packages-section">
+        <div class="container">
+            <h2 class="section-title">Khushipath's Diagnostic Wellness Paths</h2>
+            <p class="section-subtitle">Comprehensive Health Checkup Packages Inspired by the Best</p>
+
+            <div class="packages-grid">
+
+                <div class="package-card">
+                    <div class="package-header">
+                        <h3>Path-01: Active Screen</h3>
+                        <p class="original-price">₹1999</p>
+                        <p class="price">₹899 <span>55% OFF</span></p>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-microscope"></i> 35 Parameters Covered</li>
+                        <li><i class="fas fa-tint"></i> Basic Organ Function (KFT, LFT)</li>
+                        <li><i class="fas fa-home"></i> Free Home Sample Collection</li>
+                        <li><i class="fas fa-bolt"></i> Report in 12 Hours</li>
+                    </ul>
+                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="/Packages/packages-details/path-01-details.html" class="btn btn-details">View Details</a>
+                </div>
+
+                <div class="package-card">
+                    <div class="package-header">
+                        <h3>Path-02: Wellness Total</h3>
+                        <p class="original-price">₹3499</p>
+                        <p class="price">₹1599 <span>54% OFF</span></p>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-microscope"></i> 68 Parameters Covered</li>
+                        <li><i class="fas fa-heartbeat"></i> Lipid Profile + Thyroid Total</li>
+                        <li><i class="fas fa-home"></i> Free Home Sample Collection</li>
+                        <li><i class="fas fa-file-alt"></i> Consultation with Expert</li>
+                    </ul>
+                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="/Packages/packages-details/path-02-details.html" class="btn btn-details">View Details</a>
+                </div>
+                
+                <div class="package-card">
+                    <div class="package-header">
+                        <h3>Path-03: Swasth Super</h3>
+                        <p class="original-price">₹5499</p>
+                        <p class="price">₹2249 <span>59% OFF</span></p>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-microscope"></i> 87 Parameters Covered</li>
+                        <li><i class="fas fa-capsules"></i> Vitamin D & B12 Included</li>
+                        <li><i class="fas fa-user-shield"></i> Diabetic Markers (HbA1c)</li>
+                        <li><i class="fas fa-chart-line"></i> Comprehensive Blood Count</li>
+                    </ul>
+                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="/Packages/packages-details/path-03-details.html" class="btn btn-details">View Details</a>
+                </div>
+
+                <div class="package-card featured">
+                    <div class="package-header">
+                        <h3>Path-04: Platinum Complete</h3>
+                        <p class="original-price">₹12999</p>
+                        <p class="price">₹4999 <span>61% OFF</span></p>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-medal"></i> 106 Parameters (Full Body)</li>
+                        <li><i class="fas fa-user-md"></i> Free Doctor Consultation</li>
+                        <li><i class="fas fa-heart"></i> Advanced Cardiac Markers</li>
+                        <li><i class="fas fa-flask"></i> All Essential Vitamins & Minerals</li>
+                    </ul>
+                    <a href="#" class="btn btn-book btn-featured">BOOK PLATINUM NOW</a>
+                    <a href="/Packages/packages-details/path-04-details.html" class="btn btn-details">View All 106 Tests</a>
+                </div>
+                
+                <div class="package-card">
+                    <div class="package-header">
+                        <h3>Path-05: Women's Health (40+)</h3>
+                        <p class="original-price">₹3100</p>
+                        <p class="price">₹1499 <span>52% OFF</span></p>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-microscope"></i> 40 Parameters Focused</li>
+                        <li><i class="fas fa-venus"></i> Hormones & Bone Density Markers</li>
+                        <li><i class="fas fa-home"></i> Free Home Sample Collection</li>
+                        <li><i class="fas fa-calendar-alt"></i> Annual Reminder Service</li>
+                    </ul>
+                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="/Packages/packages-details/path-05-details.html" class="btn btn-details">View Details</a>
+                </div>
+
+                <div class="package-card">
+                    <div class="package-header">
+                        <h3>Path-06: Men's Vitality (40+)</h3>
+                        <p class="original-price">₹2900</p>
+                        <p class="price">₹1399 <span>52% OFF</span></p>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-microscope"></i> 45 Parameters Focused</li>
+                        <li><i class="fas fa-mars"></i> PSA (Prostate) & Key Nutrients</li>
+                        <li><i class="fas fa-home"></i> Free Home Sample Collection</li>
+                        <li><i class="fas fa-shield-alt"></i> Liver & Kidney Health Check</li>
+                    </ul>
+                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="/Packages/packages-details/path-06-details.html" class="btn btn-details">View Details</a>
+                </div>
+                
+                <div class="package-card">
+                    <div class="package-header">
+                        <h3>Path-07: Senior Citizen Gold</h3>
+                        <p class="original-price">₹6500</p>
+                        <p class="price">₹3199 <span>51% OFF</span></p>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-medkit"></i> 90+ Geriatric Markers</li>
+                        <li><i class="fas fa-bone"></i> Arthritis & Joint Profile</li>
+                        <li><i class="fas fa-stethoscope"></i> Full Organ Function Panel</li>
+                        <li><i class="fas fa-user-circle"></i> Dedicated Follow-up Call</li>
+                    </ul>
+                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="/Packages/packages-details/path-07-details.html" class="btn btn-details">View Details</a>
+                </div>
+
+                <div class="package-card">
+                    <div class="package-header">
+                        <h3>Path-08: Youth Thrive Check</h3>
+                        <p class="original-price">₹1500</p>
+                        <p class="price">₹799 <span>47% OFF</span></p>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-child"></i> 25 Parameters (Energy & Immunity)</li>
+                        <li><i class="fas fa-sun"></i> Iron & Basic Vitamin Levels</li>
+                        <li><i class="fas fa-home"></i> Free Home Sample Collection</li>
+                        <li><i class="fas fa-running"></i> Ideal for students & athletes</li>
+                    </ul>
+                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="/Packages/packages-details/path-08-details.html" class="btn btn-details">View Details</a>
+                </div>
+                
+                <div class="package-card">
+                    <div class="package-header">
+                        <h3>Path-09: Diabetic Monitoring</h3>
+                        <p class="original-price">₹1800</p>
+                        <p class="price">₹999 <span>44% OFF</span></p>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-syringe"></i> Glucose F/PP, HbA1c, Urine Sugar</li>
+                        <li><i class="fas fa-eye"></i> Kidney Function (Diabetic Focus)</li>
+                        <li><i class="fas fa-clock"></i> 3-Month Monitoring Report</li>
+                        <li><i class="fas fa-chart-bar"></i> Trend Analysis Report</li>
+                    </ul>
+                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="/Packages/packages-details/path-09-details.html" class="btn btn-details">View Details</a>
+                </div>
+
+                <div class="package-card">
+                    <div class="package-header">
+                        <h3>Path-10: Liver Health Panel</h3>
+                        <p class="original-price">₹1600</p>
+                        <p class="price">₹750 <span>53% OFF</span></p>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-microscope"></i> LFT (11 Tests), GGTP, PT/INR</li>
+                        <li><i class="fas fa-wine-glass-slash"></i> Alcohol/Fatty Liver Screening</li>
+                        <li><i class="fas fa-home"></i> Free Home Sample Collection</li>
+                        <li><i class="fas fa-notes-medical"></i> Fasting Recommended</li>
+                    </ul>
+                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="/Packages/packages-details/path-10-details.html" class="btn btn-details">View Details</a>
+                </div>
+
+                <div class="package-card">
+                    <div class="package-header">
+                        <h3>Path-11: Weight Loss Ready</h3>
+                        <p class="original-price">₹2800</p>
+                        <p class="price">₹1499 <span>46% OFF</span></p>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-weight"></i> Metabolism & Hormone Check</li>
+                        <li><i class="fas fa-th-list"></i> Thyroid, Vitamin D, Iron, Glucose</li>
+                        <li><i class="fas fa-home"></i> Free Home Sample Collection</li>
+                        <li><i class="fas fa-utensils"></i> Dietitian Report Guide</li>
+                    </ul>
+                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="/Packages/packages-details/path-11-details.html" class="btn btn-details">View Details</a>
+                </div>
+
+                <div class="package-card">
+                    <div class="package-header">
+                        <h3>Path-12: Gym Ready Check</h3>
+                        <p class="original-price">₹2100</p>
+                        <p class="price">₹1199 <span>43% OFF</span></p>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-dumbbell"></i> Fitness & Muscle Health</li>
+                        <li><i class="fas fa-bolt"></i> Electrolytes, CPK, LDH</li>
+                        <li><i class="fas fa-home"></i> Free Home Sample Collection</li>
+                        <li><i class="fas fa-running"></i> Pre-Workout Status Check</li>
+                    </ul>
+                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="/Packages/packages-details/path-12-details.html" class="btn btn-details">View Details</a>
+                </div>
+                
+                <div class="package-card">
+                    <div class="package-header">
+                        <h3>Path-13: Fever Panel Basic</h3>
+                        <p class="original-price">₹1200</p>
+                        <p class="price">₹699 <span>42% OFF</span></p>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-temperature-high"></i> CBC, ESR, Malaria, Dengue NS1</li>
+                        <li><i class="fas fa-bolt"></i> Fast Reporting for Urgent Care</li>
+                        <li><i class="fas fa-home"></i> Home Collection Available</li>
+                        <li><i class="fas fa-band-aid"></i> Initial Sickness Screening</li>
+                    </ul>
+                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="/Packages/packages-details/path-13-details.html" class="btn btn-details">View Details</a>
+                </div>
+
+                <div class="package-card">
+                    <div class="package-header">
+                        <h3>Path-14: Allergy & Immunity</h3>
+                        <p class="original-price">₹2400</p>
+                        <p class="price">₹1350 <span>44% OFF</span></p>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-allergies"></i> CRP, IgE Total, Eosinophils</li>
+                        <li><i class="fas fa-virus"></i> Basic Immunity Markers</li>
+                        <li><i class="fas fa-home"></i> Free Home Sample Collection</li>
+                        <li><i class="fas fa-pills"></i> Useful for chronic conditions</li>
+                    </ul>
+                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="/Packages/packages-details/path-14-details.html" class="btn btn-details">View Details</a>
+                </div>
+                
+                <div class="package-card">
+                    <div class="package-header">
+                        <h3>Path-15: Kidney Focus Pro</h3>
+                        <p class="original-price">₹1850</p>
+                        <p class="price">₹950 <span>48% OFF</span></p>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-flask"></i> KFT (16 Tests), Uric Acid, GFR</li>
+                        <li><i class="fas fa-tint"></i> Urine R/E Included</li>
+                        <li><i class="fas fa-notes-medical"></i> Suitable for regular monitoring</li>
+                        <li><i class="fas fa-bolt"></i> Report in 24 Hours</li>
+                    </ul>
+                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="/Packages/packages-details/path-15-details.html" class="btn btn-details">View Details</a>
+                </div>
+
+                <div class="package-card">
+                    <div class="package-header">
+                        <h3>Path-16: Bone & Joint Care</h3>
+                        <p class="original-price">₹2500</p>
+                        <p class="price">₹1499 <span>40% OFF</span></p>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-bone"></i> Calcium, Vitamin D, Phosphorus</li>
+                        <li><i class="fas fa-joint"></i> RA Factor, ESR Included</li>
+                        <li><i class="fas fa-home"></i> Free Home Sample Collection</li>
+                        <li><i class="fas fa-chart-line"></i> Annual Check Recommended</li>
+                    </ul>
+                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="/Packages/packages-details/path-16-details.html" class="btn btn-details">View Details</a>
+                </div>
+
+                <div class="package-card">
+                    <div class="package-header">
+                        <h3>Path-17: Cholesterol Plus</h3>
+                        <p class="original-price">₹1100</p>
+                        <p class="price">₹599 <span>45% OFF</span></p>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-heart"></i> Lipid Profile (8 Tests)</li>
+                        <li><i class="fas fa-tint"></i> Fasting Glucose</li>
+                        <li><i class="fas fa-bolt"></i> Quick Health Snapshot</li>
+                        <li><i class="fas fa-notes-medical"></i> Fasting Required</li>
+                    </ul>
+                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="/Packages/packages-details/path-17-details.html" class="btn btn-details">View Details</a>
+                </div>
+                
+                <div class="package-card">
+                    <div class="package-header">
+                        <h3>Path-18: Total Health Check</h3>
+                        <p class="original-price">₹3000</p>
+                        <p class="price">₹1999 <span>33% OFF</span></p>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-microscope"></i> 70 Parameters Covered</li>
+                        <li><i class="fas fa-check-double"></i> All Primary Organ Panels</li>
+                        <li><i class="fas fa-home"></i> Free Home Sample Collection</li>
+                        <li><i class="fas fa-calendar-check"></i> Recommended Annually</li>
+                    </ul>
+                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="/Packages/packages-details/path-18-details.html" class="btn btn-details">View Details</a>
+                </div>
+                
+                <div class="package-card">
+                    <div class="package-header">
+                        <h3>Path-19: Prenatal Screen</h3>
+                        <p class="original-price">₹3500</p>
+                        <p class="price">₹2499 <span>29% OFF</span></p>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-baby"></i> CBC, Blood Group, Thyroid</li>
+                        <li><i class="fas fa-venus-double"></i> Key Maternal Markers</li>
+                        <li><i class="fas fa-notes-medical"></i> Doctor's Prescription Advised</li>
+                        <li><i class="fas fa-bolt"></i> High Priority Testing</li>
+                    </ul>
+                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="/Packages/packages-details/path-19-details.html" class="btn btn-details">View Details</a>
+                </div>
+                
+                <div class="package-card">
+                    <div class="package-header">
+                        <h3>Path-20: Executive Lite</h3>
+                        <p class="original-price">₹4500</p>
+                        <p class="price">₹3000 <span>33% OFF</span></p>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-user-tie"></i> 55 Parameters</li>
+                        <li><i class="fas fa-mug-hot"></i> Stress & Lifestyle Markers</li>
+                        <li><i class="fas fa-user-md"></i> Basic Consultation Included</li>
+                        <li><i class="fas fa-check-circle"></i> Digital Report Delivery</li>
+                    </ul>
+                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="/Packages/packages-details/path-20-details.html" class="btn btn-details">View Details</a>
+                </div>
+
+                <div class="package-card">
+                    <div class="package-header">
+                        <h3>Path-21: Vitamin Power</h3>
+                        <p class="original-price">₹3800</p>
+                        <p class="price">₹2050 <span>46% OFF</span></p>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-pills"></i> Vitamin D, B12, Iron Studies</li>
+                        <li><i class="fas fa-bolt"></i> Energy & Immunity Focus</li>
+                        <li><i class="fas fa-home"></i> Free Home Sample Collection</li>
+                        <li><i class="fas fa-chart-line"></i> Essential Micronutrients</li>
+                    </ul>
+                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="/Packages/packages-details/path-21-details.html" class="btn btn-details">View Details</a>
+                </div>
+                
+                <div class="package-card">
+                    <div class="package-header">
+                        <h3>Path-22: Ultra Platinum</h3>
+                        <p class="original-price">₹15999</p>
+                        <p class="price">₹6999 <span>56% OFF</span></p>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-fire-alt"></i> 120+ Advanced Markers</li>
+                        <li><i class="fas fa-medal"></i> Hormone & Cancer Markers (Basic)</li>
+                        <li><i class="fas fa-user-md"></i> Detailed Doctor Review</li>
+                        <li><i class="fas fa-home"></i> Priority Home Collection</li>
+                    </ul>
+                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="/Packages/packages-details/path-22-details.html" class="btn btn-details">View Details</a>
+                </div>
+                
+                <div class="package-card">
+                    <div class="package-header">
+                        <h3>Path-23: Basic Blood Count</h3>
+                        <p class="original-price">₹500</p>
+                        <p class="price">₹330 <span>34% OFF</span></p>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-tint"></i> CBC (22 Tests)</li>
+                        <li><i class="fas fa-bolt"></i> Quickest Report Time</li>
+                        <li><i class="fas fa-home"></i> Home Collection Available</li>
+                        <li><i class="fas fa-notes-medical"></i> General Health Status</li>
+                    </ul>
+                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="/Packages/packages-details/path-23-details.html" class="btn btn-details">View Details</a>
+                </div>
+
+                <div class="package-card">
+                    <div class="package-header">
+                        <h3>Path-24: Stress & Fatigue</h3>
+                        <p class="original-price">₹3200</p>
+                        <p class="price">₹1850 <span>42% OFF</span></p>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-moon"></i> Cortisol, Thyroid, CBC</li>
+                        <li><i class="fas fa-bolt"></i> Hormone Balance Check</li>
+                        <li><i class="fas fa-home"></i> Free Home Sample Collection</li>
+                        <li><i class="fas fa-chart-line"></i> Lifestyle Trend Analysis</li>
+                    </ul>
+                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="/Packages/packages-details/path-24-details.html" class="btn btn-details">View Details</a>
+                </div>
+
+                <div class="package-card">
+                    <div class="package-header">
+                        <h3>Path-25: PCOS/PCOD Panel</h3>
+                        <p class="original-price">₹4800</p>
+                        <p class="price">₹2999 <span>37% OFF</span></p>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-venus"></i> Key Reproductive Hormones</li>
+                        <li><i class="fas fa-tint"></i> Diabetic & Lipid Screen</li>
+                        <li><i class="fas fa-notes-medical"></i> Detailed Analytical Report</li>
+                        <li><i class="fas fa-check-circle"></i> Requires Specific Timings</li>
+                    </ul>
+                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="/Packages/packages-details/path-25-details.html" class="btn btn-details">View Details</a>
+                </div>
+
+                <div class="package-card">
+                    <div class="package-header">
+                        <h3>Path-26: Men's Hormone Check</h3>
+                        <p class="original-price">₹3900</p>
+                        <p class="price">₹2299 <span>41% OFF</span></p>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-mars"></i> Testosterone, FSH, LH</li>
+                        <li><i class="fas fa-user-tie"></i> Vitality & Wellness Markers</li>
+                        <li><i class="fas fa-home"></i> Free Home Sample Collection</li>
+                        <li><i class="fas fa-user-md"></i> Optional Doctor Review</li>
+                    </ul>
+                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="/Packages/packages-details/path-26-details.html" class="btn btn-details">View Details</a>
+                </div>
+
+                <div class="package-card">
+                    <div class="package-header">
+                        <h3>Path-27: Child Wellness</h3>
+                        <p class="original-price">₹1300</p>
+                        <p class="price">₹799 <span>38% OFF</span></p>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-child"></i> CBC, Iron, Liver (Pediatric Focus)</li>
+                        <li><i class="fas fa-bolt"></i> Immunity & Growth Markers</li>
+                        <li><i class="fas fa-home"></i> Gentle Home Collection</li>
+                        <li><i class="fas fa-calendar-check"></i> Annual Check Recommended</li>
+                    </ul>
+                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="/Packages/packages-details/path-27-details.html" class="btn btn-details">View Details</a>
+                </div>
+
+                <div class="package-card">
+                    <div class="package-header">
+                        <h3>Path-28: Advanced Thyroid</h3>
+                        <p class="original-price">₹2000</p>
+                        <p class="price">₹1100 <span>45% OFF</span></p>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-stethoscope"></i> TSH, T3, T4 (Free & Total)</li>
+                        <li><i class="fas fa-bolt"></i> Thyroid Antibody Check</li>
+                        <li><i class="fas fa-notes-medical"></i> Full Thyroid Health Status</li>
+                        <li><i class="fas fa-check-circle"></i> Detailed Report</li>
+                    </ul>
+                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="/Packages/packages-details/path-28-details.html" class="btn btn-details">View Details</a>
+                </div>
+                
+                <div class="package-card">
+                    <div class="package-header">
+                        <h3>Path-29: Pre-Employment Fit</h3>
+                        <p class="original-price">₹2600</p>
+                        <p class="price">₹1799 <span>31% OFF</span></p>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-user-tie"></i> 40 Essential Parameters</li>
+                        <li><i class="fas fa-id-badge"></i> Govt/Corporate Compliance</li>
+                        <li><i class="fas fa-home"></i> Free Home Sample Collection</li>
+                        <li><i class="fas fa-file-invoice"></i> Fast Reporting</li>
+                    </ul>
+                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="/Packages/packages-details/path-29-details.html" class="btn btn-details">View Details</a>
+                </div>
+                
+                <div class="package-card">
+                    <div class="package-header">
+                        <h3>Path-30: Marriage Ready</h3>
+                        <p class="original-price">₹5000</p>
+                        <p class="price">₹3499 <span>30% OFF</span></p>
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-ring"></i> Key Infectious Markers (HIV, HBsAg)</li>
+                        <li><i class="fas fa-heart"></i> Genetic & Blood Group Tests</li>
+                        <li><i class="fas fa-notes-medical"></i> Pre-conception Health</li>
+                        <li><i class="fas fa-user-md"></i> Includes Doctor Counseling</li>
+                    </ul>
+                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="/Packages/packages-details/path-30-details.html" class="btn btn-details">View Details</a>
+                </div>
+                
+                </div> </div> </section>
+
+</body>
+</html>
