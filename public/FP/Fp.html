@@ -24,18 +24,112 @@
             <li><a href="/Login">Login</a></li>
         </ul>
     </nav>
-<!-- <script> 
-window.addEventListener('DOMContentLoaded', () => {
-  fetch('navbar.html')
-    .then(response => response.text())
-    .then(html => {
-      document.getElementById('navbar').innerHTML = html;
-    })
-    .catch(error => {
-      console.error('Failed to load navbar:', error);
-    });
-});
-</script>   -->
+
+    <!--start of booking-and-slider-section -->
+    <section class="booking-and-slider-section">
+        <div class="slider-container">
+            <div class="slider">
+                <div class="slide"><img src="/FP/image/Slide1.png" alt="Lipid Profile Offer"></div>
+                <div class="slide"><img src="/FP/image/Slide2.png" alt="Swasth Fit Package Offer"></div>
+                <div class="slide"><img src="/FP/image/Slide3.png" alt="Preventive Health Package Offer"></div>
+            </div>
+            <div class="slider-nav">
+                <button id="prevSlide">❮</button>
+                <button id="nextSlide">❯</button>
+            </div>
+        </div>
+
+        <div class="booking-panel">
+            <h3>Book a Test Online</h3>
+            <div class="suggestions-container">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search Test and Packages">
+                    <button id="searchButton"><i class="fa fa-search"></i></button>
+                </div>
+                <div class="suggestions-list" id="suggestionsList" style="display: none;"></div>
+            </div>
+            <div class="or-separator">OR</div>
+            <a href="/Packages/packages.html" class="booking-btn">Choose Popular Tests / Packages <span>❯</span></a>
+            <button class="booking-btn">Book Radiology / Scan <span>❯</span></button>
+            
+            <div class="action-grid">
+                <div class="action-item">
+                    <i class="fas fa-file-download"></i>
+                    <span>Download Report</span>
+                </div>
+                <div class="action-item">
+                    <i class="fas fa-prescription"></i>
+                    <span>Upload Prescription</span>
+                </div>
+                <div class="action-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Find Nearest Centre</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // JavaScript for the new image slider
+        document.addEventListener('DOMContentLoaded', () => {
+            const slider = document.querySelector('.slider');
+            const slides = Array.from(document.querySelectorAll('.slide'));
+            const prevButton = document.getElementById('prevSlide');
+            const nextButton = document.getElementById('nextSlide');
+
+            // Clone first and last slides for the infinite loop effect
+            const firstClone = slides[0].cloneNode(true);
+            const lastClone = slides[slides.length - 1].cloneNode(true);
+            slider.appendChild(firstClone);
+            slider.insertBefore(lastClone, slides[0]);
+
+            const allSlides = Array.from(slider.querySelectorAll('.slide'));
+            let currentIndex = 1; // Start at the first real slide
+            let isTransitioning = false;
+
+            function updateSliderPosition(withTransition = true) {
+                slider.style.transition = withTransition ? 'transform 0.5s ease-in-out' : 'none';
+                slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+            }
+
+            function moveToNextSlide() {
+                if (isTransitioning) return;
+                isTransitioning = true;
+                currentIndex++;
+                updateSliderPosition();
+            }
+
+            function moveToPrevSlide() {
+                if (isTransitioning) return;
+                isTransitioning = true;
+                currentIndex--;
+                updateSliderPosition();
+            }
+
+            slider.addEventListener('transitionend', () => {
+                isTransitioning = false;
+                if (currentIndex === 0) { // If at the cloned last slide
+                    currentIndex = allSlides.length - 2;
+                    updateSliderPosition(false);
+                } else if (currentIndex === allSlides.length - 1) { // If at the cloned first slide
+                    currentIndex = 1;
+                    updateSliderPosition(false);
+                }
+            });
+
+            nextButton.addEventListener('click', moveToNextSlide);
+            prevButton.addEventListener('click', moveToPrevSlide);
+            setInterval(moveToNextSlide, 5000); // Auto-slide
+
+            updateSliderPosition(false); // Initial position
+        });
+    </script>
+
+    <!--end of booking-and-slider-section -->
+<
+
+
+    
 
     <section class="hero">
         <h2>Your Health, Our Priority – Quick Pathology Solutions</h2>
@@ -395,5 +489,6 @@ window.addEventListener('DOMContentLoaded', () => {
     </footer>
     
     <script src="script.js"></script>
+    
 </body>
 </html>
