@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="stylesheet" href="/FP/style.css">
+
+  <title>Popular Tests & Packages</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8f9fc;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #005aa7;
+      color: white;
+      padding: 15px 30px;
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .container {
+      padding: 30px 40px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #222;
+      margin: 40px 0 20px;
+    }
+
+    .test-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .test-card {
+      background-color: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: 0.2s ease-in-out;
+    }
+
+    .test-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .test-card h4 {
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: #222;
+    }
+
+    .test-card p {
+      margin: 4px 0;
+      color: #555;
+      font-size: 14px;
+    }
+
+    .price {
+      font-size: 20px;
+      color: #007b00;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    .tags {
+      margin: 8px 0;
+      color: green;
+      font-size: 14px;
+    }
+
+    .actions {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .actions button {
+      background-color: #005aa7;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .actions button:hover {
+      background-color: #004482;
+    }
+
+    .compare {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="/FP/image/khushipath logo.png" alt="Khushipath Logo - A simplified image of a person meditating under a tree" />
+            <h1>Khushipath</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/About">About Us</a></li>
+            <li><a href="/Tes">Tests</a></li>
+            <li><a href="/Blog">Packages</a></li>
+            <li><a href="/Doctor">Doctors</a></li>
+            <li><a href="/Contact">Contact</a></li>
+            <li><a href="/Login">Login</a></li>
+        </ul>
+    </nav>
+
+  <header>Popular Tests & Health Packages</header>
+
+  <div class="container">
+    
+    <!-- Popular Tests Section -->
+    <h2>Popular Lab Tests</h2>
+    <div class="test-grid">
+
+      <div class="test-card">
+        <h4>COMPLETE BLOOD COUNT (CBC)</h4>
+        <p>20 Parameter(s) Covered</p>
+        <div class="price">₹350</div>
+        <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
+        <div class="actions">
+          <button>Add to Cart</button>
+          
+          <a href="#" style="color:#005aa7;text-decoration:none;">Know More</a>
+        </div>
+      </div>
+
+      <div class="test-card">
+        <h4>THYROID PROFILE - TOTAL (T3, T4, TSH)</h4>
+        <p>3 Parameter(s) Covered</p>
+        <div class="price">₹550</div>
+        <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
+        <div class="actions">
+          <button>Add to Cart</button>
+         
+          <a href="#" style="color:#005aa7;text-decoration:none;">Know More</a>
+        </div>
+      </div>
+
+      <div class="test-card">
+        <h4>HbA1c (GLYCOSYLATED HEMOGLOBIN)</h4>
+        <p>2 Parameter(s) Covered</p>
+        <div class="price">₹440</div>
+        <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
+        <div class="actions">
+          <button>Add to Cart</button>
+          
+          <a href="#" style="color:#005aa7;text-decoration:none;">Know More</a>
+        </div>
+      </div>
+
+      <div class="test-card">
+        <h4>LIVER FUNCTION TEST (LFT)</h4>
+        <p>8 Parameter(s) Covered</p>
+        <div class="price">₹600</div>
+        <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
+        <div class="actions">
+          <button>Add to Cart</button>
+         
+          <a href="#" style="color:#005aa7;text-decoration:none;">Know More</a>
+        </div>
+      </div>
+
+      <div class="test-card">
+        <h4>LIPID PROFILE</h4>
+        <p>5 Parameter(s) Covered</p>
+        <div class="price">₹500</div>
+        <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
+        <div class="actions">
+          <button>Add to Cart</button>
+          
+          <a href="#" style="color:#005aa7;text-decoration:none;">Know More</a>
+        </div>
+      </div>
+
+      <div class="test-card">
+        <h4>KIDNEY FUNCTION TEST (KFT)</h4>
+        <p>6 Parameter(s) Covered</p>
+        <div class="price">₹650</div>
+        <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
+        <div class="actions">
+          <button>Add to Cart</button>
+          
+          <a href="#" style="color:#005aa7;text-decoration:none;">Know More</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Popular Packages Section -->
+    <h2>Popular Health Packages</h2>
+    <div class="test-grid">
+
+      <div class="test-card">
+        <h4>FULL BODY CHECKUP (MALE)</h4>
+        <p>60 Parameter(s) Covered</p>
+        <div class="price">₹1499</div>
+        <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
+        <div class="actions">
+          <button>Add to Cart</button>
+          
+          <a href="#" style="color:#005aa7;text-decoration:none;">Know More</a>
+        </div>
+      </div>
+
+      <div class="test-card">
+        <h4>FULL BODY CHECKUP (FEMALE)</h4>
+        <p>65 Parameter(s) Covered</p>
+        <div class="price">₹1599</div>
+        <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
+        <div class="actions">
+          <button>Add to Cart</button>
+          
+          <a href="#" style="color:#005aa7;text-decoration:none;">Know More</a>
+        </div>
+      </div>
+
+      <div class="test-card">
+        <h4>DIABETES CARE PACKAGE</h4>
+        <p>10 Parameter(s) Covered</p>
+        <div class="price">₹899</div>
+        <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
+        <div class="actions">
+          <button>Add to Cart</button>
+          
+          <a href="#" style="color:#005aa7;text-decoration:none;">Know More</a>
+        </div>
+      </div>
+
+      <div class="test-card">
+        <h4>THYROID CARE PACKAGE</h4>
+        <p>5 Parameter(s) Covered</p>
+        <div class="price">₹799</div>
+        <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
+        <div class="actions">
+          <button>Add to Cart</button>
+         
+          <a href="#" style="color:#005aa7;text-decoration:none;">Know More</a>
+        </div>
+      </div>
+
+      <div class="test-card">
+        <h4>HEART HEALTH PACKAGE</h4>
+        <p>12 Parameter(s) Covered</p>
+        <div class="price">₹999</div>
+        <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
+        <div class="actions">
+          <button>Add to Cart</button>
+          
+          <a href="#" style="color:#005aa7;text-decoration:none;">Know More</a>
+        </div>
+      </div>
+
+      <div class="test-card">
+        <h4>FITNESS PACKAGE</h4>
+        <p>15 Parameter(s) Covered</p>
+        <div class="price">₹1099</div>
+        <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
+        <div class="actions">
+          <button>Add to Cart</button>
+          
+          <a href="#" style="color:#005aa7;text-decoration:none;">Know More</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
