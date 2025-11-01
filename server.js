@@ -60,6 +60,10 @@ app.get('/TokenGen', (req, res) => {
  res.sendFile(path.join(__dirname, 'public/TokenGen', 'token.html'));   
 });
 
+app.get('/Packages', (req, res) => {
+ res.sendFile(path.join(__dirname, 'public/Packages', 'packages.html'));   
+});
+
 // register database
 app.post("/Register", async (req, res) => {
   try {
@@ -94,39 +98,45 @@ app.post("/Register", async (req, res) => {
     res.status(500).send("Error registering user. Username or Email might already exist.");
   }
 });
+ 
+// ------------- login database -------------
 
-//user Auth
-// app.post("/Register" , async (req, res) =>{
-//    try{ 
-//       const { text, email, password  } = req.body
+app.post("/Login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-//       if (password !== password) {
-//          return res.status(400).send("Password aur Confirm Password match nahi kar rahe.");
-//       }
+    // Check if email and password are given
+    if (!email || !password) {
+      return res.status(400).send("Please enter both email and password");
+    }
 
-//       const existingUser = await User.findOne({ email: Email });
-//     if (existingUser) {
-//       return res.status(400).send("Email already exists. Please use another one.");
-//     }
+    // 1️⃣ Check if user exists
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      return res.status(400).send("Invalid email or password");
+    }
 
-//       const hashedpassword = await bcrypt.hash(Password,10)
+    // 2️⃣ Compare plain password with hashed password
+    const isMatch = await bcrypt.compare(password, user.password);
+    console.log("Password Match:", isMatch); // Debugging ke liye
 
-//       const newUser = new User({  text, email, password: hashedpassword})
-//       await newUser.save()
+    if (!isMatch) {
+      return res.status(401).send("Invalid email or password");
+    }
 
-//       res.redirect("/Login")
-//   }catch(err){
-//    console.log(err)
-//    res.status(500).send("Error registering user. Uesrname/Email might already exist.")
-//   }
-// }) 
+    // 3️⃣ Login success
+    console.log("User logged in:", user.email);
+    res.status(200).send("Login successful!");
+    // ya tu chahe to redirect bhi kar sakta hai
+    // res.redirect("/dashboard");
+
+  } catch (err) {
+    console.error("Login error:", err);
+    res.status(500).send("Server error during login");
+  }
+});
 
 
-
-
-
-//const PORT = process.env.PORT || 5000;
-//app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
  // --------- start server ------
  app.listen(Port, () => {
