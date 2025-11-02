@@ -8,12 +8,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <style>
-        /* --- General Styling --- */
+        /* --- General Styling (UNCHANGED) --- */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f7f9fc; /* Very light, clean background */
+            background-color: #f7f9fc; 
             line-height: 1.6;
             color: #333;
         }
@@ -24,7 +24,7 @@
             padding: 20px;
         }
 
-        /* --- Section Header Styling --- */
+        /* --- Section Header Styling (UNCHANGED) --- */
         .packages-section {
             padding: 60px 0;
             text-align: center;
@@ -32,7 +32,7 @@
 
         .section-title {
             font-size: 2.8em;
-            color: #1a4e69; /* Deep Path Color */
+            color: #1a4e69; 
             margin-bottom: 10px;
             font-weight: 800;
         }
@@ -43,32 +43,32 @@
             margin-bottom: 40px;
         }
 
-        /* --- CSS Grid for Packages (4 Columns on Desktop) --- */
+        /* --- CSS Grid for Packages (UNCHANGED) --- */
         .packages-grid {
             display: grid;
-            grid-template-columns: repeat(1, 1fr); /* Mobile: 1 Column */
-            gap: 25px; /* Spacing between cards */
+            grid-template-columns: repeat(1, 1fr); 
+            gap: 25px; 
         }
 
         @media (min-width: 768px) {
             .packages-grid {
-                grid-template-columns: repeat(2, 1fr); /* Tablet: 2 Columns */
+                grid-template-columns: repeat(2, 1fr); 
             }
         }
 
         @media (min-width: 1024px) {
             .packages-grid {
-                grid-template-columns: repeat(3, 1fr); /* Desktop: 3 Columns */
+                grid-template-columns: repeat(3, 1fr); 
             }
         }
         
         @media (min-width: 1400px) {
             .packages-grid {
-                grid-template-columns: repeat(4, 1fr); /* Large Desktop: 4 Columns (Handles 30+ better) */
+                grid-template-columns: repeat(4, 1fr); 
             }
         }
 
-        /* --- Package Card Styling --- */
+        /* --- Package Card Styling (UNCHANGED) --- */
         .package-card {
             background: #ffffff;
             border-radius: 10px;
@@ -108,7 +108,7 @@
 
         .price {
             font-size: 1.8em;
-            color: #e74c3c; /* Discount Red */
+            color: #e74c3c; 
             font-weight: 700;
             margin: 5px 0 0 0;
             display: flex;
@@ -119,13 +119,13 @@
         .price span {
             font-size: 0.6em;
             font-weight: 400;
-            color: #2ecc71; /* Accent Green for Savings */
+            color: #2ecc71; 
             background: #e9f9f0;
             padding: 3px 8px;
             border-radius: 5px;
         }
         
-        /* --- Features List --- */
+        /* --- Features List (UNCHANGED) --- */
         .features-list {
             list-style: none;
             padding: 0;
@@ -148,11 +148,11 @@
 
         .features-list i {
             margin-right: 10px;
-            color: #3498db; /* Blue checkmark */
+            color: #3498db; 
             font-size: 1em;
         }
 
-        /* --- Button Styling --- */
+        /* --- Button Styling (UNCHANGED) --- */
         .btn {
             display: block;
             padding: 10px 20px;
@@ -162,16 +162,17 @@
             font-weight: 600;
             transition: background-color 0.3s;
             margin-top: auto; 
+            cursor: pointer; 
         }
 
         .btn-book {
-            background-color: #2e6dcc; /* Green Book Button */
+            background-color: #3498db; 
             color: white;
-            border: 2px solid #fff;
+            border: 2px solid #3498db;
         }
 
         .btn-book:hover {
-            background-color: #27ae60;
+            background-color: #2980b9;
         }
 
         .btn-details {
@@ -185,26 +186,116 @@
             background-color: #f7f9fc;
         }
 
-        /* --- Featured Card Styling (The "Swasthfit Complete" or "Healthkind Platinum") --- */
+        /* --- Featured Card Styling (UNCHANGED) --- */
         .package-card.featured {
-            border-top: 5px solid #f1c40f; /* Gold accent */
+            border-top: 5px solid #f1c40f; 
             box-shadow: 0 8px 20px rgba(241, 196, 15, 0.4);
             transform: scale(1.03);
-            background: #fffbef; /* Light gold background */
+            background: #fffbef; 
         }
         
-        .package-card.featured h3 {
-            color: #d35400; /* Darker accent for title */
-        }
-
-        .package-card.featured .price {
-            color: #2980b9; /* Strong price blue */
-        }
+        .package-card.featured h3 { color: #d35400; }
+        .package-card.featured .price { color: #2980b9; }
 
         .package-card.featured .btn-book {
             background-color: #f1c40f;
             color: #1a4e69;
             border-color: #f1c40f;
+        }
+        
+        /* ============================== */
+        /* --- NEW CART SPECIFIC STYLING --- */
+        /* ============================== */
+        #cart-summary-section {
+            padding: 40px 0;
+            border-top: 2px solid #eee;
+        }
+
+        #cart-summary {
+            margin: 20px auto;
+            max-width: 900px;
+            padding: 25px;
+            border: 1px solid #c9e2f2;
+            border-radius: 8px;
+            background-color: #ecf6ff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        #cart-summary h2 {
+            color: #1a4e69;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .cart-header-row, #cart-items li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            font-size: 0.95em;
+        }
+
+        .cart-header-row {
+            font-weight: bold;
+            color: #1a4e69;
+            border-bottom: 2px solid #1a4e69;
+            margin-bottom: 5px;
+            padding: 10px 5px;
+        }
+
+        #cart-items {
+            list-style: none;
+            padding: 0;
+        }
+
+        #cart-items li {
+            border-bottom: 1px dashed #a3c3e7;
+            padding: 12px 5px;
+        }
+        
+        .cart-item-name { width: 45%; }
+        .cart-item-price, .cart-item-qty, .cart-item-subtotal { 
+            width: 15%; 
+            text-align: center;
+        }
+        .cart-item-subtotal { text-align: right; font-weight: bold; color: #2980b9; }
+        .cart-item-remove { width: 10%; text-align: right; }
+
+        .remove-btn {
+            background: none;
+            border: none;
+            color: #e74c3c;
+            cursor: pointer;
+            font-size: 1.1em;
+            padding: 0;
+        }
+
+        .cart-totals {
+            margin-top: 20px;
+            font-size: 1.1em;
+            font-weight: bold;
+            text-align: right;
+            border-top: 2px solid #1a4e69;
+            padding-top: 15px;
+            color: #1a4e69;
+        }
+        
+        #checkout-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #2ecc71; 
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-top: 15px;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #checkout-btn:hover {
+            background-color: #27ae60;
         }
 
     </style>
@@ -223,7 +314,7 @@
             <li><a href="/Doctor">Doctors</a></li>
             <li><a href="/Contact">Contact</a></li>
             <li><a href="/Login">Login</a></li>
-             <li><a href="/Cart">Cart</a></li>
+            <li><a href="/Cart">Cart</a></li>
         </ul>
     </nav>
 
@@ -246,7 +337,7 @@
                         <li><i class="fas fa-home"></i> Free Home Sample Collection</li>
                         <li><i class="fas fa-bolt"></i> Report in 12 Hours</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="1" data-price="899" data-name="Path-01: Active Screen">Add to Cart</a>
                     <a href="/Packages/packages-details/path-01-details.html" class="btn btn-details">View Details</a>
                 </div>
 
@@ -262,7 +353,7 @@
                         <li><i class="fas fa-home"></i> Free Home Sample Collection</li>
                         <li><i class="fas fa-file-alt"></i> Consultation with Expert</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="2" data-price="1599" data-name="Path-02: Wellness Total">Add to Cart</a>
                     <a href="/Packages/packages-details/path-02-details.html" class="btn btn-details">View Details</a>
                 </div>
                 
@@ -278,7 +369,7 @@
                         <li><i class="fas fa-user-shield"></i> Diabetic Markers (HbA1c)</li>
                         <li><i class="fas fa-chart-line"></i> Comprehensive Blood Count</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="3" data-price="2249" data-name="Path-03: Swasth Super">Add to Cart</a>
                     <a href="/Packages/packages-details/path-03-details.html" class="btn btn-details">View Details</a>
                 </div>
 
@@ -294,7 +385,7 @@
                         <li><i class="fas fa-heart"></i> Advanced Cardiac Markers</li>
                         <li><i class="fas fa-flask"></i> All Essential Vitamins & Minerals</li>
                     </ul>
-                    <a href="#" class="btn btn-book btn-featured">BOOK PLATINUM NOW</a>
+                    <a href="#" class="btn btn-book btn-featured add-to-cart-btn" data-package-id="4" data-price="4999" data-name="Path-04: Platinum Complete">BOOK PLATINUM NOW</a>
                     <a href="/Packages/packages-details/path-04-details.html" class="btn btn-details">View All 106 Tests</a>
                 </div>
                 
@@ -310,7 +401,7 @@
                         <li><i class="fas fa-home"></i> Free Home Sample Collection</li>
                         <li><i class="fas fa-calendar-alt"></i> Annual Reminder Service</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="5" data-price="1499" data-name="Path-05: Women's Health (40+)">Add to Cart</a>
                     <a href="/Packages/packages-details/path-05-details.html" class="btn btn-details">View Details</a>
                 </div>
 
@@ -326,7 +417,7 @@
                         <li><i class="fas fa-home"></i> Free Home Sample Collection</li>
                         <li><i class="fas fa-shield-alt"></i> Liver & Kidney Health Check</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="6" data-price="1399" data-name="Path-06: Men's Vitality (40+)">Add to Cart</a>
                     <a href="/Packages/packages-details/path-06-details.html" class="btn btn-details">View Details</a>
                 </div>
                 
@@ -342,7 +433,7 @@
                         <li><i class="fas fa-stethoscope"></i> Full Organ Function Panel</li>
                         <li><i class="fas fa-user-circle"></i> Dedicated Follow-up Call</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="7" data-price="3199" data-name="Path-07: Senior Citizen Gold">Add to Cart</a>
                     <a href="/Packages/packages-details/path-07-details.html" class="btn btn-details">View Details</a>
                 </div>
 
@@ -358,7 +449,7 @@
                         <li><i class="fas fa-home"></i> Free Home Sample Collection</li>
                         <li><i class="fas fa-running"></i> Ideal for students & athletes</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="8" data-price="799" data-name="Path-08: Youth Thrive Check">Add to Cart</a>
                     <a href="/Packages/packages-details/path-08-details.html" class="btn btn-details">View Details</a>
                 </div>
                 
@@ -374,7 +465,7 @@
                         <li><i class="fas fa-clock"></i> 3-Month Monitoring Report</li>
                         <li><i class="fas fa-chart-bar"></i> Trend Analysis Report</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="9" data-price="999" data-name="Path-09: Diabetic Monitoring">Add to Cart</a>
                     <a href="/Packages/packages-details/path-09-details.html" class="btn btn-details">View Details</a>
                 </div>
 
@@ -390,7 +481,7 @@
                         <li><i class="fas fa-home"></i> Free Home Sample Collection</li>
                         <li><i class="fas fa-notes-medical"></i> Fasting Recommended</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="10" data-price="750" data-name="Path-10: Liver Health Panel">Add to Cart</a>
                     <a href="/Packages/packages-details/path-10-details.html" class="btn btn-details">View Details</a>
                 </div>
 
@@ -406,7 +497,7 @@
                         <li><i class="fas fa-home"></i> Free Home Sample Collection</li>
                         <li><i class="fas fa-utensils"></i> Dietitian Report Guide</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="11" data-price="1499" data-name="Path-11: Weight Loss Ready">Add to Cart</a>
                     <a href="/Packages/packages-details/path-11-details.html" class="btn btn-details">View Details</a>
                 </div>
 
@@ -422,7 +513,7 @@
                         <li><i class="fas fa-home"></i> Free Home Sample Collection</li>
                         <li><i class="fas fa-running"></i> Pre-Workout Status Check</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="12" data-price="1199" data-name="Path-12: Gym Ready Check">Add to Cart</a>
                     <a href="/Packages/packages-details/path-12-details.html" class="btn btn-details">View Details</a>
                 </div>
                 
@@ -438,7 +529,7 @@
                         <li><i class="fas fa-home"></i> Home Collection Available</li>
                         <li><i class="fas fa-band-aid"></i> Initial Sickness Screening</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="13" data-price="699" data-name="Path-13: Fever Panel Basic">Add to Cart</a>
                     <a href="/Packages/packages-details/path-13-details.html" class="btn btn-details">View Details</a>
                 </div>
 
@@ -454,7 +545,7 @@
                         <li><i class="fas fa-home"></i> Free Home Sample Collection</li>
                         <li><i class="fas fa-pills"></i> Useful for chronic conditions</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="14" data-price="1350" data-name="Path-14: Allergy & Immunity">Add to Cart</a>
                     <a href="/Packages/packages-details/path-14-details.html" class="btn btn-details">View Details</a>
                 </div>
                 
@@ -470,7 +561,7 @@
                         <li><i class="fas fa-notes-medical"></i> Suitable for regular monitoring</li>
                         <li><i class="fas fa-bolt"></i> Report in 24 Hours</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="15" data-price="950" data-name="Path-15: Kidney Focus Pro">Add to Cart</a>
                     <a href="/Packages/packages-details/path-15-details.html" class="btn btn-details">View Details</a>
                 </div>
 
@@ -486,7 +577,7 @@
                         <li><i class="fas fa-home"></i> Free Home Sample Collection</li>
                         <li><i class="fas fa-chart-line"></i> Annual Check Recommended</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="16" data-price="1499" data-name="Path-16: Bone & Joint Care">Add to Cart</a>
                     <a href="/Packages/packages-details/path-16-details.html" class="btn btn-details">View Details</a>
                 </div>
 
@@ -502,7 +593,7 @@
                         <li><i class="fas fa-bolt"></i> Quick Health Snapshot</li>
                         <li><i class="fas fa-notes-medical"></i> Fasting Required</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="17" data-price="599" data-name="Path-17: Cholesterol Plus">Add to Cart</a>
                     <a href="/Packages/packages-details/path-17-details.html" class="btn btn-details">View Details</a>
                 </div>
                 
@@ -518,7 +609,7 @@
                         <li><i class="fas fa-home"></i> Free Home Sample Collection</li>
                         <li><i class="fas fa-calendar-check"></i> Recommended Annually</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="18" data-price="1999" data-name="Path-18: Total Health Check">Add to Cart</a>
                     <a href="/Packages/packages-details/path-18-details.html" class="btn btn-details">View Details</a>
                 </div>
                 
@@ -534,7 +625,7 @@
                         <li><i class="fas fa-notes-medical"></i> Doctor's Prescription Advised</li>
                         <li><i class="fas fa-bolt"></i> High Priority Testing</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="19" data-price="2499" data-name="Path-19: Prenatal Screen">Add to Cart</a>
                     <a href="/Packages/packages-details/path-19-details.html" class="btn btn-details">View Details</a>
                 </div>
                 
@@ -550,7 +641,7 @@
                         <li><i class="fas fa-user-md"></i> Basic Consultation Included</li>
                         <li><i class="fas fa-check-circle"></i> Digital Report Delivery</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="20" data-price="3000" data-name="Path-20: Executive Lite">Add to Cart</a>
                     <a href="/Packages/packages-details/path-20-details.html" class="btn btn-details">View Details</a>
                 </div>
 
@@ -566,7 +657,7 @@
                         <li><i class="fas fa-home"></i> Free Home Sample Collection</li>
                         <li><i class="fas fa-chart-line"></i> Essential Micronutrients</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="21" data-price="2050" data-name="Path-21: Vitamin Power">Add to Cart</a>
                     <a href="/Packages/packages-details/path-21-details.html" class="btn btn-details">View Details</a>
                 </div>
                 
@@ -582,7 +673,7 @@
                         <li><i class="fas fa-user-md"></i> Detailed Doctor Review</li>
                         <li><i class="fas fa-home"></i> Priority Home Collection</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="22" data-price="6999" data-name="Path-22: Ultra Platinum">Add to Cart</a>
                     <a href="/Packages/packages-details/path-22-details.html" class="btn btn-details">View Details</a>
                 </div>
                 
@@ -598,7 +689,7 @@
                         <li><i class="fas fa-home"></i> Home Collection Available</li>
                         <li><i class="fas fa-notes-medical"></i> General Health Status</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="23" data-price="330" data-name="Path-23: Basic Blood Count">Add to Cart</a>
                     <a href="/Packages/packages-details/path-23-details.html" class="btn btn-details">View Details</a>
                 </div>
 
@@ -614,7 +705,7 @@
                         <li><i class="fas fa-home"></i> Free Home Sample Collection</li>
                         <li><i class="fas fa-chart-line"></i> Lifestyle Trend Analysis</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="24" data-price="1850" data-name="Path-24: Stress & Fatigue">Add to Cart</a>
                     <a href="/Packages/packages-details/path-24-details.html" class="btn btn-details">View Details</a>
                 </div>
 
@@ -630,7 +721,7 @@
                         <li><i class="fas fa-notes-medical"></i> Detailed Analytical Report</li>
                         <li><i class="fas fa-check-circle"></i> Requires Specific Timings</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="25" data-price="2999" data-name="Path-25: PCOS/PCOD Panel">Add to Cart</a>
                     <a href="/Packages/packages-details/path-25-details.html" class="btn btn-details">View Details</a>
                 </div>
 
@@ -646,7 +737,7 @@
                         <li><i class="fas fa-home"></i> Free Home Sample Collection</li>
                         <li><i class="fas fa-user-md"></i> Optional Doctor Review</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="26" data-price="2299" data-name="Path-26: Men's Hormone Check">Add to Cart</a>
                     <a href="/Packages/packages-details/path-26-details.html" class="btn btn-details">View Details</a>
                 </div>
 
@@ -662,7 +753,7 @@
                         <li><i class="fas fa-home"></i> Gentle Home Collection</li>
                         <li><i class="fas fa-calendar-check"></i> Annual Check Recommended</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="27" data-price="799" data-name="Path-27: Child Wellness">Add to Cart</a>
                     <a href="/Packages/packages-details/path-27-details.html" class="btn btn-details">View Details</a>
                 </div>
 
@@ -678,7 +769,7 @@
                         <li><i class="fas fa-notes-medical"></i> Full Thyroid Health Status</li>
                         <li><i class="fas fa-check-circle"></i> Detailed Report</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="28" data-price="1100" data-name="Path-28: Advanced Thyroid">Add to Cart</a>
                     <a href="/Packages/packages-details/path-28-details.html" class="btn btn-details">View Details</a>
                 </div>
                 
@@ -694,7 +785,7 @@
                         <li><i class="fas fa-home"></i> Free Home Sample Collection</li>
                         <li><i class="fas fa-file-invoice"></i> Fast Reporting</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="29" data-price="1799" data-name="Path-29: Pre-Employment Fit">Add to Cart</a>
                     <a href="/Packages/packages-details/path-29-details.html" class="btn btn-details">View Details</a>
                 </div>
                 
@@ -710,7 +801,7 @@
                         <li><i class="fas fa-notes-medical"></i> Pre-conception Health</li>
                         <li><i class="fas fa-user-md"></i> Includes Doctor Counseling</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="30" data-price="3499" data-name="Path-30: Marriage Ready">Add to Cart</a>
                     <a href="/Packages/packages-details/path-30-details.html" class="btn btn-details">View Details</a>
                 </div>
 
@@ -726,7 +817,7 @@
                         <li><i class="fas fa-heart"></i> Cardio, LFT, KFT, Diabetic Check</li>
                         <li><i class="fas fa-home"></i> Free Home Sample Collection</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="31" data-price="2599" data-name="Path-31: FULL BODY CHECKUP (MALE)">Add to Cart</a>
                     <a href="/Packages/packages-details/path-37-details.html" class="btn btn-details">View Details</a>
                 </div>
 
@@ -742,7 +833,7 @@
                         <li><i class="fas fa-heart"></i> Cardio, LFT, KFT, Diabetic Check</li>
                         <li><i class="fas fa-home"></i> Free Home Sample Collection</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="32" data-price="2499" data-name="Path-32: FULL BODY CHECKUP (FEMALE)">Add to Cart</a>
                     <a href="/Packages/packages-details/path-38-details.html" class="btn btn-details">View Details</a>
                 </div>
 
@@ -758,7 +849,7 @@
                         <li><i class="fas fa-clock"></i> Estimates Gestational Age</li>
                         <li><i class="fas fa-notes-medical"></i> High Accuracy Test</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="33" data-price="799" data-name="Path-33: PREGNANCY CONFIRMATION PANEL">Add to Cart</a>
                     <a href="/Packages/packages-details/path-39-details.html" class="btn btn-details">View Details</a>
                 </div>
 
@@ -774,7 +865,7 @@
                         <li><i class="fas fa-microscope"></i> CBC and Basic Metabolic Screen</li>
                         <li><i class="fas fa-home"></i> Focused Anemia & Fatigue Check</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="34" data-price="1499" data-name="Path-34: THYROID CARE PACKAGE">Add to Cart</a>
                     <a href="/Packages/packages-details/path-40-details.html" class="btn btn-details">View Details</a>
                 </div>
 
@@ -790,7 +881,7 @@
                         <li><i class="fas fa-notes-medical"></i> CRP (Inflammation) Screen</li>
                         <li><i class="fas fa-home"></i> Key Screen for Hypertension Risk</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="/Cart/cart.html" class="btn btn-book add-to-cart-btn" data-package-id="35" data-price="1499" data-name="Path-35: HEART HEALTH PACKAGE">Add to Cart</a>
                     <a href="/Packages/packages-details/path-41-details.html" class="btn btn-details">View Details</a>
                 </div>
 
@@ -806,11 +897,179 @@
                         <li><i class="fas fa-pills"></i> B12, Ferritin, and Glucose Status</li>
                         <li><i class="fas fa-running"></i> Optimal for Athletes & Training</li>
                     </ul>
-                    <a href="#" class="btn btn-book">Add to Cart</a>
+                    <a href="#" class="btn btn-book add-to-cart-btn" data-package-id="36" data-price="1399" data-name="Path-36: FITNESS PACKAGE">Add to Cart</a>
                     <a href="/Packages/packages-details/path-42-details.html" class="btn btn-details">View Details</a>
                 </div>
-                
-                </div> </div> </section>
+            
+            </div> 
+        </div> 
+    </section>
 
+    <section id="cart-summary-section" class="packages-section">
+        <div id="cart-summary">
+            <h2>🛒 Your Shopping Cart</h2>
+
+            <div class="cart-header-row">
+                <span class="cart-item-name">Package</span>
+                <span class="cart-item-price">Price</span>
+                <span class="cart-item-qty">Qty</span>
+                <span class="cart-item-subtotal">Subtotal</span>
+                <span class="cart-item-remove">Remove</span>
+            </div>
+
+            <ul id="cart-items">
+                </ul>
+
+            <div class="cart-totals">
+                Total Items: <span id="total-items">0</span> | 
+                Total Price: <span id="total-price">₹0</span>
+            </div>
+            <button id="checkout-btn">Proceed to Checkout</button>
+        </div>
+    </section>
+    <script>
+        // Define the URL of your dedicated cart page for redirection
+        const CART_PAGE_URL = "/Cart"; 
+
+        // Helper function for Indian Rupee formatting
+        const formatter = new Intl.NumberFormat('en-IN', {
+            style: 'currency',
+            currency: 'INR',
+            minimumFractionDigits: 0, 
+        });
+        
+        // 1. Storage Functions (using browser's localStorage)
+        function getCart() {
+            const cartString = localStorage.getItem('khushipathCart');
+            return cartString ? JSON.parse(cartString) : [];
+        }
+
+        function saveCart(cart) {
+            localStorage.setItem('khushipathCart', JSON.stringify(cart));
+        }
+
+        // 2. Core Cart Logic: Item Removal
+        function removeItemFromCart(packageId) {
+            let cart = getCart();
+            // Filter the cart to exclude the item matching the ID
+            cart = cart.filter(item => item.id !== packageId);
+            
+            saveCart(cart);
+            renderCart(); // Refresh the visible cart
+        }
+
+        // Function to delegate the removal click
+        function handleRemoveClick(event) {
+            const button = event.target.closest('.remove-btn');
+            if (button) {
+                event.preventDefault(); 
+                const packageId = button.getAttribute('data-id');
+                removeItemFromCart(packageId);
+            }
+        }
+
+        // 3. Core Cart Logic: Display/Render
+        function renderCart() {
+            const cart = getCart();
+            const cartList = document.getElementById('cart-items');
+            const totalItemsSpan = document.getElementById('total-items');
+            const totalPriceSpan = document.getElementById('total-price');
+
+            cartList.innerHTML = ''; // Clear previous items
+            
+            let totalItems = 0;
+            let totalPrice = 0;
+            
+            const cartHeader = document.querySelector('.cart-header-row');
+            const checkoutBtn = document.getElementById('checkout-btn');
+
+            if (cart.length === 0) {
+                // Display placeholder when cart is empty
+                cartList.innerHTML = '<li>Your cart is empty. Please add a package to proceed.</li>';
+                cartHeader.style.display = 'none';
+                checkoutBtn.style.display = 'none';
+            } else {
+                cartHeader.style.display = 'flex';
+                checkoutBtn.style.display = 'block';
+
+                cart.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    totalItems += item.quantity;
+                    totalPrice += itemTotal;
+                    
+                    // The detailed list item structure
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <span class="cart-item-name">${item.name}</span>
+                        <span class="cart-item-price">${formatter.format(item.price)}</span>
+                        <span class="cart-item-qty">${item.quantity}</span>
+                        <span class="cart-item-subtotal">${formatter.format(itemTotal)}</span>
+                        <span class="cart-item-remove">
+                            <button class="remove-btn" data-id="${item.id}" title="Remove Item">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </span>
+                    `;
+                    cartList.appendChild(li);
+                });
+            }
+
+            // Update the totals summary
+            totalItemsSpan.textContent = totalItems;
+            totalPriceSpan.textContent = formatter.format(totalPrice);
+        }
+
+
+        // 4. Core Cart Logic: Add to Cart
+        function addToCart(event) {
+            // Prevent the default link action (#)
+            event.preventDefault(); 
+            
+            const button = event.target;
+            
+            // Retrieve data attributes (ID, Name, Price)
+            const id = button.getAttribute('data-package-id');
+            const name = button.getAttribute('data-name');
+            const price = parseFloat(button.getAttribute('data-price'));
+            
+            let currentCart = getCart();
+            
+            // Check if the item is already in the cart
+            const existingItem = currentCart.find(item => item.id === id);
+            
+            if (existingItem) {
+                // Increment quantity
+                existingItem.quantity += 1;
+            } else {
+                // Add new item
+                const newItem = {
+                    id: id,
+                    name: name,
+                    price: price,
+                    quantity: 1
+                };
+                currentCart.push(newItem);
+            }
+            
+            // Save the updated array
+            saveCart(currentCart);
+            
+            // --- REDIRECT TO CART PAGE ---
+            window.location.href = CART_PAGE_URL;
+        }
+
+        // 5. Initialization
+        // Attach the single 'addToCart' function to every button with the class
+        document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+            button.addEventListener('click', addToCart);
+        });
+
+        // Attach the item removal handler using event delegation
+        document.getElementById('cart-items').addEventListener('click', handleRemoveClick);
+
+        // Load the cart items when the page first loads
+        document.addEventListener('DOMContentLoaded', renderCart);
+
+    </script>
 </body>
 </html>

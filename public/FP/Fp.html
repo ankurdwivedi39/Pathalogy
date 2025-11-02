@@ -22,7 +22,7 @@
             <li><a href="/Doctor">Doctors</a></li>
             <li><a href="/Contact">Contact</a></li>
             <li><a href="/Login">Login</a></li>
-            <li><a href="/Cart/cart.html">Cart</a></li>
+            <li><a href="/Cart">Cart</a></li>
         </ul>
     </nav>
 
@@ -65,19 +65,28 @@
             <a href="/PT&P/pt&p.html" class="booking-btn">Choose Popular Tests / Packages <span>❯</span></a>
             <!-- <button class="booking-btn">Book Radiology / Scan <span>❯</span></button> -->
             
-            <div class="action-grid">
+            <a href="/FP/report-download.html" class="action-link">
+            <div class="action-item">
+            <i class="fas fa-file-download"></i>
+            <span>Download Report</span>
+            </div>
+            </a>
+                
+            
+            <a href="/FP/upload-prescription.html" class="action-link">
+            <div class="action-item">
+             <i class="fas fa-prescription"></i>
+             <span>Upload Prescription</span>
+          </div>
+          </a>
+                
+
+<a href="/FP/find-centre.html" class="action-link">
                 <div class="action-item">
-                    <i class="fas fa-file-download"></i>
-                    <span>Download Report</span>
-                </div>
-                <div class="action-item">
-                    <i class="fas fa-prescription"></i>
-                    <span>Upload Prescription</span>
-                </div>
-                <div class="action-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span>Find Nearest Centre</span>
-                </div>
+                <i class="fas fa-map-marker-alt"></i>
+               <span>Find Nearest Centre</span>
+              </div>
+              </a>
             </div>
         </div>
     </section>
@@ -240,12 +249,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Healthcare Stats</title>
   <style>
+    
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
       background: #fff;
       color: #333;
+      
     }
 
     .stats-section {

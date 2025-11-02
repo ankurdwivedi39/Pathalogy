@@ -6,6 +6,27 @@
   <title>Doctors - Khushipath</title>
   <link rel="stylesheet" href="/FP/style.css">
   <style>
+
+     /* --- Navbar Container (The dark blue bar) --- */
+.navbar {
+    width: 100%;
+    /* The light blue/grey bar color */
+    background-color: #ffffff; 
+    /* Shadow for the floating effect */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    padding: 20px 40px;
+    
+    /* Use Flexbox to align logo and links horizontally */
+    display: flex;
+    justify-content: space-between; /* Pushes logo left, links right */
+    align-items: center;
+    
+    /* Fixed at the top, if desired */
+    /* position: fixed; 
+       top: 0;
+       z-index: 1000; */
+}
+
     /* General Reset */
     * {
       margin: 0;
@@ -280,6 +301,7 @@
             <li><a href="/Doctor">Doctors</a></li>
             <li><a href="/Contact">Contact</a></li>
             <li><a href="/Login">Login</a></li>
+            <li><a href="/Cart">Cart</a></li>
 
       </ul>
     </nav>

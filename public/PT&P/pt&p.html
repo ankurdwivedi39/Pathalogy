@@ -1,115 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <link rel="stylesheet" href="/FP/style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/FP/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-  <title>Popular Tests & Packages</title>
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #f8f9fc;
-      margin: 0;
-      padding: 0;
-    }
+    <title>Popular Tests & Packages</title>
+    <style>
+        /* (CSS styles remain unchanged) */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fc;
+            margin: 0;
+            padding: 0;
+        }
 
-    header {
-      background-color: #005aa7;
-      color: white;
-      padding: 15px 30px;
-      font-size: 22px;
-      font-weight: 600;
-    }
+        header {
+            background-color: #005aa7;
+            color: white;
+            padding: 15px 30px;
+            font-size: 22px;
+            font-weight: 600;
+        }
 
-    .container {
-      padding: 30px 40px;
-    }
+        .container {
+            padding: 30px 40px;
+        }
 
-    h2 {
-      text-align: center;
-      color: #222;
-      margin: 40px 0 20px;
-    }
+        h2 {
+            text-align: center;
+            color: #222;
+            margin: 40px 0 20px;
+        }
 
-    .test-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-    }
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
 
-    .test-card {
-      background-color: white;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      transition: 0.2s ease-in-out;
-    }
+        .test-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: 0.2s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
 
-    .test-card:hover {
-      transform: translateY(-3px);
-    }
+        .test-card:hover {
+            transform: translateY(-3px);
+        }
 
-    .test-card h4 {
-      font-size: 18px;
-      margin-bottom: 8px;
-      color: #222;
-    }
+        .test-card h4 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #222;
+        }
 
-    .test-card p {
-      margin: 4px 0;
-      color: #555;
-      font-size: 14px;
-    }
+        .test-card p {
+            margin: 4px 0;
+            color: #555;
+            font-size: 14px;
+        }
 
-    .price {
-      font-size: 20px;
-      color: #007b00;
-      font-weight: 600;
-      margin-top: 10px;
-    }
+        .price {
+            font-size: 20px;
+            color: #007b00;
+            font-weight: 600;
+            margin-top: 10px;
+        }
 
-    .tags {
-      margin: 8px 0;
-      color: green;
-      font-size: 14px;
-    }
+        .tags {
+            margin: 8px 0;
+            color: green;
+            font-size: 14px;
+        }
 
-    .actions {
-      margin-top: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
+        .actions {
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
 
-    .actions button {
-      background-color: #005aa7;
-      color: white;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
+        .actions button {
+            background-color: #005aa7;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
 
-    .actions button:hover {
-      background-color: #004482;
-    }
+        .actions button:hover {
+            background-color: #004482;
+        }
 
-    .compare {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 13px;
-    }
+        .compare {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 13px;
+        }
 
-    @media (max-width: 768px) {
-      .container {
-        padding: 20px;
-      }
-    }
-  </style>
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -125,169 +130,226 @@
             <li><a href="/Doctor">Doctors</a></li>
             <li><a href="/Contact">Contact</a></li>
             <li><a href="/Login">Login</a></li>
-             <li><a href="/Cart">Cart</a></li>
+            <li><a href="/Cart">Cart</a></li>
         </ul>
     </nav>
 
-  <header>Popular Tests & Health Packages</header>
+    <header>Popular Tests & Health Packages</header>
 
-  <div class="container">
-    
-    <!-- Popular Tests Section -->
-    <h2>Popular Lab Tests</h2>
-    <div class="test-grid">
+    <div class="container">
+        
+        <h2>Popular Lab Tests</h2>
+        <div class="test-grid">
 
-      <div class="test-card">
-        <h4>COMPLETE BLOOD COUNT (CBC)</h4>
-        <p>20 Parameter(s) Covered</p>
-        <div class="price">₹350</div>
-        <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
-        <div class="actions">
-          <button>Add to Cart</button>
-          <a href="/PT&P/t&p-details/details-cbc.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-          
+            <div class="test-card">
+                <h4>COMPLETE BLOOD COUNT (CBC)</h4>
+                <p>20 Parameter(s) Covered</p>
+                <div class="price">₹350</div>
+                <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
+                <div class="actions">
+                    <button class="add-to-cart-btn" data-item-id="PT1" data-name="COMPLETE BLOOD COUNT (CBC)" data-price="350">Add to Cart</button>
+                    <a href="/PT&P/t&p-details/details-cbc.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+                </div>
+            </div>
+
+            <div class="test-card">
+                <h4>THYROID PROFILE - TOTAL (T3, T4, TSH)</h4>
+                <p>3 Parameter(s) Covered</p>
+                <div class="price">₹550</div>
+                <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
+                <div class="actions">
+                    <button class="add-to-cart-btn" data-item-id="PT2" data-name="THYROID PROFILE - TOTAL" data-price="550">Add to Cart</button>
+                    <a href="/PT&P/t&p-details/details-thyroid.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+                </div>
+            </div>
+
+            <div class="test-card">
+                <h4>HbA1c (GLYCOSYLATED HEMOGLOBIN)</h4>
+                <p>2 Parameter(s) Covered</p>
+                <div class="price">₹440</div>
+                <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
+                <div class="actions">
+                    <button class="add-to-cart-btn" data-item-id="PT3" data-name="HbA1c" data-price="440">Add to Cart</button>
+                    <a href="/PT&P/t&p-details/details-hba1c.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+                </div>
+            </div>
+
+            <div class="test-card">
+                <h4>LIVER FUNCTION TEST (LFT)</h4>
+                <p>8 Parameter(s) Covered</p>
+                <div class="price">₹600</div>
+                <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
+                <div class="actions">
+                    <button class="add-to-cart-btn" data-item-id="PT4" data-name="LIVER FUNCTION TEST (LFT)" data-price="600">Add to Cart</button>
+                    <a href="/PT&P/t&p-details/details-lft.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+                </div>
+            </div>
+
+            <div class="test-card">
+                <h4>LIPID PROFILE</h4>
+                <p>5 Parameter(s) Covered</p>
+                <div class="price">₹500</div>
+                <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
+                <div class="actions">
+                    <button class="add-to-cart-btn" data-item-id="PT5" data-name="LIPID PROFILE" data-price="500">Add to Cart</button>
+                    <a href="/PT&P/t&p-details/details-lipid.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+                </div>
+            </div>
+
+            <div class="test-card">
+                <h4>KIDNEY FUNCTION TEST (KFT)</h4>
+                <p>6 Parameter(s) Covered</p>
+                <div class="price">₹650</div>
+                <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
+                <div class="actions">
+                    <button class="add-to-cart-btn" data-item-id="PT6" data-name="KIDNEY FUNCTION TEST (KFT)" data-price="650">Add to Cart</button>
+                    <a href="/PT&P/t&p-details/details-kft.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+                </div>
+            </div>
+
         </div>
-      </div>
 
-      <div class="test-card">
-        <h4>THYROID PROFILE - TOTAL (T3, T4, TSH)</h4>
-        <p>3 Parameter(s) Covered</p>
-        <div class="price">₹550</div>
-        <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
-        <div class="actions">
-          <button>Add to Cart</button>
-          <a href="/PT&P/t&p-details/details-thyroid.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-         
+        <h2>Popular Health Packages</h2>
+        <div class="test-grid">
+
+            <div class="test-card">
+                <h4>FULL BODY CHECKUP (MALE)</h4>
+                <p>60 Parameter(s) Covered</p>
+                <div class="price">₹1499</div>
+                <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
+                <div class="actions">
+                    <button class="add-to-cart-btn" data-item-id="PP1" data-name="FULL BODY CHECKUP (MALE)" data-price="1499">Add to Cart</button>
+                    <a href="/PT&P/t&p-details/path-31-details.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+                </div>
+            </div>
+
+            <div class="test-card">
+                <h4>FULL BODY CHECKUP (FEMALE)</h4>
+                <p>65 Parameter(s) Covered</p>
+                <div class="price">₹1599</div>
+                <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
+                <div class="actions">
+                    <button class="add-to-cart-btn" data-item-id="PP2" data-name="FULL BODY CHECKUP (FEMALE)" data-price="1599">Add to Cart</button>
+                    <a href="/PT&P/t&p-details/path-32-details.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+                </div>
+            </div>
+
+            <div class="test-card">
+                <h4>DIABETES CARE PACKAGE</h4>
+                <p>10 Parameter(s) Covered</p>
+                <div class="price">₹899</div>
+                <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
+                <div class="actions">
+                    <button class="add-to-cart-btn" data-item-id="PP3" data-name="DIABETES CARE PACKAGE" data-price="899">Add to Cart</button>
+                    <a href="/PT&P/t&p-details/path-33-details.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+                </div>
+            </div>
+
+            <div class="test-card">
+                <h4>THYROID CARE PACKAGE</h4>
+                <p>5 Parameter(s) Covered</p>
+                <div class="price">₹799</div>
+                <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
+                <div class="actions">
+                    <button class="add-to-cart-btn" data-item-id="PP4" data-name="THYROID CARE PACKAGE" data-price="799">Add to Cart</button>
+                    <a href="/PT&P/t&p-details/path-34-details.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+                </div>
+            </div>
+
+            <div class="test-card">
+                <h4>HEART HEALTH PACKAGE</h4>
+                <p>12 Parameter(s) Covered</p>
+                <div class="price">₹999</div>
+                <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
+                <div class="actions">
+                    <button class="add-to-cart-btn" data-item-id="PP5" data-name="HEART HEALTH PACKAGE" data-price="999">Add to Cart</button>
+                    <a href="/PT&P/t&p-details/path-35-details.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+                </div>
+            </div>
+
+            <div class="test-card">
+                <h4>FITNESS PACKAGE</h4>
+                <p>15 Parameter(s) Covered</p>
+                <div class="price">₹1099</div>
+                <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
+                <div class="actions">
+                    <button class="add-to-cart-btn" data-item-id="PP6" data-name="FITNESS PACKAGE" data-price="1099">Add to Cart</button>
+                    <a href="/PT&P/t&p-details/path-36-details.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+                </div>
+            </div>
+
         </div>
-      </div>
-
-      <div class="test-card">
-        <h4>HbA1c (GLYCOSYLATED HEMOGLOBIN)</h4>
-        <p>2 Parameter(s) Covered</p>
-        <div class="price">₹440</div>
-        <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
-        <div class="actions">
-          <button>Add to Cart</button>
-          <a href="/PT&P/t&p-details/details-hba1c.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-         
-        </div>
-      </div>
-
-      <div class="test-card">
-        <h4>LIVER FUNCTION TEST (LFT)</h4>
-        <p>8 Parameter(s) Covered</p>
-        <div class="price">₹600</div>
-        <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
-        <div class="actions">
-          <button>Add to Cart</button>
-          <a href="/PT&P/t&p-details/details-lft.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-         
-        </div>
-      </div>
-
-      <div class="test-card">
-        <h4>LIPID PROFILE</h4>
-        <p>5 Parameter(s) Covered</p>
-        <div class="price">₹500</div>
-        <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
-        <div class="actions">
-          <button>Add to Cart</button>
-          <a href="/PT&P/t&p-details/details-lipid.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-          
-        </div>
-      </div>
-
-      <div class="test-card">
-        <h4>KIDNEY FUNCTION TEST (KFT)</h4>
-        <p>6 Parameter(s) Covered</p>
-        <div class="price">₹650</div>
-        <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
-        <div class="actions">
-          <button>Add to Cart</button>
-          <a href="/PT&P/t&p-details/details-kft.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-         
-        </div>
-      </div>
-
     </div>
-
-    <!-- Popular Packages Section -->
-    <h2>Popular Health Packages</h2>
-    <div class="test-grid">
-
-      <div class="test-card">
-        <h4>FULL BODY CHECKUP (MALE)</h4>
-        <p>60 Parameter(s) Covered</p>
-        <div class="price">₹1499</div>
-        <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
-        <div class="actions">
-          <button>Add to Cart</button>
-          
-          <a href="/PT&P/t&p-details/path-31-details.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-        </div>
-      </div>
-
-      <div class="test-card">
-        <h4>FULL BODY CHECKUP (FEMALE)</h4>
-        <p>65 Parameter(s) Covered</p>
-        <div class="price">₹1599</div>
-        <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
-        <div class="actions">
-          <button>Add to Cart</button>
-          
-          <a href="/PT&P/t&p-details/path-32-details.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-        </div>
-      </div>
-
-      <div class="test-card">
-        <h4>DIABETES CARE PACKAGE</h4>
-        <p>10 Parameter(s) Covered</p>
-        <div class="price">₹899</div>
-        <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
-        <div class="actions">
-          <button>Add to Cart</button>
-          
-          <a href="/PT&P/t&p-details/path-33-details.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-        </div>
-      </div>
-
-      <div class="test-card">
-        <h4>THYROID CARE PACKAGE</h4>
-        <p>5 Parameter(s) Covered</p>
-        <div class="price">₹799</div>
-        <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
-        <div class="actions">
-          <button>Add to Cart</button>
-         
-          <a href="/PT&P/t&p-details/path-34-details.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-        </div>
-      </div>
-
-      <div class="test-card">
-        <h4>HEART HEALTH PACKAGE</h4>
-        <p>12 Parameter(s) Covered</p>
-        <div class="price">₹999</div>
-        <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
-        <div class="actions">
-          <button>Add to Cart</button>
-          
-          <a href="/PT&P/t&p-details/path-35-details.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-        </div>
-      </div>
-
-      <div class="test-card">
-        <h4>FITNESS PACKAGE</h4>
-        <p>15 Parameter(s) Covered</p>
-        <div class="price">₹1099</div>
-        <div class="tags">✔ Home Collection &nbsp; ✔ Lab Visit</div>
-        <div class="actions">
-          <button>Add to Cart</button>
-          
-          <a href="/PT&P/t&p-details/path-36-details.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-        </div>
-      </div>
-
-    </div>
-  </div>
 </body>
+<script>
+    // Define the URL of your dedicated cart page for redirection
+    const CART_PAGE_URL = "/Cart"; 
+
+    // Helper function for Indian Rupee formatting
+    const formatter = new Intl.NumberFormat('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        minimumFractionDigits: 0, 
+    });
+    
+    // 1. Storage Functions (using browser's localStorage)
+    function getCart() {
+        // We use the same cart key as the other pages
+        const cartString = localStorage.getItem('khushipathCart');
+        return cartString ? JSON.parse(cartString) : [];
+    }
+
+    function saveCart(cart) {
+        localStorage.setItem('khushipathCart', JSON.stringify(cart));
+    }
+
+    // 2. Core Cart Logic: Add to Cart (Including Redirection)
+    function addToCart(event) {
+        // Prevent the default button action
+        event.preventDefault(); 
+        
+        const button = event.target;
+        
+        // Retrieve data attributes (ID, Name, Price)
+        const id = button.getAttribute('data-item-id');
+        const name = button.getAttribute('data-name');
+        const price = parseFloat(button.getAttribute('data-price'));
+        
+        let currentCart = getCart();
+        
+        // Check if the item is already in the cart
+        const existingItem = currentCart.find(item => item.id === id);
+        
+        if (existingItem) {
+            // Increment quantity
+            existingItem.quantity += 1;
+        } else {
+            // Add new item
+            const newItem = {
+                id: id,
+                name: name,
+                price: price,
+                quantity: 1
+            };
+            currentCart.push(newItem);
+        }
+        
+        // Save the updated array
+        saveCart(currentCart);
+        
+        // ******************************************************
+        // --> STEP 1: SAVE THE CURRENT PAGE URL TO SESSION STORAGE <--
+        sessionStorage.setItem('lastShoppingPage', window.location.href);
+        // ******************************************************
+
+        // --- REDIRECT TO CART PAGE AFTER ADDING ---
+        window.location.href = CART_PAGE_URL;
+    }
+
+    // 3. Initialization
+    // Attach the single 'addToCart' function to every button with the class
+    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+        button.addEventListener('click', addToCart);
+    });
+</script>
 </html>

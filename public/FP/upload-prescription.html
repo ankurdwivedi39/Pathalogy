@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Prescription - Khushipath</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/FP/style.css"> 
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e9f5ff;
+            padding-top: 60px; /* Space for fixed navbar */
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+        
+        .upload-container {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 550px;
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .upload-container h1 {
+            color: #1a4e69;
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+
+        .upload-container p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        /* --- File Upload Area Styling --- */
+        .file-upload-area {
+            border: 2px dashed #4a90e2;
+            border-radius: 8px;
+            padding: 30px 20px;
+            margin-bottom: 25px;
+            background-color: #f8faff;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .file-upload-area:hover {
+            background-color: #e0ecff;
+        }
+
+        .file-upload-area i {
+            font-size: 3em;
+            color: #4a90e2;
+            margin-bottom: 10px;
+        }
+
+        .file-upload-area p {
+            margin: 5px 0;
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        /* Hide the default file input button */
+        #prescription-file {
+            display: none;
+        }
+
+        /* --- User Contact Info --- */
+        .contact-info {
+            text-align: left;
+            margin-bottom: 25px;
+        }
+
+        .contact-info input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background-color: #2ecc71; /* Green for success/submission */
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.2em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-submit:hover {
+            background-color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="/FP/image/khushipath logo.png" alt="Khushipath Logo" style="height: 30px;" />
+            <h1>Khushipath</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/About">About Us</a></li>
+            <li><a href="/Tes">Tests</a></li>
+            <li><a href="/Packages">Packages</a></li>
+            <li><a href="/Doctor">Doctors</a></li>
+            <li><a href="/Contact">Contact</a></li>
+            <li><a href="/Login">Login</a></li>
+            <li><a href="/Cart">Cart</a></li>
+        </ul>
+    </nav>
+    <div class="upload-container">
+        <h1><i class="fas fa-upload" style="margin-right: 10px;"></i> Upload Your Prescription</h1>
+        <p>A Khushipath expert will call you shortly to confirm the tests and schedule your home sample collection.</p>
+        
+        <form id="upload-form" onsubmit="handlePrescriptionSubmit(event)">
+            
+            <div class="contact-info">
+                <label for="name" style="font-weight: bold;">Your Full Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+
+            <div class="contact-info">
+                <label for="mobile" style="font-weight: bold;">Mobile Number:</label>
+                <input type="tel" id="mobile" name="mobile" pattern="\d{10}" required placeholder="10-digit mobile number">
+            </div>
+
+            <label for="prescription-file" class="file-upload-area">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <p id="file-status">Click to upload or drag your prescription file (PDF, JPG, PNG)</p>
+                <input type="file" id="prescription-file" name="prescription" accept=".pdf,.jpg,.jpeg,.png" required>
+            </label>
+            
+            <button type="submit" class="btn-submit">
+                Submit Prescription & Request Call
+            </button>
+        </form>
+    </div>
+
+    <script>
+        // Update file status text when a file is selected
+        document.getElementById('prescription-file').addEventListener('change', function() {
+            const fileName = this.files.length > 0 ? this.files[0].name : 'No file selected';
+            document.getElementById('file-status').textContent = `File selected: ${fileName}`;
+        });
+        
+        function handlePrescriptionSubmit(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const mobile = document.getElementById('mobile').value;
+            const fileInput = document.getElementById('prescription-file');
+            
+            if (fileInput.files.length === 0) {
+                alert("Please select a prescription file to upload.");
+                return;
+            }
+
+            // --- IN A REAL APPLICATION, YOU WOULD USE FETCH/AJAX HERE TO UPLOAD THE FILE ---
+            /*
+            const formData = new FormData(event.target);
+            fetch('/api/upload-prescription', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Show success message or redirect
+            });
+            */
+            
+            // Placeholder successful response for demonstration:
+            console.log(`Submission for ${name} (${mobile}) with file: ${fileInput.files[0].name}`);
+            alert(`Thank you, ${name}! We have received your file. A representative will call you shortly to confirm your tests.`);
+            
+            // Reset the form after successful simulation
+            document.getElementById('upload-form').reset();
+            document.getElementById('file-status').textContent = 'Click to upload or drag your prescription file (PDF, JPG, PNG)';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Your Report - Khushipath Secure Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/FP/style.css"> 
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            padding-top: 60px; /* Space for fixed navbar */
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+        
+        .login-card {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .login-card h1 {
+            color: #1a4e69;
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+
+        .login-card p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 1em;
+            transition: border-color 0.2s;
+        }
+
+        .input-group input:focus {
+            border-color: #4a90e2;
+            outline: none;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-submit:hover {
+            background-color: #3a78c2;
+        }
+
+        .note {
+            margin-top: 20px;
+            font-size: 0.85em;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="/FP/image/khushipath logo.png" alt="Khushipath Logo" style="height: 30px;" />
+            <h1>Khushipath</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/About">About Us</a></li>
+            <li><a href="/Tes">Tests</a></li>
+            <li><a href="/Packages">Packages</a></li>
+            <li><a href="/Doctor">Doctors</a></li>
+            <li><a href="/Contact">Contact</a></li>
+            <li><a href="/Login">Login</a></li>
+            <li><a href="/Cart">Cart</a></li>
+        </ul>
+    </nav>
+    <div class="login-card">
+        <h1><i class="fas fa-file-alt" style="margin-right: 10px; color: #4a90e2;"></i> Access Your Report</h1>
+        <p>Please enter your credentials to download your diagnostic results.</p>
+        
+        <form id="report-form" onsubmit="handleReportLogin(event)">
+            <div class="input-group">
+                <label for="mobile">Mobile Number</label>
+                <input type="tel" id="mobile" name="mobile" pattern="\d{10}" required placeholder="e.g., 9876543210">
+            </div>
+            
+            <div class="input-group">
+                <label for="lab-id">Lab ID / Patient Code</label>
+                <input type="text" id="lab-id" name="lab-id" required placeholder="Found on your receipt">
+            </div>
+            
+            <button type="submit" class="btn-submit">
+                Download Report / View Status
+            </button>
+        </form>
+        
+        <p class="note">
+            Note: Your report will be available here 12-24 hours after sample collection.
+        </p>
+    </div>
+
+    <script>
+        function handleReportLogin(event) {
+            event.preventDefault();
+            
+            const mobile = document.getElementById('mobile').value;
+            const labId = document.getElementById('lab-id').value;
+            
+            // --- IN A REAL APPLICATION, YOU WOULD USE FETCH/AJAX HERE ---
+            /*
+            fetch('/api/get-report', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ mobile, labId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.reportUrl) {
+                    window.location.href = data.reportUrl; // Redirect to secure report PDF
+                } else {
+                    alert(data.message || 'Error: Report not found or credentials invalid.');
+                }
+            });
+            */
+           
+           // Placeholder successful response for demonstration:
+           console.log(`Attempting login for Mobile: ${mobile}, Lab ID: ${labId}`);
+           alert("Login Simulated! In a live app, this would securely fetch and download your report.");
+        }
+    </script>
+</body>
+</html>

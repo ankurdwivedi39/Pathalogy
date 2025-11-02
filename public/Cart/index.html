@@ -1,0 +1,498 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Queue Token System</title>
+
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #f8fafc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+    .card {
+      background: #fff;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      width: 400px;
+      text-align: center;
+    }
+    input, select, button {
+      margin: 10px 0;
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+    button {
+      background: #2b6cb0;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #2c5282;
+    }
+    .result {
+      background: #edf2f7;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 15px;
+      display: none;
+    }
+    .live {
+      color: #2b6cb0;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>Generate Your Token</h2>
+
+    <input type="text" id="name" placeholder="Enter Your Name" />
+    <input type="text" id="testName" placeholder="Enter Test Name" />
+    <select id="type">
+      <option value="lab">Visit in Lab</option>
+      <option value="home">Home Collection</option>
+    </select>
+
+    <button id="generateBtn">Generate Token</button>
+
+    <div class="result" id="resultBox">
+      <h3>🎟️ Token Generated</h3>
+      <p><b>Token No:</b> <span id="tokenNo"></span></p>
+      <p><b>People Before You:</b> <span id="before"></span></p>
+      <p><b>Estimated Waiting Time:</b> <span id="time"></span> minutes</p>
+      <p><b>Status:</b> <span id="status" class="live">Waiting...</span></p>
+    </div>
+  </div>
+
+  <script>
+    const generateBtn = document.getElementById("generateBtn");
+    const resultBox = document.getElementById("resultBox");
+    const tokenNo = document.getElementById("tokenNo");
+    const before = document.getElementById("before");
+    const time = document.getElementById("time");
+    const statusEl = document.getElementById("status");
+
+    let currentToken = "";
+
+    generateBtn.addEventListener("click", async () => {
+      const name = document.getElementById("name").value;
+      const testName = document.getElementById("testName").value;
+      const type = document.getElementById("type").value;
+
+      if (!name || !testName) {
+        alert("Please fill all fields");
+        return;
+      }
+
+      try {
+        const res = await fetch("http://localhost:5000/api/token/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, testName, type }),
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          resultBox.style.display = "block";
+          currentToken = data.token.tokenNumber;
+          tokenNo.textContent = currentToken;
+          before.textContent = data.peopleBefore;
+          time.textContent = data.estimatedTime;
+          statusEl.textContent = "Waiting...";
+
+          startAutoRefresh();
+        } else {
+          alert("Error generating token");
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Server error. Make sure backend is running.");
+      }
+    });
+
+    function startAutoRefresh() {
+      setInterval(async () => {
+        if (!currentToken) return;
+        try {
+          const res = await fetch(`http://localhost:5000/api/token/status/${currentToken}`);
+          const data = await res.json();
+
+          if (data.success) {
+            before.textContent = data.peopleBefore;
+            time.textContent = data.estimatedTime;
+            statusEl.textContent = data.currentStatus;
+          }
+        } catch (err) {
+          console.error("Auto refresh error:", err);
+        }
+      }, 10000); // refresh every 10 seconds
+    }
+  </script>
+
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Shopping Cart - Khushipath</title>
+    <link rel="stylesheet" href="/FP/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* --- Navbar Container (The dark blue bar) --- */
+.navbar {
+    width: 100%;
+    /* The light blue/grey bar color */
+    background-color: #ffffff; 
+    /* Shadow for the floating effect */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    padding: 20px 40px;
+    
+    /* Use Flexbox to align logo and links horizontally */
+    display: flex;
+    justify-content: space-between; /* Pushes logo left, links right */
+    align-items: center;
+    
+    /* Fixed at the top, if desired */
+    /* position: fixed; 
+       top: 0;
+       z-index: 1000; */
+}
+
+/* --- Logo Section (Logo Image + Site Name) --- */
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    /* Adjust size to match the image */
+    height: 30px; 
+    width: auto;
+    margin-right: 8px;
+}
+
+.logo h1 {
+    /* Style for 'Khushipath' text */
+    font-size: 1.4em;
+    color: #1a4d8c; /* Deep blue/primary color */
+    font-weight: 600;
+    margin: 0;
+}
+
+/* --- Navigation Links List --- */
+.nav-links {
+    list-style: none; /* Removes bullets */
+    margin: 0;
+    padding: 0;
+    display: flex; /* Aligns links horizontally */
+}
+
+.nav-links li {
+    margin-left: 25px; /* Spacing between links */
+}
+
+.nav-links li a {
+    color: #333; /* Default link color (black/dark grey) */
+    text-decoration: none;
+    font-size: 1.05em;
+    padding: 5px 0;
+    transition: color 0.2s, border-bottom 0.2s;
+    font-weight: 500;
+}
+
+/* --- Hover/Active Effect --- */
+.nav-links li a:hover,
+.nav-links li a.active { /* Use 'active' class for the current page */
+    color: #4a90e2; /* Accent blue color */
+    /* Optional subtle underline effect */
+    border-bottom: 2px solid #4a90e2; 
+}
+        
+        /* --- General Cart Page Styling --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin-top: 150px;
+            padding: 0;
+            background-color: #f7f9fc; 
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 25px;
+            border: 1px solid #c9e2f2;
+            border-radius: 8px;
+            background-color: #ecf6ff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            gap: 20px;
+        }
+        
+        h1 {
+            color: #1a4e69;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        /* --- Cart Item Layout Styles (Table-like structure) --- */
+        .cart-header-row, #cart-items li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1em;
+            padding: 10px 5px;
+        }
+
+        .cart-header-row {
+            font-weight: bold;
+            color: #1a4e69;
+            border-bottom: 2px solid #1a4e69;
+            margin-bottom: 5px;
+        }
+
+        #cart-items {
+            list-style: none;
+            padding: 0;
+        }
+
+        #cart-items li {
+            border-bottom: 1px dashed #a3c3e7;
+        }
+        
+        /* Column Widths (matching the main page) */
+        .cart-item-name { width: 45%; }
+        .cart-item-price, .cart-item-qty, .cart-item-subtotal { 
+            width: 15%; 
+            text-align: center;
+        }
+        .cart-item-subtotal { text-align: right; font-weight: bold; color: #2980b9; }
+        .cart-item-remove { width: 10%; text-align: right; }
+
+        /* Remove Button */
+        .remove-btn {
+            background: none;
+            border: none;
+            color: #e74c3c;
+            cursor: pointer;
+            font-size: 1.1em;
+            padding: 0;
+            transition: color 0.2s;
+        }
+
+        .remove-btn:hover {
+            color: #a0201d;
+        }
+
+        /* Totals and Checkout */
+        .cart-totals {
+            margin-top: 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: right;
+            border-top: 2px solid #1a4e69;
+            padding-top: 15px;
+            color: #1a4e69;
+        }
+        
+        #checkout-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #2ecc71; 
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #checkout-btn:hover {
+            background-color: #27ae60;
+        }
+        
+        .empty-message {
+            text-align: center;
+            padding: 30px;
+            color: #555;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <img src="/FP/image/khushipath logo.png" alt="Khushipath Logo - A simplified image of a person meditating under a tree" />
+            <h1>Khushipath</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/About">About Us</a></li>
+            <li><a href="/Tes">Tests</a></li>
+            <li><a href="/Packages">Packages</a></li>
+            <li><a href="/Doctor">Doctors</a></li>
+            <li><a href="/Contact">Contact</a></li>
+            <li><a href="/Login">Login</a></li>
+            <li><a href="/Cart">Cart</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>🛒 Your Shopping Cart</h1>
+
+        <div class="cart-header-row" id="cart-header-row-display" style="display: none;">
+            <span class="cart-item-name">Package</span>
+            <span class="cart-item-price" style="text-align: center;">Price</span>
+            <span class="cart-item-qty" style="text-align: center;">Qty</span>
+            <span class="cart-item-subtotal" style="text-align: right;">Subtotal</span>
+            <span class="cart-item-remove"></span>
+        </div>
+
+        <ul id="cart-items">
+            <li class="empty-message">Loading cart...</li>
+        </ul>
+
+        <div class="cart-totals">
+            Total Items: <span id="total-items">0</span> | 
+            Total Price: <span id="total-price">₹0</span>
+        </div>
+        
+        <button id="checkout-btn" onclick="alert('Proceeding to Checkout! Total: ' + document.getElementById('total-price').textContent)">Proceed to Checkout</button>
+        
+        <a href="#" id="continue-shopping-btn" style="display: block; text-align: center; margin-top: 15px; color: #3498db;" onclick="continueShopping(event)">← Continue Shopping</a>
+    </div>
+
+    <script>
+        // Helper function for Indian Rupee formatting
+        const formatter = new Intl.NumberFormat('en-IN', {
+            style: 'currency',
+            currency: 'INR',
+            minimumFractionDigits: 0, 
+        });
+        
+        // 1. Storage Functions
+        function getCart() {
+            const cartString = localStorage.getItem('khushipathCart');
+            return cartString ? JSON.parse(cartString) : [];
+        }
+
+        function saveCart(cart) {
+            localStorage.setItem('khushipathCart', JSON.stringify(cart));
+        }
+
+        // 2. Core Cart Logic: Item Removal
+        function removeItemFromCart(packageId) {
+            let cart = getCart();
+            // Filter the cart to exclude the item matching the ID
+            cart = cart.filter(item => item.id !== packageId);
+            
+            saveCart(cart);
+            renderCart(); // Refresh the visible cart
+        }
+
+        // Function to delegate the removal click
+        function handleRemoveClick(event) {
+            const button = event.target.closest('.remove-btn');
+            if (button) {
+                event.preventDefault(); 
+                const packageId = button.getAttribute('data-id');
+                removeItemFromCart(packageId);
+            }
+        }
+
+        // 3. Core Cart Logic: Display/Render (Unchanged)
+        function renderCart() {
+            const cart = getCart();
+            const cartList = document.getElementById('cart-items');
+            const totalItemsSpan = document.getElementById('total-items');
+            const totalPriceSpan = document.getElementById('total-price');
+            const cartHeader = document.getElementById('cart-header-row-display');
+            const checkoutBtn = document.getElementById('checkout-btn');
+
+            cartList.innerHTML = ''; 
+            
+            let totalItems = 0;
+            let totalPrice = 0;
+
+            if (cart.length === 0) {
+                cartList.innerHTML = '<li class="empty-message">Your cart is currently empty. Add a package to continue.</li>';
+                cartHeader.style.display = 'none';
+                checkoutBtn.style.display = 'none';
+            } else {
+                cartHeader.style.display = 'flex';
+                checkoutBtn.style.display = 'block';
+
+                cart.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    totalItems += item.quantity;
+                    totalPrice += itemTotal;
+                    
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <span class="cart-item-name">${item.name}</span>
+                        <span class="cart-item-price">${formatter.format(item.price)}</span>
+                        <span class="cart-item-qty">${item.quantity}</span>
+                        <span class="cart-item-subtotal">${formatter.format(itemTotal)}</span>
+                        <span class="cart-item-remove">
+                            <button class="remove-btn" data-id="${item.id}" title="Remove Item">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </span>
+                    `;
+                    cartList.appendChild(li);
+                });
+            }
+
+            totalItemsSpan.textContent = totalItems;
+            totalPriceSpan.textContent = formatter.format(totalPrice);
+        }
+
+        // 4. *** NEW FUNCTION: DYNAMIC CONTINUE SHOPPING ***
+        function continueShopping(event) {
+            event.preventDefault(); 
+            
+            // Check Session Storage for the last visited page URL
+            const lastPage = sessionStorage.getItem('lastShoppingPage');
+            
+            if (lastPage) {
+                // If a URL is saved, redirect the user there.
+                window.location.href = lastPage;
+            } else {
+                // Fallback: If no page is saved (e.g., first visit), go to the main packages page.
+                // Assuming /Packages/packages.html is the central hub.
+                window.location.href = "/Packages/packages.html"; 
+            }
+        }
+        // ************************************************
+
+        // 5. Initialization
+        // Attach the item removal handler using event delegation
+        document.getElementById('cart-items').addEventListener('click', handleRemoveClick);
+
+        // Load the cart items when the page loads
+        document.addEventListener('DOMContentLoaded', renderCart);
+
+    </script>
+</body>
+</html>
