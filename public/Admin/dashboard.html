@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Khushipath Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3f51b5; /* Blue */
+            --secondary-color: #f44336; /* Red */
+            --bg-color: #f4f4f4;
+        }
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-color); }
+        
+        /* 1. Sidebar Styles */
+        .sidebar {
+            height: 100vh;
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: var(--primary-color);
+            color: white;
+            padding-top: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+            transition: width 0.3s;
+        }
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            font-size: 1.5em;
+        }
+        .nav-link-list {
+            list-style: none;
+            padding: 0;
+        }
+        .nav-link-list a {
+            display: block;
+            padding: 15px 20px;
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: background-color 0.3s;
+        }
+        .nav-link-list a:hover {
+            background-color: #536dfe; /* Lighter shade of primary */
+        }
+        .nav-link-list i {
+            margin-right: 10px;
+        }
+        
+        /* 2. Main Content Styles */
+        .main-content {
+            margin-left: 250px;
+            padding: 40px;
+        }
+        .main-content h1 {
+            color: var(--primary-color);
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        
+        /* 3. Dashboard Grid (Feature Boxes) */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        }
+        .card h3 {
+            color: var(--secondary-color);
+            font-size: 1.3em;
+            margin-top: 0;
+        }
+        .card .icon {
+            font-size: 2em;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        /* 4. Logout Button */
+        .logout-btn-container {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+        .logout-btn {
+            display: block;
+            padding: 10px;
+            background-color: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .logout-btn:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2><i class="fas fa-shield-alt"></i> Khushipath Admin</h2>
+        
+        <ul class="nav-link-list">
+            <li><a href="/admin/dashboard" style="background-color: #536dfe;"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            
+            <li><a href="#"><i class="fas fa-user-circle"></i> Manage Users</a></li>
+            <li><a href="#"><i class="fas fa-flask"></i> Test & Packages</a></li>
+            <li><a href="#"><i class="fas fa-calendar-check"></i> Appointments</a></li>
+            <li><a href="#"><i class="fas fa-chart-line"></i> Analytics & Reports</a></li>
+        </ul>
+
+        <div class="logout-btn-container">
+            <a href="/logout" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Log Out
+            </a>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <h1>Welcome, Administrator!</h1>
+        <p>Use this control panel to manage all aspects of the Khushipath website.</p>
+
+        <div class="dashboard-grid">
+            
+            <div class="card">
+                <div class="icon"><i class="fas fa-user-plus"></i></div>
+                <h3>Quick User Management</h3>
+                <p>View, edit, or delete user accounts and update their roles.</p>
+                <a href="#" style="color: var(--primary-color);">Go to Users →</a>
+            </div>
+
+            <div class="card">
+                <div class="icon"><i class="fas fa-cog"></i></div>
+                <h3>System Settings</h3>
+                <p>Configure general site settings and API keys.</p>
+                <a href="#" style="color: var(--primary-color);">Configure →</a>
+            </div>
+
+            <div class="card">
+                <div class="icon"><i class="fas fa-box"></i></div>
+                <h3>Packages & Pricing</h3>
+                <p>Add new test packages, modify prices, and manage inventory.</p>
+                <a href="#" style="color: var(--primary-color);">Manage Inventory →</a>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

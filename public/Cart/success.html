@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmed - Khushipath</title>
+    
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+        /* --- General Reset & Body Styles --- */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f8fa;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* --- Header/Navbar Styling (Mimicking Screenshot) --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .navbar nav a {
+            text-decoration: none;
+            color: #666;
+            margin-left: 20px;
+            font-size: 14px;
+        }
+
+        /* --- Main Confirmation Container --- */
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        /* --- Success Header --- */
+        .success-icon {
+            font-size: 72px;
+            color: #28a745; /* Green for success */
+            margin-bottom: 15px;
+            display: block;
+            line-height: 1;
+        }
+
+        h1 {
+            color: #28a745;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .order-id {
+            font-size: 18px;
+            color: #007bff;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        /* --- Details Sections --- */
+        .section-box {
+            background-color: #f7f9fc;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 25px;
+            margin-top: 25px;
+            text-align: left;
+        }
+
+        .section-box h3 {
+            color: #333;
+            font-size: 20px;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        /* --- Key Summary Table --- */
+        .summary-table {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        
+        .summary-item {
+            padding: 0 10px;
+        }
+        
+        .summary-item strong {
+            display: block;
+            font-size: 14px;
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+        
+        .summary-item span {
+            font-size: 18px;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        /* --- Order Breakdown --- */
+        .order-breakdown div {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed #e0e0e0;
+        }
+        
+        .order-breakdown .total-row {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            border-bottom: none;
+            padding-top: 15px;
+        }
+        
+        /* --- Next Steps List --- */
+        .next-steps ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .next-steps li {
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="%23007bff" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>') no-repeat left 5px;
+            background-size: 16px;
+            padding-left: 25px;
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+
+        /* --- Action Buttons --- */
+        .action-buttons {
+            margin-top: 40px;
+        }
+
+        .action-buttons a {
+            display: inline-block;
+            padding: 12px 25px;
+            margin: 0 10px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .primary-btn {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .primary-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .secondary-btn {
+            background-color: #e9ecef;
+            color: #007bff;
+            border: 1px solid #007bff;
+        }
+
+        .secondary-btn:hover {
+            background-color: #dee2e6;
+        }
+
+        .small-link {
+            display: block;
+            margin-top: 25px;
+            color: #6c757d;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">Khushipath</div>
+       <nav class="navbar">
+        <div class="logo">
+    <a href="/" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
+        <img src="/FP/image/khushipath logo.png" alt="Khushipath Logo - A simplified image of a person meditating under a tree" />
+        <h1>Khushipath</h1>
+    </a>
+</div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/About">About Us</a></li>
+            <li><a href="/Tes">Tests</a></li>
+            <li><a href="/Packages">Packages</a></li>
+            <li><a href="/Doctor">Doctors</a></li>
+            <li><a href="/Contact">Contact</a></li>
+            <li><a href="/Login">Login</a></li>
+            <li>
+            <a href="/Cart" title="Shopping Cart">
+                <i class="fas fa-shopping-cart"></i> 
+                <span id="cart-count" style="
+                    display: inline-block; 
+                    background-color: #e74c3c; 
+                    color: white; 
+                    border-radius: 50%; 
+                    padding: 2px 6px; 
+                    font-size: 0.8em; 
+                    margin-left: 5px;
+                    font-weight: bold;
+                    position: relative; 
+                    top: -10px; 
+                    left: -10px; 
+                ">0</span>
+            </a>
+        </li>
+        </ul>
+    </nav>
+    </header>
+
+    <div class="container">
+        
+        <span class="material-icons success-icon">check_circle</span> 
+        <h1>Thank You! Your Order is Confirmed.</h1>
+        <p class="order-id">Your Order ID is: **KHP-20251106-7890**</p>
+
+        <div class="summary-table">
+            <div class="summary-item">
+                <strong>Status</strong>
+                <span>Confirmed</span>
+            </div>
+            <div class="summary-item">
+                <strong>Total Paid</strong>
+                <span>₹2,249</span>
+            </div>
+            <div class="summary-item">
+                <strong>Payment Via</strong>
+                <span>UPI / Wallet</span>
+            </div>
+        </div>
+        
+        <hr>
+
+        <div class="section-box next-steps">
+            <h3>🕒 Next Steps for your Swasth Super Package</h3>
+            <ul>
+                <li>We have sent a detailed receipt and scheduling email to **user@example.com**.</li>
+                <li>Our scheduling team will contact you within **2 hours** to coordinate the technician visit.</li>
+                <li>Ensure the **Mobile Number** (9XXXXXXXXX) is available for coordination.</li>
+                <li>Your reports will be available in the 'My Account' section within **24 hours** of sample collection.</li>
+            </ul>
+        </div>
+
+        <div class="section-box">
+            <h3>📦 Order Details</h3>
+            <div class="order-breakdown">
+                <div>
+                    <span>Path-03: Swasth Super Package (x1)</span>
+                    <span>₹2,249</span>
+                </div>
+                <div>
+                    <span>Taxes & Fees</span>
+                    <span>₹0</span>
+                </div>
+                <div>
+                    <span>Delivery Charge</span>
+                    <span>FREE</span>
+                </div>
+                <div class="total-row">
+                    <span>Total Amount Paid</span>
+                    <span>₹2,249</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <a href="#" class="primary-btn">View Order in 'My Account'</a>
+            <a href="#" class="secondary-btn">Need Help? Contact Support</a>
+        </div>
+        
+        <a href="#" class="small-link">
+            $\leftarrow$ Continue Shopping
+        </a>
+
+    </div>
+    <script>
+   // --- CART COUNT HELPER FUNCTIONS (ADDED) ---
+        function getCart() {
+            // Retrieves cart data from local storage, defaults to empty array
+            const cartString = localStorage.getItem('khushipathCart');
+            return cartString ? JSON.parse(cartString) : [];
+        }
+
+        function updateCartCount() {
+            const cart = getCart();
+            const cartCountElement = document.getElementById('cart-count');
+            
+            // Calculate the total number of items (sum of all quantities)
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+            if (cartCountElement) {
+                cartCountElement.textContent = totalItems;
+                // Only display the badge if there are items in the cart
+                cartCountElement.style.display = totalItems > 0 ? 'inline-block' : 'none';
+            }
+        }
+        // --- END CART COUNT HELPER FUNCTIONS ---
+
+        // CRITICAL FIX: Call updateCartCount when the page is fully loaded.
+        document.addEventListener('DOMContentLoaded', updateCartCount);
+</script>
+</body>
+</html>

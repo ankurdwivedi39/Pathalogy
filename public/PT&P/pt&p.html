@@ -352,4 +352,30 @@
         button.addEventListener('click', addToCart);
     });
 </script>
+<script>
+   // --- CART COUNT HELPER FUNCTIONS (ADDED) ---
+        function getCart() {
+            // Retrieves cart data from local storage, defaults to empty array
+            const cartString = localStorage.getItem('khushipathCart');
+            return cartString ? JSON.parse(cartString) : [];
+        }
+
+        function updateCartCount() {
+            const cart = getCart();
+            const cartCountElement = document.getElementById('cart-count');
+            
+            // Calculate the total number of items (sum of all quantities)
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+            if (cartCountElement) {
+                cartCountElement.textContent = totalItems;
+                // Only display the badge if there are items in the cart
+                cartCountElement.style.display = totalItems > 0 ? 'inline-block' : 'none';
+            }
+        }
+        // --- END CART COUNT HELPER FUNCTIONS ---
+
+        // CRITICAL FIX: Call updateCartCount when the page is fully loaded.
+        document.addEventListener('DOMContentLoaded', updateCartCount);
+</script>
 </html>

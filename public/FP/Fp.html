@@ -11,9 +11,11 @@
 <body>
     <nav class="navbar">
         <div class="logo">
-            <img src="/FP/image/khushipath logo.png" alt="Khushipath Logo - A simplified image of a person meditating under a tree" />
-            <h1>Khushipath</h1>
-        </div>
+    <a href="/" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
+        <img src="/FP/image/khushipath logo.png" alt="Khushipath Logo - A simplified image of a person meditating under a tree" />
+        <h1>Khushipath</h1>
+    </a>
+</div>
         <ul class="nav-links">
             <li><a href="/">Home</a></li>
             <li><a href="/About">About Us</a></li>
@@ -22,11 +24,27 @@
             <li><a href="/Doctor">Doctors</a></li>
             <li><a href="/Contact">Contact</a></li>
             <li><a href="/Login">Login</a></li>
-            <li><a href="/Cart">Cart</a></li>
+            <li>
+            <a href="/Cart" title="Shopping Cart">
+                <i class="fas fa-shopping-cart"></i> 
+                <span id="cart-count" style="
+                    display: inline-block; 
+                    background-color: #e74c3c; 
+                    color: white; 
+                    border-radius: 50%; 
+                    padding: 2px 6px; 
+                    font-size: 0.8em; 
+                    margin-left: 5px;
+                    font-weight: bold;
+                    position: relative; 
+                    top: -10px; 
+                    left: -10px; 
+                ">0</span>
+            </a>
+        </li>
         </ul>
     </nav>
 
-    <!--start of booking-and-slider-section -->
     <section class="booking-and-slider-section">
         <div class="slider-container">
            <div class="slider">
@@ -63,37 +81,61 @@
             </div>
             <div class="or-separator">OR</div>
             <a href="/PT&P/pt&p.html" class="booking-btn">Choose Popular Tests / Packages <span>❯</span></a>
-            <!-- <button class="booking-btn">Book Radiology / Scan <span>❯</span></button> -->
-            
             <a href="/FP/report-download.html" class="action-link">
-            <div class="action-item">
-            <i class="fas fa-file-download"></i>
-            <span>Download Report</span>
-            </div>
+                <div class="action-item">
+                    <i class="fas fa-file-download"></i>
+                    <span>Download Report</span>
+                </div>
             </a>
                 
             
             <a href="/FP/upload-prescription.html" class="action-link">
-            <div class="action-item">
-             <i class="fas fa-prescription"></i>
-             <span>Upload Prescription</span>
-          </div>
-          </a>
+                <div class="action-item">
+                 <i class="fas fa-prescription"></i>
+                 <span>Upload Prescription</span>
+              </div>
+            </a>
                 
 
-<a href="/FP/find-centre.html" class="action-link">
+            <a href="/FP/find-centre.html" class="action-link">
                 <div class="action-item">
                 <i class="fas fa-map-marker-alt"></i>
                <span>Find Nearest Centre</span>
               </div>
-              </a>
+            </a>
             </div>
         </div>
     </section>
 
     <script>
+        // --- CART COUNT HELPER FUNCTIONS (ADDED) ---
+        function getCart() {
+            // Retrieves cart data from local storage, defaults to empty array
+            const cartString = localStorage.getItem('khushipathCart');
+            return cartString ? JSON.parse(cartString) : [];
+        }
+
+        function updateCartCount() {
+            const cart = getCart();
+            const cartCountElement = document.getElementById('cart-count');
+            
+            // Calculate the total number of items (sum of all quantities)
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+            if (cartCountElement) {
+                cartCountElement.textContent = totalItems;
+                // Only display the badge if there are items in the cart
+                cartCountElement.style.display = totalItems > 0 ? 'inline-block' : 'none';
+            }
+        }
+        // --- END CART COUNT HELPER FUNCTIONS ---
+
+
         // JavaScript for the new image slider
         document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Cart Count on Page Load
+            updateCartCount(); 
+            
             const slider = document.querySelector('.slider');
             const slides = Array.from(document.querySelectorAll('.slide'));
             const prevButton = document.getElementById('prevSlide');
@@ -147,12 +189,6 @@
         });
     </script>
 
-    <!--end of booking-and-slider-section -->
-
-
-
-    
-
     <section class="hero">
         <h2>Your Health, Our Priority – Quick Pathology Solutions</h2>
         <p>Khushipath provide reliable pathology services with doorstep sample collection and an offline token system that minimizes waiting time. Our focus is on accuracy, convenience, and timely reports – making healthcare faster and more accessible for you.</p>
@@ -184,56 +220,48 @@
     <h2>Why Khushipath Labs</h2>
     <div class="features-container">
 
-      <!-- Card 1 -->
       <div class="feature-card">
         <img src="/FP/image/WKL1.png" alt="NABL">
         <h3>NABL Accredited Labs</h3>
         <p>Follows all protocols as per NABL & CAP Guidelines.</p>
       </div>
 
-      <!-- Card 2 -->
       <div class="feature-card">
         <img src="/FP/image/WKL2.png" alt="Doctors">
         <h3>Trusted by Leading Doctors & Hospitals</h3>
         <p>Qualified Pathologist at each lab.</p>
       </div>
 
-      <!-- Card 3 -->
       <div class="feature-card">
         <img src="/FP/image/WKL3.png" alt="Reporting">
         <h3>Shortest Reporting Time</h3>
         <p>Ownership and Innovation in diagnostics.</p>
       </div>
 
-      <!-- Card 4 -->
       <div class="feature-card">
         <img src="/FP/image/WKL4.png" alt="Reports">
         <h3>Accurate Test Reports</h3>
         <p>Quality checks by Quality Assurance Team.</p>
       </div>
 
-      <!-- Card 5 -->
       <div class="feature-card">
         <img src="/FP/image/WKL5.png" alt="Customers">
         <h3>2 Satisfied Customers</h3>
         <p>Making superior quality diagnostic services accessible.</p>
       </div>
 
-      <!-- Card 6 -->
       <div class="feature-card">
         <img src="/FP/image/WKL6.png" alt="Labs">
         <h3>2 Labs</h3>
         <p>Large network labs in all the major cities.</p>
       </div>
 
-      <!-- Card 7 -->
       <div class="feature-card">
         <img src="/FP/image/WKL7.png" alt="Collection Centres">
         <h3>2 Collection Centres</h3>
         <p>Expanding our reach and counting.</p>
       </div>
 
-      <!-- Card 8 -->
       <div class="feature-card">
         <img src="/FP/image/WKL8.png" alt="Scientific">
         <h3>Scientific Orientation</h3>
@@ -379,7 +407,6 @@
 </head>
 <body>
 
-  <!-- Stats Section -->
   <section class="stats-section">
     <h2>India's Largest Healthcare Platform</h2>
     <div class="circle-stats">
@@ -411,7 +438,6 @@
     </div>
   </section>
 
-  <!-- Why Our PathLab Section -->
   <section class="why-section">
     <div class="why-text">
       <h2>Why Our PathLabs</h2>
@@ -473,8 +499,7 @@
                  <p class="testimonial-text">"Health services usually feel formal and distant, but Khushipath made me realize care can be professional and personal at the same time."</p>
                 <p class="testimonial-author">- Sakshi Agarwal , Prayagraj</p>
             </div>
-            <!-- More testimonials would be added here with JavaScript slider functionality -->
-        </div>
+            </div>
     </section>
     
     <footer>
@@ -503,10 +528,7 @@
           <a href="https://www.instagram.com/annukumarchaudhary/"><i class="fab fa-instagram"></i></a>
           <a href="https://www.instagram.com/annukumarchaudhary/"><i class="fab fa-x-twitter"></i></a>
           <a href="https://www.instagram.com/annukumarchaudhary/"><i class="fab fa-youtube"></i></a>
-            <!-- <div class="social-icon">ig</div>
-            <div class="social-icon">X</div>
-            <div class="social-icon">yt</div> -->
-        </div>
+            </div>
         <div class="copyright">
             <p>&copy; 2025 Khushipath. All rights reserved.</p>
         </div>

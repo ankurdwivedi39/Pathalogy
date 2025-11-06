@@ -1,0 +1,63 @@
+
+<nav class="navbar">
+        <div class="logo">
+    <a href="/" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
+        <img src="/FP/image/khushipath logo.png" alt="Khushipath Logo - A simplified image of a person meditating under a tree" />
+        <h1>Khushipath</h1>
+    </a>
+</div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/About">About Us</a></li>
+            <li><a href="/Tes">Tests</a></li>
+            <li><a href="/Packages">Packages</a></li>
+            <li><a href="/Doctor">Doctors</a></li>
+            <li><a href="/Contact">Contact</a></li>
+            <li><a href="/Login">Login</a></li>
+            <li>
+            <a href="/Cart" title="Shopping Cart">
+                <i class="fas fa-shopping-cart"></i> 
+                <span id="cart-count" style="
+                    display: inline-block; 
+                    background-color: #e74c3c; 
+                    color: white; 
+                    border-radius: 50%; 
+                    padding: 2px 6px; 
+                    font-size: 0.8em; 
+                    margin-left: 5px;
+                    font-weight: bold;
+                    position: relative; 
+                    top: -10px; 
+                    left: -10px; 
+                ">0</span>
+            </a>
+        </li>
+        </ul>
+    </nav> 
+
+
+    <script>
+        // --- CART COUNT HELPER FUNCTIONS (ADDED) ---
+        function getCart() {
+            // Retrieves cart data from local storage, defaults to empty array
+            const cartString = localStorage.getItem('khushipathCart');
+            return cartString ? JSON.parse(cartString) : [];
+        }
+
+        function updateCartCount() {
+            const cart = getCart();
+            const cartCountElement = document.getElementById('cart-count');
+            
+            // Calculate the total number of items (sum of all quantities)
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+            if (cartCountElement) {
+                cartCountElement.textContent = totalItems;
+                // Only display the badge if there are items in the cart
+                cartCountElement.style.display = totalItems > 0 ? 'inline-block' : 'none';
+            }
+        }
+        // --- END CART COUNT HELPER FUNCTIONS ---
+        // Call updateCartCount on page load to set the initial cart count
+        document.addEventListener('DOMContentLoaded', updateCartCount);
+    </script>

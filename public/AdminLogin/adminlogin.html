@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Khushipath Control</title>
+    <link rel="stylesheet" href="/Login/login.css"> 
+    <link rel="stylesheet" href="/FP/style.css"> 
+    <script src="https://kit.fontawesome.com/97ebdf5864.js" crossorigin="anonymous"></script>
+    <style>
+        /* Basic styles to make it visually distinct */
+        .admin-container {
+            border: 2px solid #f44336; /* Red border to signify admin area */
+            box-shadow: 0 0 15px rgba(244, 67, 54, 0.4);
+            padding: 30px;
+            max-width: 400px;
+            margin: 50px auto;
+            border-radius: 8px;
+            background-color: white;
+        }
+        .admin-container h2 {
+            color: #f44336;
+            text-align: center;
+        }
+        /* Custom button style for admin login */
+        .admin-container button[type="submit"] {
+            background-color: #f44336; /* Red button */
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.1em;
+            margin-top: 10px;
+        }
+        .admin-container button[type="submit"]:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="/FP/image/khushipath logo.png" alt="Khushipath Logo" />
+            <h1>Khushipath</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/About">About Us</a></li>
+            <li><a href="/Tes">Tests</a></li>
+            <li><a href="/Packages">Packages</a></li>
+            <li><a href="/Doctor">Doctors</a></li>
+            <li><a href="/Contact">Contact</a></li>
+            <li><a href="/Login">User Login</a></li> <li><a href="/Cart">Cart</a></li>
+        </ul>
+    </nav>
+      
+<div class="container admin-container">
+  <h2>Admin Control Login</h2>
+  <form id="adminLoginForm">
+    <div class="form-group">
+      <input type="email" id="email" name="email" required placeholder="Admin Email" />
+      <label>Email</label>
+    </div>
+    <div class="form-group">
+      <input type="password" id="password" name="password" required placeholder="Password" />
+      <label>Password</label>
+    </div>
+    
+    <button type="submit">Log in as Administrator</button>
+    <p style="text-align: center; margin-top: 15px;">
+        <a href="/Login">Not an Admin? Go to User Login</a>
+    </p>
+  </form>
+</div>
+
+<script>
+  document.getElementById("adminLoginForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    try {
+      // 1. Send credentials to the server-side POST route
+      const res = await fetch("/AdminLogin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const text = await res.text();
+
+      if (res.ok) {
+        // 2. Server confirmed credentials AND role are correct (status 200)
+        
+        // Show success message briefly (optional, but good for UX)
+        const msgBox = document.createElement("div");
+        msgBox.textContent = "Admin Login successful! Redirecting to dashboard...";
+        // ... (styling for msgBox goes here) ...
+        msgBox.style.position = "fixed";
+        msgBox.style.top = "20px";
+        msgBox.style.left = "50%";
+        msgBox.style.transform = "translateX(-50%)";
+        msgBox.style.backgroundColor = "#4caf50";
+        msgBox.style.color = "white";
+        msgBox.style.padding = "10px 20px";
+        msgBox.style.borderRadius = "5px";
+        msgBox.style.zIndex = "9999";
+        document.body.appendChild(msgBox);
+
+        // 3. Redirect the user to the protected route /admin/dashboard
+        setTimeout(() => {
+          window.location.href = "/admin/dashboard"; // ⬅️ THIS IS THE REDIRECTION
+        }, 1200);
+
+      } else {
+        // Login failed (incorrect password or user is not an admin)
+        const msgBox = document.createElement("div");
+        msgBox.textContent = "Error: Invalid email or password."; 
+        // ... (styling for error msgBox goes here) ...
+        msgBox.style.position = "fixed";
+        msgBox.style.top = "20px";
+        msgBox.style.left = "50%";
+        msgBox.style.transform = "translateX(-50%)";
+        msgBox.style.backgroundColor = "#f44336";
+        msgBox.style.color = "white";
+        msgBox.style.padding = "10px 20px";
+        msgBox.style.borderRadius = "5px";
+        msgBox.style.zIndex = "9999";
+        document.body.appendChild(msgBox);
+
+        setTimeout(() => msgBox.remove(), 3000);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("A critical server error occurred.");
+    }
+  });
+</script>
+</body>
+</html>

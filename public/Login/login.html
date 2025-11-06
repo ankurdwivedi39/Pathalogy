@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible"
-    content="IE-edge">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Khushipath</title>
     <link rel="stylesheet" href="/Login/login.css">
@@ -14,9 +13,11 @@
 <body>
     <nav class="navbar">
         <div class="logo">
-            <img src="/FP/image/khushipath logo.png" alt="Khushipath Logo - A simplified image of a person meditating under a tree" />
-            <h1>Khushipath</h1>
-        </div>
+    <a href="/" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
+        <img src="/FP/image/khushipath logo.png" alt="Khushipath Logo - A simplified image of a person meditating under a tree" />
+        <h1>Khushipath</h1>
+    </a>
+</div>
         <ul class="nav-links">
             <li><a href="/">Home</a></li>
             <li><a href="/About">About Us</a></li>
@@ -25,14 +26,29 @@
             <li><a href="/Doctor">Doctors</a></li>
             <li><a href="/Contact">Contact</a></li>
             <li><a href="/Login">Login</a></li>
-             <li><a href="/Cart">Cart</a></li>
+            <li>
+            <a href="/Cart" title="Shopping Cart">
+                <i class="fas fa-shopping-cart"></i> 
+                <span id="cart-count" style="
+                    display: inline-block; 
+                    background-color: #e74c3c; 
+                    color: white; 
+                    border-radius: 50%; 
+                    padding: 2px 6px; 
+                    font-size: 0.8em; 
+                    margin-left: 5px;
+                    font-weight: bold;
+                    position: relative; 
+                    top: -10px; 
+                    left: -10px; 
+                ">0</span>
+            </a>
+        </li>
         </ul>
     </nav>
       
-
-
 <div class="container">
-  <h2>Login</h2>
+  <h2>User Login</h2>
   <form id="loginForm">
     <div class="form-group">
       <input type="email" id="email" name="email" required />
@@ -47,7 +63,8 @@
       <a href="#">Forget Password</a>
     </p>
     <input type="submit" id="btn" value="Login" />
-    <p>Don't have an account? <a href="/Register/regi.html">Register</a></p>
+    <p>Don't have an account? <a href="/Register">Register</a></p>
+    <p class="admin-link">Are you an Admin? <a href="/AdminLogin">Login Here</a></p>
   </form>
 </div>
 
@@ -68,9 +85,9 @@
       const text = await res.text();
 
       if (res.ok) {
-        // ✅ Instead of alert, auto redirect after small delay
+        // 💡 UPDATE: Redirect standard users to /Doctor route as defined in server.js
         const msgBox = document.createElement("div");
-        msgBox.textContent = "Login successful! please wait...";
+        msgBox.textContent = "Login successful! Redirecting to dashboard...";
         msgBox.style.position = "fixed";
         msgBox.style.top = "20px";
         msgBox.style.left = "50%";
@@ -83,9 +100,11 @@
         document.body.appendChild(msgBox);
 
         setTimeout(() => {
-          window.location.href = "/"; // redirect to homepage automatically
+          // 🔑 Redirection for SUCCESSFUL User Login
+          window.location.href = "/Doctor"; 
         }, 1200);
       } else {
+        // Error message display remains the same
         const msgBox = document.createElement("div");
         msgBox.textContent = text;
         msgBox.style.position = "fixed";
@@ -107,11 +126,31 @@
     }
   });
 </script>
+<script>
+   // --- CART COUNT HELPER FUNCTIONS (ADDED) ---
+        function getCart() {
+            // Retrieves cart data from local storage, defaults to empty array
+            const cartString = localStorage.getItem('khushipathCart');
+            return cartString ? JSON.parse(cartString) : [];
+        }
 
+        function updateCartCount() {
+            const cart = getCart();
+            const cartCountElement = document.getElementById('cart-count');
+            
+            // Calculate the total number of items (sum of all quantities)
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
+            if (cartCountElement) {
+                cartCountElement.textContent = totalItems;
+                // Only display the badge if there are items in the cart
+                cartCountElement.style.display = totalItems > 0 ? 'inline-block' : 'none';
+            }
+        }
+        // --- END CART COUNT HELPER FUNCTIONS ---
 
-
-
-
+        // CRITICAL FIX: Call updateCartCount when the page is fully loaded.
+        document.addEventListener('DOMContentLoaded', updateCartCount);
+</script>
 </body>
 </html>

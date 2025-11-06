@@ -337,15 +337,37 @@
             color: #555;
             font-style: italic;
         }
+        /* Style the anchor tag to look like your button */
+.proceed-btn {
+    /* These styles replicate the green button from your screenshot */
+    display: block; /* Makes it take full width like a button */
+    text-align: center;
+    text-decoration: none; /* Removes the underline */
+    
+    background-color: #28a745; /* The green color */
+    color: white;
+    padding: 15px 25px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
+    margin: 20px auto; /* Center it and add vertical spacing */
+    transition: background-color 0.3s;
+}
+
+.proceed-btn:hover {
+    background-color: #218838; /* Slightly darker green on hover */
+}
     </style>
 </head>
 <body>
 
     <nav class="navbar">
         <div class="logo">
-            <img src="/FP/image/khushipath logo.png" alt="Khushipath Logo - A simplified image of a person meditating under a tree" />
-            <h1>Khushipath</h1>
-        </div>
+    <a href="/" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
+        <img src="/FP/image/khushipath logo.png" alt="Khushipath Logo - A simplified image of a person meditating under a tree" />
+        <h1>Khushipath</h1>
+    </a>
+</div>
         <ul class="nav-links">
             <li><a href="/">Home</a></li>
             <li><a href="/About">About Us</a></li>
@@ -354,10 +376,26 @@
             <li><a href="/Doctor">Doctors</a></li>
             <li><a href="/Contact">Contact</a></li>
             <li><a href="/Login">Login</a></li>
-            <li><a href="/Cart">Cart</a></li>
+            <li>
+            <a href="/Cart" title="Shopping Cart">
+                <i class="fas fa-shopping-cart"></i> 
+                <span id="cart-count" style="
+                    display: inline-block; 
+                    background-color: #e74c3c; 
+                    color: white; 
+                    border-radius: 50%; 
+                    padding: 2px 6px; 
+                    font-size: 0.8em; 
+                    margin-left: 5px;
+                    font-weight: bold;
+                    position: relative; 
+                    top: -10px; 
+                    left: -10px; 
+                ">0</span>
+            </a>
+        </li>
         </ul>
     </nav>
-
     <div class="container">
         <h1>🛒 Your Shopping Cart</h1>
 
@@ -378,8 +416,13 @@
             Total Price: <span id="total-price">₹0</span>
         </div>
         
-        <button id="checkout-btn" onclick="alert('Proceeding to Checkout! Total: ' + document.getElementById('total-price').textContent)">Proceed to Checkout</button>
-        
+        <a 
+    href="checkout.html" 
+    id="checkout-btn" 
+    class="proceed-btn"
+>
+    Proceed to Checkout
+</a>
         <a href="#" id="continue-shopping-btn" style="display: block; text-align: center; margin-top: 15px; color: #3498db;" onclick="continueShopping(event)">← Continue Shopping</a>
     </div>
 
@@ -494,5 +537,31 @@
         document.addEventListener('DOMContentLoaded', renderCart);
 
     </script>
+    <script>
+   // --- CART COUNT HELPER FUNCTIONS (ADDED) ---
+        function getCart() {
+            // Retrieves cart data from local storage, defaults to empty array
+            const cartString = localStorage.getItem('khushipathCart');
+            return cartString ? JSON.parse(cartString) : [];
+        }
+
+        function updateCartCount() {
+            const cart = getCart();
+            const cartCountElement = document.getElementById('cart-count');
+            
+            // Calculate the total number of items (sum of all quantities)
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+            if (cartCountElement) {
+                cartCountElement.textContent = totalItems;
+                // Only display the badge if there are items in the cart
+                cartCountElement.style.display = totalItems > 0 ? 'inline-block' : 'none';
+            }
+        }
+        // --- END CART COUNT HELPER FUNCTIONS ---
+
+        // CRITICAL FIX: Call updateCartCount when the page is fully loaded.
+        document.addEventListener('DOMContentLoaded', updateCartCount);
+</script>
 </body>
 </html>
