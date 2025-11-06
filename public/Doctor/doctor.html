@@ -6,6 +6,27 @@
   <title>Doctors - Khushipath</title>
   <link rel="stylesheet" href="/FP/style.css">
   <style>
+
+     /* --- Navbar Container (The dark blue bar) --- */
+.navbar {
+    width: 100%;
+    /* The light blue/grey bar color */
+    background-color: #ffffff; 
+    /* Shadow for the floating effect */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    padding: 20px 40px;
+    
+    /* Use Flexbox to align logo and links horizontally */
+    display: flex;
+    justify-content: space-between; /* Pushes logo left, links right */
+    align-items: center;
+    
+    /* Fixed at the top, if desired */
+    /* position: fixed; 
+       top: 0;
+       z-index: 1000; */
+}
+
     /* General Reset */
     * {
       margin: 0;
@@ -280,6 +301,7 @@
             <li><a href="/Doctor">Doctors</a></li>
             <li><a href="/Contact">Contact</a></li>
             <li><a href="/Login">Login</a></li>
+            <li><a href="/Cart">Cart</a></li>
 
       </ul>
     </nav>
@@ -331,6 +353,71 @@
   <footer class="footer">
     <p>© 2025 Khushipath | All Rights Reserved</p>
   </footer>
+
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const searchInput = document.querySelector(".search-section input");
+  const searchSection = document.querySelector(".search-section");
+
+  // Create suggestions container
+  const suggestionsList = document.createElement("div");
+  suggestionsList.classList.add("suggestions-list");
+  searchSection.appendChild(suggestionsList);
+
+  // Collect all doctor cards
+  const doctors = Array.from(document.querySelectorAll(".doctor-card")).map(card => {
+    const name = card.querySelector("h3").textContent.trim();
+    const specialization = card.querySelector("p:nth-of-type(1)").textContent.replace("Specialization:", "").trim();
+    const location = card.querySelector("p:nth-of-type(3)").textContent.replace("Location:", "").trim();
+    const profileUrl = card.querySelector("a").getAttribute("href");
+    return { name, specialization, location, profileUrl };
+  });
+
+  // Handle search input
+  searchInput.addEventListener("input", () => {
+    const query = searchInput.value.toLowerCase().trim();
+    suggestionsList.innerHTML = "";
+
+    if (query.length > 0) {
+      const matches = doctors.filter(doc =>
+        doc.name.toLowerCase().includes(query) ||
+        doc.specialization.toLowerCase().includes(query) ||
+        doc.location.toLowerCase().includes(query)
+      );
+
+      if (matches.length > 0) {
+        suggestionsList.style.display = "block";
+        matches.slice(0, 10).forEach(doc => {
+          const div = document.createElement("div");
+          div.classList.add("suggestion-item");
+          div.innerHTML = `
+            <strong>${doc.name}</strong><br>
+            <span style="color: gray; font-size: 13px;">${doc.specialization} - ${doc.location}</span>
+          `;
+          div.addEventListener("click", () => {
+            searchInput.value = doc.name;
+            suggestionsList.style.display = "none";
+            window.location.href = doc.profileUrl; // redirect to doctor profile page
+          });
+          suggestionsList.appendChild(div);
+        });
+      } else {
+        suggestionsList.style.display = "none";
+      }
+    } else {
+      suggestionsList.style.display = "none";
+    }
+  });
+
+  // Hide suggestions when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".search-section")) {
+      suggestionsList.style.display = "none";
+    }
+  });
+});
+</script>
+
 
 </body>
 </html>

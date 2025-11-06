@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Nearest Centre - Khushipath</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/FP/style.css"> 
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fc;
+            padding-top: 60px; /* Space for the fixed navbar */
+            margin: 0;
+        }
+
+           /* --- Navbar Container (The dark blue bar) --- */
+.navbar {
+    width: 100%;
+    /* The light blue/grey bar color */
+    background-color: #ffffff; 
+    /* Shadow for the floating effect */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    padding: 10px 40px;
+    
+    /* Use Flexbox to align logo and links horizontally */
+    display: flex;
+    justify-content: space-between; /* Pushes logo left, links right */
+    align-items: center;
+    
+    /* Fixed at the top, if desired */
+    /* position: fixed; 
+       top: 0;
+       z-index: 1000; */
+}
+
+        .centre-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+            min-height: 80vh;
+        }
+        
+        h1 {
+            color: #1a4e69;
+            font-size: 2em;
+            margin-bottom: 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* --- Left Column: Search and Locations List --- */
+        .sidebar {
+            width: 350px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .search-box {
+            display: flex;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            background-color: #f0f0f0;
+        }
+
+        .search-box input {
+            border: none;
+            padding: 10px;
+            width: 100%;
+            font-size: 1em;
+        }
+
+        .search-box button {
+            background: #4a90e2;
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+        
+        /* --- Location Cards --- */
+        .location-card {
+            padding: 15px;
+            border-bottom: 1px dashed #eee;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .location-card:hover {
+            background-color: #e9f5ff; /* Light blue hover effect */
+        }
+        
+        .location-card h4 {
+            color: #1a4e69;
+            margin: 0 0 5px 0;
+            font-size: 1.1em;
+        }
+        
+        .location-card p {
+            margin: 2px 0;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .distance {
+            font-weight: bold;
+            color: #2ecc71; /* Green accent for distance */
+            margin-top: 5px;
+            display: block;
+        }
+
+        /* --- Right Column: Map Integration --- */
+        .map-section {
+            flex-grow: 1;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            /* Placeholder style for the map area */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            color: #aaa;
+            background-color: #e9f0f7;
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 900px) {
+            .centre-container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: auto;
+                max-height: 40vh; /* Shorter sidebar on mobile */
+            }
+            .map-section {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="/FP/image/khushipath logo.png" alt="Khushipath Logo" style="height: 30px;" />
+            <h1>Khushipath</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/About">About Us</a></li>
+            <li><a href="/Tes">Tests</a></li>
+            <li><a href="/Packages">Packages</a></li>
+            <li><a href="/Doctor">Doctors</a></li>
+            <li><a href="/Contact">Contact</a></li>
+            <li><a href="/Login">Login</a></li>
+            <li><a href="/Cart">Cart</a></li>
+        </ul>
+    </nav>
+
+    <div class="centre-container">
+        <h1>Find Your Nearest Khushipath Centre</h1>
+        
+        <div class="sidebar">
+            <div class="search-box">
+                <input type="text" id="location-search" placeholder="Enter City, Pincode, or Address...">
+                <button onclick="searchLocations()">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            
+            <p style="font-weight: 600; color: #4a90e2;">3 Centres Found near Prayagraj:</p>
+
+            <div id="location-list">
+                <div class="location-card" data-lat="28.6139" data-lon="77.2090">
+                    <h4>Khushipath Lab - CP (Main Branch)</h4>
+                    <p>Tambaku Gali, Prayagraj - 811001</p>
+                    <span class="distance"><i class="fas fa-route"></i> 2.5 km</span>
+                </div>
+
+                <div class="location-card" data-lat="28.5355" data-lon="77.3910">
+                    <h4>Khushipath Collection Centre - Naini</h4>
+                    <p>Shop No. 4, Sector 18 Market, Prayagraj - 811001</p>
+                    <span class="distance"><i class="fas fa-route"></i> 8.1 km</span>
+                </div>
+                
+                <div class="location-card" data-lat="28.6946" data-lon="77.1594">
+                    <h4>Khushipath Collection Centre - Jhalwa</h4>
+                    <p>Plot 5, Pocket D-12, Sector 7, Rohini, Prayagraj - 811001</p>
+                    <span class="distance"><i class="fas fa-route"></i> 15.0 km</span>
+                </div>
+                
+                </div>
+        </div>
+
+        <div class="map-section">
+            <i class="fas fa-map-marked-alt" style="margin-right: 15px;"></i> 
+            Map Integration Area (e.g., Google Maps)
+        </div>
+    </div>
+
+    <script>
+        // Placeholder JavaScript for map interaction (to be replaced by actual map API calls)
+        
+        function searchLocations() {
+            const query = document.getElementById('location-search').value;
+            console.log("Searching for: " + query);
+            alert("Search functionality requires backend integration or a map API (like Google Maps) to locate " + query);
+        }
+
+        document.querySelectorAll('.location-card').forEach(card => {
+            card.addEventListener('click', (event) => {
+                const lat = card.getAttribute('data-lat');
+                const lon = card.getAttribute('data-lon');
+                const name = card.querySelector('h4').textContent;
+                
+                console.log(`Centering map on: ${name} (${lat}, ${lon})`);
+                // In a real application, you would call map.setCenter({lat: lat, lng: lon}) here.
+                alert(`Map would center on ${name} now!`);
+            });
+        });
+    </script>
+</body>
+</html>

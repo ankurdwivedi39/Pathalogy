@@ -95,5 +95,81 @@
     © 2025 Khushipath. All rights reserved.
   </footer>
 
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.querySelector("form");
+  const nameField = document.getElementById("name");
+  const emailField = document.getElementById("email");
+  const phoneField = document.getElementById("phone");
+  const messageField = document.getElementById("message");
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    // 1️⃣ Authentication check (frontend)
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    if (!isLoggedIn) {
+      alert("⚠️ Please log in to submit the form.");
+      window.location.href = "/Login"; // redirect to login page
+      return;
+    }
+
+    // 2️⃣ Get input values
+    const name = nameField.value.trim();
+    const email = emailField.value.trim();
+    const phone = phoneField.value.trim();
+    const message = messageField.value.trim();
+
+    // 3️⃣ Validate required fields
+    if (!name || !email || !message) {
+      alert("⚠️ Please fill all required (*) fields before submitting.");
+      return;
+    }
+
+    // 4️⃣ Validate email format
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,}$/;
+    if (!emailPattern.test(email)) {
+      alert("⚠️ Please enter a valid email address (e.g., example@gmail.com).");
+      return;
+    }
+
+    // 5️⃣ Validate 10-digit phone number (if entered)
+    if (phone && !/^[0-9]{10}$/.test(phone)) {
+      alert("⚠️ Please enter a valid 10-digit mobile number (without country code).");
+      return;
+    }
+
+    // 6️⃣ If all validations pass, show thank-you popup
+    showPopup();
+
+    // Clear the form
+    form.reset();
+  });
+
+  // ✅ Popup Function
+  function showPopup() {
+    const popup = document.createElement("div");
+    popup.innerHTML = `
+      <div class="popup-overlay">
+        <div class="popup-box">
+          <h3>✅ Thank You!</h3>
+          <p>Your response has been recorded successfully.</p>
+          <button id="closePopup">OK</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(popup);
+
+    // Close popup
+    document.getElementById("closePopup").addEventListener("click", () => {
+      document.querySelector(".popup-overlay").remove();
+    });
+  }
+});
+</script>
+
+
+
+
 </body>
 </html>

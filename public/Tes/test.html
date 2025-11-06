@@ -1,74 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Health Tests - Khushipath</title>
-  <link rel="stylesheet" href="/FP/style.css">
-  <style>
-    
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f9ff;
-      margin: 0;
-      /* padding: 20px; */
-      padding-top: 100px;
-    }
-    .test-section {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-      max-width: 1100px;
-      margin: auto;
-    }
-    .test-card {
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-      padding: 20px;
-      text-align: center;
-      transition: transform 0.2s ease;
-    }
-    .test-card:hover {
-      transform: translateY(-5px);
-    }
-    .test-card img {
-      width: 50px;
-      margin-bottom: 15px;
-    }
-    .test-card h3 {
-      color: #4a90e2;
-      font-size: 1.2em;
-      margin: 10px 0;
-    }
-    .test-card p {
-      font-size: 0.9em;
-      color: #555;
-      min-height: 40px;
-    }
-    .price {
-      font-weight: bold;
-      color: #222;
-      margin: 8px 0;
-    }
-    .btn {
-      display: inline-block;
-      margin-top: 8px;
-      padding: 8px 15px;
-      background: #4a90e2;
-      color: #fff;
-      border-radius: 6px;
-      text-decoration: none;
-      font-size: 0.9em;
-    }
-    .btn:hover {
-      background: #3a78c2;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Tests - Khushipath</title>
+    <link rel="stylesheet" href="/FP/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f9ff;
+            margin: 0;
+            padding-top: 100px;
+        }
+        .test-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            max-width: 1100px;
+            margin: auto;
+        }
+        .test-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+        .test-card:hover {
+            transform: translateY(-5px);
+        }
+        .test-card img {
+            width: 50px;
+            margin-bottom: 15px;
+        }
+        .test-card h3 {
+            color: #4a90e2;
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+        .test-card p {
+            font-size: 0.9em;
+            color: #555;
+            min-height: 40px;
+        }
+        .price {
+            font-weight: bold;
+            color: #222;
+            margin: 8px 0;
+        }
+        .btn {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 8px 15px;
+            background: #4a90e2;
+            color: #fff;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.9em;
+            cursor: pointer; /* Added cursor pointer for UX */
+        }
+        .btn:hover {
+            background: #3a78c2;
+        }
+    </style>
 </head>
 <body>
-  <!-- this is  start navigation bar code & style  -->
-   <nav class="navbar">
+    <nav class="navbar">
         <div class="logo">
             <img src="/FP/image/khushipath logo.png" alt="Khushipath Logo - A simplified image of a person meditating under a tree" />
             <h1>Khushipath</h1>
@@ -81,382 +81,358 @@
             <li><a href="/Doctor">Doctors</a></li>
             <li><a href="/Contact">Contact</a></li>
             <li><a href="/Login">Login</a></li>
-             <li><a href="/Cart">Cart</a></li>
+            <li><a href="/Cart">Cart</a></li>
         </ul>
     </nav>
-    <!-- this is ending navigation bar code  -->
+    <h1 style="text-align:center; color:#4a90e2; margin-bottom:30px;">Available Health Tests</h1>
 
-  
+    <div class="test-section">
 
-  <h1 style="text-align:center; color:#4a90e2; margin-bottom:30px;">Available Health Tests</h1>
+        <div class="test-card">
+            <img src="/FP/image/cbc.png" alt="CBC">
+            <h3>Complete Blood Count (CBC)</h3>
+            <p>Evaluates blood health and detects anemia, infections, etc.</p>
+            <div class="price">₹299</div>
+            <a href="#" class="btn add-to-cart-btn" data-item-id="T1" data-name="Complete Blood Count (CBC)" data-price="299">Add to Cart</a>
+            <a href="/Tes/Details/details-cbc.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+        </div>
 
-  <div class="test-section">
+        <div class="test-card">
+            <img src="/FP/image/thyroid.jpg" alt="Thyroid">
+            <h3>Thyroid Profile</h3>
+            <p>Checks T3, T4, TSH for thyroid disorders.</p>
+            <div class="price">₹499</div>
+            <a href="#" class="btn add-to-cart-btn" data-item-id="T2" data-name="Thyroid Profile" data-price="499">Add to Cart</a>
+            <a href="/Tes/Details/details-thyroid.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+        </div>
 
-    <div class="test-card">
-      <img src="/FP/image/cbc.png" alt="CBC">
-      <h3>Complete Blood Count (CBC)</h3>
-      <p>Evaluates blood health and detects anemia, infections, etc.</p>
-      <div class="price">₹299</div>
-      <a href="#" class="btn">Add to Cart</a>
-      <a href="/Tes/Details/details-cbc.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-    </div>
+        <div class="test-card">
+            <img src="/FP/image/alergy1.jpg" alt="Allergy">
+            <h3>Allergy Panel</h3>
+            <p>Detects sensitivity to common allergens.</p>
+            <div class="price">₹1299</div>
+            <a href="#" class="btn add-to-cart-btn" data-item-id="T3" data-name="Allergy Panel" data-price="1299">Add to Cart</a>
+            <a href="/Tes/Details/details-allergy.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+        </div>
 
-    <div class="test-card">
-      <img src="/FP/image/thyroid.jpg" alt="Thyroid">
-      <h3>Thyroid Profile</h3>
-      <p>Checks T3, T4, TSH for thyroid disorders.</p>
-      <div class="price">₹499</div>
-      <a href="#" class="btn">Add to Cart</a>
-      <a href="/Tes/Details/details-thyroid.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-    </div>
+        <div class="test-card">
+            <img src="/FP/image/vita D.png" alt="Vitamin D">
+            <h3>Vitamin D Test</h3>
+            <p>Checks Vitamin D deficiency for bone & immune health.</p>
+            <div class="price">₹799</div>
+            <a href="#" class="btn add-to-cart-btn" data-item-id="T4" data-name="Vitamin D Test" data-price="799">Add to Cart</a>
+            <a href="/Tes/Details/details-vitamin-d.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+        </div>
 
-    <div class="test-card">
-      <img src="/FP/image/alergy1.jpg" alt="Allergy">
-      <h3>Allergy Panel</h3>
-      <p>Detects sensitivity to common allergens.</p>
-      <div class="price">₹1299</div>
-      <a href="#" class="btn">Add to Cart</a>
-      <a href="/Tes/Details/details-allergy.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-    </div>
+        <div class="test-card">
+            <img src="/FP/image/hba1c.png" alt="HbA1c">
+            <h3>HbA1c</h3>
+            <p>Average blood sugar of last 3 months (diabetes check).</p>
+            <div class="price">₹399</div>
+            <a href="#" class="btn add-to-cart-btn" data-item-id="T5" data-name="HbA1c" data-price="399">Add to Cart</a>
+            <a href="/Tes/Details/details-hba1c.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+        </div>
 
-    <div class="test-card">
-      <img src="/FP/image/vita D.png" alt="Vitamin D">
-      <h3>Vitamin D Test</h3>
-      <p>Checks Vitamin D deficiency for bone & immune health.</p>
-      <div class="price">₹799</div>
-      <a href="#" class="btn">Add to Cart</a>
-      <a href="/Tes/Details/details-vitamin-d.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-    </div>
+        <div class="test-card">
+            <img src="/FP/image/liver-function-test-lft.avif" alt="LFT">
+            <h3>Liver Function Test (LFT)</h3>
+            <p>Measures enzymes & proteins for liver health.</p>
+            <div class="price">₹699</div>
+            <a href="#" class="btn add-to-cart-btn" data-item-id="T6" data-name="Liver Function Test (LFT)" data-price="699">Add to Cart</a>
+            <a href="/Tes/Details/details-lft.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+        </div>
 
-    <div class="test-card">
-      <img src="/FP/image/hba1c.png" alt="HbA1c">
-      <h3>HbA1c</h3>
-      <p>Average blood sugar of last 3 months (diabetes check).</p>
-      <div class="price">₹399</div>
-      <a href="#" class="btn">Add to Cart</a>
-      <a href="/Tes/Details/details-hba1c.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-    </div>
+        <div class="test-card">
+            <img src="/FP/image/kidney.jpg" alt="KFT">
+            <h3>Kidney Function Test (KFT)</h3>
+            <p>Checks creatinine, urea, electrolytes for kidney health.</p>
+            <div class="price">₹599</div>
+            <a href="#" class="btn add-to-cart-btn" data-item-id="T7" data-name="Kidney Function Test (KFT)" data-price="599">Add to Cart</a>
+            <a href="/Tes/Details/details-kft.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+        </div>
 
-    <div class="test-card">
-      <img src="/FP/image/liver-function-test-lft.avif" alt="LFT">
-      <h3>Liver Function Test (LFT)</h3>
-      <p>Measures enzymes & proteins for liver health.</p>
-      <div class="price">₹699</div>
-      <a href="#" class="btn">Add to Cart</a>
-      <a href="/Tes/Details/details-lft.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-    </div>
+        <div class="test-card">
+            <img src="/FP/image/lipid.jpg" alt="Lipid">
+            <h3>Lipid Profile</h3>
+            <p>Measures cholesterol, HDL, LDL, triglycerides.</p>
+            <div class="price">₹499</div>
+            <a href="#" class="btn add-to-cart-btn" data-item-id="T8" data-name="Lipid Profile" data-price="499">Add to Cart</a>
+            <a href="/Tes/Details/details-lipid.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+        </div>
 
-    <div class="test-card">
-      <img src="/FP/image/kidney.jpg" alt="KFT">
-      <h3>Kidney Function Test (KFT)</h3>
-      <p>Checks creatinine, urea, electrolytes for kidney health.</p>
-      <div class="price">₹599</div>
-      <a href="#" class="btn">Add to Cart</a>
-      <a href="/Tes/Details/details-kft.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-    </div>
+        <div class="test-card">
+            <img src="/FP/image/blood_sugar.jpg" alt="Blood Sugar">
+            <h3>Blood Sugar (Fasting/PP)</h3>
+            <p>Essential test for diabetes diagnosis.</p>
+            <div class="price">₹149</div>
+            <a href="#" class="btn add-to-cart-btn" data-item-id="T9" data-name="Blood Sugar (Fasting/PP)" data-price="149">Add to Cart</a>
+            <a href="/Tes/Details/details-sugar.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+        </div>
 
-    <div class="test-card">
-      <img src="/FP/image/lipid.jpg" alt="Lipid">
-      <h3>Lipid Profile</h3>
-      <p>Measures cholesterol, HDL, LDL, triglycerides.</p>
-      <div class="price">₹499</div>
-      <a href="#" class="btn">Add to Cart</a>
-      <a href="/Tes/Details/details-lipid.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-    </div>
+        <div class="test-card">
+            <img src="/FP/image/vitaB12.jpg" alt="Vitamin B12">
+            <h3>Vitamin B12</h3>
+            <p>Important for nerves, blood, and energy levels.</p>
+            <div class="price">₹899</div>
+            <a href="#" class="btn add-to-cart-btn" data-item-id="T10" data-name="Vitamin B12" data-price="899">Add to Cart</a>
+            <a href="/Tes/Details/details-vitamin-b12.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+        </div>
 
-    <div class="test-card">
-      <img src="/FP/image/blood_sugar.jpg" alt="Blood Sugar">
-      <h3>Blood Sugar (Fasting/PP)</h3>
-      <p>Essential test for diabetes diagnosis.</p>
-      <div class="price">₹149</div>
-      <a href="#" class="btn">Add to Cart</a>
-      <a href="/Tes/Details/details-sugar.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-    </div>
+        <div class="test-card">
+            <img src="/FP/image/urinalysis.jpg" alt="Urine Test">
+            <h3>Urine Routine</h3>
+            <p>Analyzes urine for signs of common diseases.</p>
+            <div class="price">₹199</div>
+            <a href="#" class="btn add-to-cart-btn" data-item-id="T11" data-name="Urine Routine" data-price="199">Add to Cart</a>
+            <a href="/Tes/Details/details-urine.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+        </div>
 
-    <div class="test-card">
-      <img src="/FP/image/vitaB12.jpg" alt="Vitamin B12">
-      <h3>Vitamin B12</h3>
-      <p>Important for nerves, blood, and energy levels.</p>
-      <div class="price">₹899</div>
-      <a href="#" class="btn">Add to Cart</a>
-      <a href="/Tes/Details/details-vitamin-b12.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-    </div>
+        <div class="test-card">
+            <img src="/FP/image/iron-profile.jpg" alt="Iron Profile">
+            <h3>Iron Profile</h3>
+            <p>Measures different iron substances in the blood.</p>
+            <div class="price">₹899</div>
+            <a href="#" class="btn add-to-cart-btn" data-item-id="T12" data-name="Iron Profile" data-price="899">Add to Cart</a>
+            <a href="/Tes/Details/details-iron.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+        </div>
 
-    <div class="test-card">
-        <img src="/FP/image/urinalysis.jpg" alt="Urine Test">
-        <h3>Urine Routine</h3>
-        <p>Analyzes urine for signs of common diseases.</p>
-        <div class="price">₹199</div>
-        <a href="#" class="btn">Add to Cart</a>
-        <a href="/Tes/Details/details-urine.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-    </div>
+        <div class="test-card">
+            <img src="/FP/image/uricAcid.webp" alt="Uric Acid">
+            <h3>Uric Acid Test</h3>
+            <p>Measures uric acid levels, often for gout diagnosis.</p>
+            <div class="price">₹249</div>
+            <a href="#" class="btn add-to-cart-btn" data-item-id="T13" data-name="Uric Acid Test" data-price="249">Add to Cart</a>
+            <a href="/Tes/Details/details-uric.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+        </div>
 
-    <div class="test-card">
-        <img src="/FP/image/iron-profile.jpg" alt="Iron Profile">
-        <h3>Iron Profile</h3>
-        <p>Measures different iron substances in the blood.</p>
-        <div class="price">₹899</div>
-        <a href="#" class="btn">Add to Cart</a>
-        <a href="/Tes/Details/details-iron.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-    </div>
+        <div class="test-card">
+            <img src="/FP/image/testosterone-.webp" alt="Testosterone">
+            <h3>Testosterone Test</h3>
+            <p>Checks the level of the primary male sex hormone.</p>
+            <div class="price">₹999</div>
+            <a href="#" class="btn add-to-cart-btn" data-item-id="T14" data-name="Testosterone Test" data-price="999">Add to Cart</a>
+            <a href="/Tes/Details/details-testosterone.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+        </div>
+        
+        <div class="test-card">
+            <img src="/FP/image/dengue.webp" alt="Dengue Test">
+            <h3>Dengue NS1 Antigen</h3>
+            <p>Detects Dengue virus early in the infection.</p>
+            <div class="price">₹1199</div>
+            <a href="#" class="btn add-to-cart-btn" data-item-id="T15" data-name="Dengue NS1 Antigen" data-price="1199">Add to Cart</a>
+            <a href="/Tes/Details/details-dengue.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+        </div>
 
-    <div class="test-card">
-        <img src="/FP/image/uricAcid.webp" alt="Uric Acid">
-        <h3>Uric Acid Test</h3>
-        <p>Measures uric acid levels, often for gout diagnosis.</p>
-        <div class="price">₹249</div>
-        <a href="#" class="btn">Add to Cart</a>
-        <a href="/Tes/Details/details-uric.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-    </div>
+        <div class="test-card">
+            <img src="/FP/image/malaria.webp" alt="Malaria Test">
+            <h3>Malaria Parasite Test</h3>
+            <p>Screens for the parasite that causes malaria.</p>
+            <div class="price">₹349</div>
+            <a href="#" class="btn add-to-cart-btn" data-item-id="T16" data-name="Malaria Parasite Test" data-price="349">Add to Cart</a>
+            <a href="/Tes/Details/details-malaria.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+        </div>
 
-    <div class="test-card">
-        <img src="/FP/image/testosterone-.webp" alt="Testosterone">
-        <h3>Testosterone Test</h3>
-        <p>Checks the level of the primary male sex hormone.</p>
-        <div class="price">₹999</div>
-        <a href="#" class="btn">Add to Cart</a>
-        <a href="/Tes/Details/details-testosterone.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-    </div>
-    
-    <div class="test-card">
-        <img src="/FP/image/dengue.webp" alt="Dengue Test">
-        <h3>Dengue NS1 Antigen</h3>
-        <p>Detects Dengue virus early in the infection.</p>
-        <div class="price">₹1199</div>
-        <a href="#" class="btn">Add to Cart</a>
-        <a href="/Tes/Details/details-dengue.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-    </div>
+        <div class="test-card">
+            <img src="/FP/image/typhoid.jpg" alt="Typhoid Test">
+            <h3>Widal Test for Typhoid</h3>
+            <p>Helps in the diagnosis of typhoid fever.</p>
+            <div class="price">₹299</div>
+            <a href="#" class="btn add-to-cart-btn" data-item-id="T17" data-name="Widal Test for Typhoid" data-price="299">Add to Cart</a>
+            <a href="/Tes/Details/details-widal.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+        </div>
 
-    <div class="test-card">
-        <img src="/FP/image/malaria.webp" alt="Malaria Test">
-        <h3>Malaria Parasite Test</h3>
-        <p>Screens for the parasite that causes malaria.</p>
-        <div class="price">₹349</div>
-        <a href="#" class="btn">Add to Cart</a>
-        <a href="/Tes/Details/details-malaria.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-    </div>
+        <div class="test-card">
+            <img src="/FP/image/hiv.jpg" alt="HIV Test">
+            <h3>HIV Test</h3>
+            <p>Screens for the Human Immunodeficiency Virus.</p>
+            <div class="price">₹799</div>
+            <a href="#" class="btn add-to-cart-btn" data-item-id="T18" data-name="HIV Test" data-price="799">Add to Cart</a>
+            <a href="/Tes/Details/details-hiv.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+        </div>
 
-    <div class="test-card">
-        <img src="/FP/image/typhoid.jpg" alt="Typhoid Test">
-        <h3>Widal Test for Typhoid</h3>
-        <p>Helps in the diagnosis of typhoid fever.</p>
-        <div class="price">₹299</div>
-        <a href="#" class="btn">Add to Cart</a>
-        <a href="/Tes/Details/details-widal.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-    </div>
+        <div class="test-card">
+            <img src="/FP/image/hepatitis.jpg" alt="Hepatitis B">
+            <h3>Hepatitis B (HBsAg)</h3>
+            <p>Detects the presence of Hepatitis B virus.</p>
+            <div class="price">₹599</div>
+            <a href="#" class="btn add-to-cart-btn" data-item-id="T19" data-name="Hepatitis B (HBsAg)" data-price="599">Add to Cart</a>
+            <a href="/Tes/Details/details-hbsag.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+        </div>
 
-    <div class="test-card">
-        <img src="/FP/image/hiv.jpg" alt="HIV Test">
-        <h3>HIV Test</h3>
-        <p>Screens for the Human Immunodeficiency Virus.</p>
-        <div class="price">₹799</div>
-        <a href="#" class="btn">Add to Cart</a>
-        <a href="/Tes/Details/details-hiv.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-    </div>
+        <div class="test-card">
+            <img src="/FP/image/psa.webp" alt="PSA Test">
+            <h3>PSA (Prostate-Specific Antigen)</h3>
+            <p>Screens for prostate health issues in men.</p>
+            <div class="price">₹749</div>
+            <a href="#" class="btn add-to-cart-btn" data-item-id="T20" data-name="PSA (Prostate-Specific Antigen)" data-price="749">Add to Cart</a>
+            <a href="/Tes/Details/details-psa.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+        </div>
 
-    <div class="test-card">
-        <img src="/FP/image/hepatitis.jpg" alt="Hepatitis B">
-        <h3>Hepatitis B (HBsAg)</h3>
-        <p>Detects the presence of Hepatitis B virus.</p>
-        <div class="price">₹599</div>
-        <a href="#" class="btn">Add to Cart</a>
-        <a href="/Tes/Details/details-hbsag.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-    </div>
+        <div class="test-card">
+            <img src="/FP/image/reumanide.webp" alt="RA Factor">
+            <h3>Rheumatoid Factor (RA)</h3>
+            <p>Helps diagnose rheumatoid arthritis.</p>
+            <div class="price">₹499</div>
+            <a href="#" class="btn add-to-cart-btn" data-item-id="T21" data-name="Rheumatoid Factor (RA)" data-price="499">Add to Cart</a>
+            <a href="/Tes/Details/details-ra.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+        </div>
 
-    <div class="test-card">
-        <img src="/FP/image/psa.webp" alt="PSA Test">
-        <h3>PSA (Prostate-Specific Antigen)</h3>
-        <p>Screens for prostate health issues in men.</p>
-        <div class="price">₹749</div>
-        <a href="#" class="btn">Add to Cart</a>
-        <a href="/Tes/Details/details-psa.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-    </div>
+        <div class="test-card">
+            <img src="/FP/image/bloogro.jpg" alt="Blood Group">
+            <h3>Blood Grouping & Rh Type</h3>
+            <p>Determines your ABO blood type and Rh factor.</p>
+            <div class="price">₹199</div>
+            <a href="#" class="btn add-to-cart-btn" data-item-id="T22" data-name="Blood Grouping & Rh Type" data-price="199">Add to Cart</a>
+            <a href="/Tes/Details/details-blood-group.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+        </div>
 
-    <div class="test-card">
-        <img src="/FP/image/reumanide.webp" alt="RA Factor">
-        <h3>Rheumatoid Factor (RA)</h3>
-        <p>Helps diagnose rheumatoid arthritis.</p>
-        <div class="price">₹499</div>
-        <a href="#" class="btn">Add to Cart</a>
-        <a href="/Tes/Details/details-ra.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-    </div>
+        <div class="test-card">
+            <img src="/FP/image/electrolyte.jpg" alt="Electrolytes">
+            <h3>Electrolyte Panel</h3>
+            <p>Measures key electrolytes like sodium and potassium.</p>
+            <div class="price">₹399</div>
+            <a href="#" class="btn add-to-cart-btn" data-item-id="T23" data-name="Electrolyte Panel" data-price="399">Add to Cart</a>
+            <a href="/Tes/Details/details-electrolyte.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+        </div>
 
-    <div class="test-card">
-        <img src="/FP/image/bloogro.jpg" alt="Blood Group">
-        <h3>Blood Grouping & Rh Type</h3>
-        <p>Determines your ABO blood type and Rh factor.</p>
-        <div class="price">₹199</div>
-        <a href="#" class="btn">Add to Cart</a>
-        <a href="/Tes/Details/details-blood-group.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-    </div>
+        <div class="test-card">
+            <img src="/FP/image/calcium.webp" alt="Calcium">
+            <h3>Calcium Test</h3>
+            <p>Measures the level of calcium in your blood.</p>
+            <div class="price">₹249</div>
+            <a href="#" class="btn add-to-cart-btn" data-item-id="T24" data-name="Calcium Test" data-price="249">Add to Cart</a>
+            <a href="/Tes/Details/details-calcium.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+        </div>
 
-    <div class="test-card">
-        <img src="/FP/image/electrolyte.jpg" alt="Electrolytes">
-        <h3>Electrolyte Panel</h3>
-        <p>Measures key electrolytes like sodium and potassium.</p>
-        <div class="price">₹399</div>
-        <a href="#" class="btn">Add to Cart</a>
-        <a href="/Tes/Details/details-electrolyte.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-    </div>
+        <div class="test-card">
+            <img src="/FP/image/amalyse.webp" alt="Amylase">
+            <h3>Amylase Test</h3>
+            <p>Checks for pancreatic and salivary gland issues.</p>
+            <div class="price">₹449</div>
+            <a href="#" class="btn add-to-cart-btn" data-item-id="T25" data-name="Amylase Test" data-price="449">Add to Cart</a>
+            <a href="/Tes/Details/details-amylase.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+        </div>
 
-    <div class="test-card">
-        <img src="/FP/image/calcium.webp" alt="Calcium">
-        <h3>Calcium Test</h3>
-        <p>Measures the level of calcium in your blood.</p>
-        <div class="price">₹249</div>
-        <a href="#" class="btn">Add to Cart</a>
-        <a href="/Tes/Details/details-calcium.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-    </div>
+        <div class="test-card">
+            <img src="/FP/image/lipase.webp" alt="Lipase">
+            <h3>Lipase Test</h3>
+            <p>Measures the level of lipase for pancreas health.</p>
+            <div class="price">₹449</div>
+            <a href="#" class="btn add-to-cart-btn" data-item-id="T26" data-name="Lipase Test" data-price="449">Add to Cart</a>
+            <a href="/Tes/Details/details-lipase.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+        </div>
 
-    <div class="test-card">
-        <img src="/FP/image/amalyse.webp" alt="Amylase">
-        <h3>Amylase Test</h3>
-        <p>Checks for pancreatic and salivary gland issues.</p>
-        <div class="price">₹449</div>
-        <a href="#" class="btn">Add to Cart</a>
-        <a href="/Tes/Details/details-amylase.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-    </div>
+        <div class="test-card">
+            <img src="/FP/image/fertin.webp" alt="Ferritin">
+            <h3>Ferritin Test</h3>
+            <p>Measures the amount of stored iron in the body.</p>
+            <div class="price">₹699</div>
+            <a href="#" class="btn add-to-cart-btn" data-item-id="T27" data-name="Ferritin Test" data-price="699">Add to Cart</a>
+            <a href="/Tes/Details/details-ferritin.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+        </div>
 
-    <div class="test-card">
-        <img src="/FP/image/lipase.webp" alt="Lipase">
-        <h3>Lipase Test</h3>
-        <p>Measures the level of lipase for pancreas health.</p>
-        <div class="price">₹449</div>
-        <a href="#" class="btn">Add to Cart</a>
-        <a href="/Tes/Details/details-lipase.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-    </div>
+        <div class="test-card">
+            <img src="/FP/image/esr.webp" alt="ESR">
+            <h3>ESR Test</h3>
+            <p>Detects non-specific inflammation in the body.</p>
+            <div class="price">₹149</div>
+            <a href="#" class="btn add-to-cart-btn" data-item-id="T28" data-name="ESR Test" data-price="149">Add to Cart</a>
+            <a href="/Tes/Details/details-esr.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+        </div>
 
-    <div class="test-card">
-        <img src="/FP/image/fertin.webp" alt="Ferritin">
-        <h3>Ferritin Test</h3>
-        <p>Measures the amount of stored iron in the body.</p>
-        <div class="price">₹699</div>
-        <a href="#" class="btn">Add to Cart</a>
-        <a href="/Tes/Details/details-ferritin.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-    </div>
+        <div class="test-card">
+            <img src="/FP/image/highsensitive.jpg" alt="hs-CRP">
+            <h3>High-Sensitivity CRP (hs-CRP)</h3>
+            <p>Assesses risk for cardiovascular disease.</p>
+            <div class="price">₹799</div>
+            <a href="#" class="btn add-to-cart-btn" data-item-id="T29" data-name="High-Sensitivity CRP (hs-CRP)" data-price="799">Add to Cart</a>
+            <a href="/Tes/Details/details-hscrp.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+        </div>
 
-    <div class="test-card">
-        <img src="/FP/image/esr.webp" alt="ESR">
-        <h3>ESR Test</h3>
-        <p>Detects non-specific inflammation in the body.</p>
-        <div class="price">₹149</div>
-        <a href="#" class="btn">Add to Cart</a>
-        <a href="/Tes/Details/details-esr.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-    </div>
-
-    <div class="test-card">
-        <img src="/FP/image/highsensitive.jpg" alt="hs-CRP">
-        <h3>High-Sensitivity CRP (hs-CRP)</h3>
-        <p>Assesses risk for cardiovascular disease.</p>
-        <div class="price">₹799</div>
-        <a href="#" class="btn">Add to Cart</a>
-        <a href="/Tes/Details/details-hscrp.html" style="color:#005aa7;text-decoration:none;">View Details</a>
-    </div>
-
-    <div class="test-card">
-        <img src="/FP/image/prolactin test.webp" alt="Prolactin">
-        <h3>Prolactin (PRL) Test</h3>
-        <p>Measures prolactin hormone levels in blood.</p>
-        <div class="price">₹599</div>
-        <a href="#" class="btn">Add to Cart</a>
-        <a href="/Tes/Details/details-psa.html")
- style="color:#005aa7;text-decoration:none;">View Details</a>
-    </div>
+        <div class="test-card">
+            <img src="/FP/image/prolactin test.webp" alt="Prolactin">
+            <h3>Prolactin (PRL) Test</h3>
+            <p>Measures prolactin hormone levels in blood.</p>
+            <div class="price">₹599</div>
+            <a href="#" class="btn add-to-cart-btn" data-item-id="T30" data-name="Prolactin (PRL) Test" data-price="599">Add to Cart</a>
+            <a href="/Tes/Details/details-psa.html" style="color:#005aa7;text-decoration:none;">View Details</a>
+        </div>
 
     </div>
 </body>
+<script>
+    // Define the URL of your dedicated cart page for redirection
+    const CART_PAGE_URL = "/Cart"; 
+
+    // Helper function for Indian Rupee formatting
+    const formatter = new Intl.NumberFormat('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        minimumFractionDigits: 0, 
+    });
+    
+    // 1. Storage Functions (using browser's localStorage)
+    function getCart() {
+        // We will store all tests and packages in the same cart
+        const cartString = localStorage.getItem('khushipathCart');
+        return cartString ? JSON.parse(cartString) : [];
+    }
+
+    function saveCart(cart) {
+        localStorage.setItem('khushipathCart', JSON.stringify(cart));
+    }
+
+    // 2. Core Cart Logic: Add to Cart (Including Redirection)
+    function addToCart(event) {
+        // Prevent the default link action (#)
+        event.preventDefault(); 
+        
+        const button = event.target;
+        
+        // Retrieve data attributes (ID, Name, Price)
+        // Note: Using data-item-id for clarity since these are single tests
+        const id = button.getAttribute('data-item-id');
+        const name = button.getAttribute('data-name');
+        const price = parseFloat(button.getAttribute('data-price'));
+        
+        let currentCart = getCart();
+        
+        // Check if the item is already in the cart
+        const existingItem = currentCart.find(item => item.id === id);
+        
+        if (existingItem) {
+            // Increment quantity
+            existingItem.quantity += 1;
+        } else {
+            // Add new item
+            const newItem = {
+                id: id,
+                name: name,
+                price: price,
+                quantity: 1
+            };
+            currentCart.push(newItem);
+        }
+        
+        // Save the updated array
+        saveCart(currentCart);
+        
+        // ******************************************************
+        // --> STEP 1: SAVE THE CURRENT PAGE URL TO SESSION STORAGE <--
+        sessionStorage.setItem('lastShoppingPage', window.location.href);
+        // ******************************************************
+
+        // --- REDIRECT TO CART PAGE AFTER ADDING ---
+        window.location.href = CART_PAGE_URL;
+    }
+
+    // 3. Initialization
+    // Attach the single 'addToCart' function to every button with the class
+    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+        button.addEventListener('click', addToCart);
+    });
+
+    // NOTE: On this single test page, we don't need to render the cart summary, 
+    // we only need the logic to save and redirect.
+</script>
 </html>
-<!-- <script>
-    // Helper: generate token
-    function makeToken(){
-      // simple incremental/random based token
-      const now = Date.now().toString().slice(-6); // last 6 digits timestamp
-      const rand = Math.floor(Math.random()*90 + 10); // 2-digit random
-      return 'KPS-' + rand + now.slice(-4); // e.g. KPS-129123
-    }
-
-    // package click -> fill service select
-    document.querySelectorAll('.pkg').forEach(pkg=>{
-      pkg.addEventListener('click', ()=> {
-        const svc = pkg.dataset.service || '';
-        const price = pkg.dataset.price || '';
-        const serviceSelect = document.getElementById('service');
-
-        // If exact option exists, select it; otherwise add a temporary option
-        let found=false;
-        for(let i=0;i<serviceSelect.options.length;i++){
-          if(serviceSelect.options[i].text === svc){
-            serviceSelect.selectedIndex = i;
-            found=true;
-            break;
-          }
-        }
-        if(!found){
-          const opt = document.createElement('option');
-          opt.text = svc + (price ? ' — ₹'+price : '');
-          opt.value = svc;
-          opt.selected = true;
-          serviceSelect.appendChild(opt);
-        }
-
-        // small highlight effect
-        pkg.style.boxShadow='0 10px 24px rgba(13,110,253,0.08)';
-        setTimeout(()=> pkg.style.boxShadow='',400);
-      });
-    });
-
-    // form elements
-    const nameEl = document.getElementById('name');
-    const serviceEl = document.getElementById('service');
-    const mobileEl = document.getElementById('mobile');
-    const noteEl = document.getElementById('note');
-    const tokenBox = document.getElementById('tokenBox');
-    const tokenNumberEl = document.getElementById('tokenNumber');
-    const tokenDetailsEl = document.getElementById('tokenDetails');
-    const msgEl = document.getElementById('message');
-
-    function validate(){
-      const name = nameEl.value.trim();
-      const service = serviceEl.value.trim();
-      const mobile = mobileEl.value.trim();
-      if(!name){ showMessage('कृपया नाम भरें'); return false; }
-      if(!service){ showMessage('कृपया service चुनें'); return false; }
-      // mobile basic check
-      if(!/^\d{10}$/.test(mobile)){ showMessage('कृपया 10-digit mobile नंबर दें'); return false; }
-      return true;
-    }
-
-    function showMessage(text, ok=true){
-      msgEl.style.display='block';
-      msgEl.style.background = ok ? '#e9f7ee' : '#fff1f0';
-      msgEl.style.color = ok ? '#064d22' : '#6b1a1a';
-      msgEl.innerText = text;
-      setTimeout(()=>{ msgEl.style.display='none'; }, 4500);
-    }
-
-    // Generate token button behavior
-    document.getElementById('generateBtn').addEventListener('click', ()=>{
-      if(!validate()) return;
-      const token = makeToken();
-      tokenNumberEl.innerText = token;
-      tokenDetailsEl.innerText = `${nameEl.value.trim()} • ${serviceEl.value.trim()} • ${mobileEl.value.trim()}`;
-      tokenBox.style.display = 'block';
-      showMessage('Token generated: ' + token);
-    });
-
-    // Book & Confirm button
-    document.getElementById('bookBtn').addEventListener('click', ()=>{
-      if(!validate()) return;
-      const token = tokenNumberEl.innerText && tokenBox.style.display !== 'none' ? tokenNumberEl.innerText : makeToken();
-      // simulate booking (in real app: send to server via fetch/AJAX)
-      tokenNumberEl.innerText = token;
-      tokenDetailsEl.innerText = `${nameEl.value.trim()} • ${serviceEl.value.trim()} • ${mobileEl.value.trim()}`;
-      tokenBox.style.display = 'block';
-      showMessage('Booking confirmed. Your token: ' + token);
-      // Optionally clear fields after booking:
-      // nameEl.value=''; serviceEl.selectedIndex=0; mobileEl.value=''; noteEl.value='';
-    });
-
-    // optional: preselect first package
-    // document.querySelector('.pkg')?.click();
-  </script> -->
