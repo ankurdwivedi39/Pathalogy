@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Appointments - Khushipath Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Reusing core admin styles for consistency */
+        :root {
+            --primary-color: #3f51b5; /* Blue */
+            --secondary-color: #f44336; /* Red */
+            --bg-color: #f4f4f4;
+            --active-link-color: #536dfe;
+        }
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-color); }
+        .sidebar { height: 100vh; width: 250px; position: fixed; top: 0; left: 0; background-color: var(--primary-color); color: white; padding-top: 20px; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); }
+        .sidebar h2 { text-align: center; margin-bottom: 30px; padding-bottom: 15px; font-size: 1.5em; }
+        .nav-link-list { list-style: none; padding: 0; }
+        .nav-link-list a { display: block; padding: 15px 20px; color: white; text-decoration: none; font-size: 1.1em; transition: background-color 0.3s; }
+        .nav-link-list a:hover { background-color: var(--active-link-color); }
+        .nav-link-list .active-link a { background-color: var(--active-link-color); }
+        .nav-link-list i { margin-right: 10px; }
+        .main-content { margin-left: 250px; padding: 40px; }
+        .main-content h1 { color: var(--primary-color); border-bottom: 2px solid #ddd; padding-bottom: 10px; margin-bottom: 30px; }
+        .logout-btn-container { position: absolute; bottom: 20px; width: 100%; padding: 0 20px; box-sizing: border-box; }
+        .logout-btn { display: block; padding: 10px; background-color: var(--secondary-color); color: white; text-decoration: none; border-radius: 4px; text-align: center; font-weight: bold; }
+        
+        /* Appointments Table Styles */
+        .appointments-table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); border-radius: 8px; overflow: hidden; }
+        .appointments-table th, .appointments-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; }
+        .appointments-table th { background-color: #5d75e0; color: white; font-weight: 600; text-transform: uppercase; font-size: 0.9em; }
+        .status-badge { padding: 4px 8px; border-radius: 12px; font-size: 0.85em; font-weight: 600; display: inline-block; }
+        .status-pending { background-color: #ffc107; color: #333; }
+        .status-confirmed { background-color: #28a745; color: white; }
+        .status-cancelled { background-color: #dc3545; color: white; }
+        .action-btn { background-color: var(--primary-color); color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; margin-right: 5px; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2><i class="fas fa-shield-alt"></i> Khushipath Admin</h2>
+        
+        <ul class="nav-link-list">
+            <li><a href="/admin/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="/Admin/manage_users.html"><i class="fas fa-user-circle"></i> Manage Users</a></li>
+            <li><a href="/Admin/manage_tests_packages"><i class="fas fa-flask"></i> Test & Packages</a></li>
+             <li><a href="/admin/system-settings"><i class="fas fa-cog"></i> System Settings</a></li>
+            <li class="active-link"><a href="/Admin/manage_appointments"><i class="fas fa-calendar-check"></i> Appointments</a></li>
+            <li><a href="/Admin/analytics_reports.html"><i class="fas fa-chart-line"></i> Analytics & Reports</a></li>
+        </ul>
+
+        <div class="logout-btn-container">
+            <a href="/logout" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Log Out
+            </a>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <h1><i class="fas fa-calendar-check"></i> Appointments Management</h1>
+        <p>View, confirm, or cancel scheduled home collections and lab visits.</p>
+
+        <table class="appointments-table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer Name</th>
+                    <th>Date & Time</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="appointmentsTableBody">
+                <tr>
+                    <td>ORD1001</td>
+                    <td>Ravi Sharma</td>
+                    <td>07-11-2025, 10:00 AM</td>
+                    <td>Home Collection</td>
+                    <td><span class="status-badge status-pending">Pending</span></td>
+                    <td>
+                        <button class="action-btn">Confirm</button>
+                        <button class="action-btn" style="background-color:#dc3545;">Cancel</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>ORD1002</td>
+                    <td>Sita Verma</td>
+                    <td>06-11-2025, 09:30 AM</td>
+                    <td>Lab Visit</td>
+                    <td><span class="status-badge status-confirmed">Confirmed</span></td>
+                    <td>
+                        <button class="action-btn" style="background-color:#6c757d;">View Report</button>
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+</body>
+<script>
+    const appointmentsTableBody = document.getElementById('appointmentsTableBody');
+    
+    // Helper function for status styling
+    function getStatusBadge(status) {
+        let className = 'status-pending';
+        if (status === 'Confirmed' || status === 'Sample Collected' || status === 'Report Ready') {
+            className = 'status-confirmed';
+        } else if (status === 'Cancelled') {
+            className = 'status-cancelled';
+        }
+        return `<span class="status-badge ${className}">${status}</span>`;
+    }
+    
+    // Helper function to format date and time
+    function formatDateTime(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-IN') + ' ' + date.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+    }
+    
+    // 1. Function to create a table row
+    function createAppointmentRow(appointment, index) {
+        const row = document.createElement('tr');
+        row.dataset.id = appointment._id;
+        
+        // Simple Order ID for display (Last 4 digits of MongoDB ID)
+        const displayOrderId = "ORD" + appointment._id.substring(appointment._id.length - 4); 
+        
+        const customerName = appointment.customerName || (appointment.userId ? appointment.userId.username : 'N/A');
+        
+        row.innerHTML = `
+            <td>${displayOrderId}</td>
+            <td>${customerName}</td>
+            <td>${formatDateTime(appointment.appointmentDateTime)}</td>
+            <td>${appointment.collectionType}</td>
+            <td>${getStatusBadge(appointment.status)}</td>
+            <td>
+                <button class="action-btn view-details-btn" data-id="${appointment._id}">Details</button>
+                ${appointment.status === 'Pending' ? 
+                    `<button class="action-btn confirm-btn" data-id="${appointment._id}" style="background-color:#007bff;">Confirm</button>` : 
+                    ''
+                }
+                ${appointment.status !== 'Cancelled' ? 
+                    `<button class="action-btn cancel-btn" data-id="${appointment._id}" style="background-color:#dc3545;">Cancel</button>` : 
+                    ''
+                }
+            </td>
+        `;
+        return row;
+    }
+
+    // 2. Function to fetch all appointments
+    async function fetchAppointments() {
+        appointmentsTableBody.innerHTML = '<tr><td colspan="6" style="text-align: center;">Loading appointments...</td></tr>';
+        
+        try {
+            const response = await fetch('/api/appointments');
+            
+            if (!response.ok) {
+                if (response.status === 401 || response.status === 403) {
+                    alert("Session expired or unauthorized. Redirecting to login.");
+                    window.location.href = '/AdminLogin'; 
+                    return;
+                }
+                throw new Error('Failed to fetch appointments.');
+            }
+            
+            const appointments = await response.json();
+            
+            appointmentsTableBody.innerHTML = '';
+            
+            if (appointments.length === 0) {
+                appointmentsTableBody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #555;">No appointments scheduled yet.</td></tr>';
+            } else {
+                appointments.forEach((appt, index) => appointmentsTableBody.appendChild(createAppointmentRow(appt, index)));
+            }
+            
+            // Bind listeners after dynamic content is added
+            bindActionListeners();
+
+        } catch (error) {
+            console.error('Error loading appointments:', error);
+            appointmentsTableBody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: red;">Error loading appointments. Check server connection.</td></tr>';
+        }
+    }
+    
+    // 3. Action Listeners (Real Status Update Logic)
+    function bindActionListeners() {
+        document.querySelectorAll('.action-btn').forEach(button => {
+            button.onclick = async function() { // 🔑 Must be ASYNC
+                const action = this.textContent.trim();
+                const id = this.dataset.id;
+                let newStatus = '';
+                let successMessage = '';
+
+                // Determine the new status based on the button clicked
+                if (action === 'Confirm') {
+                    newStatus = 'Confirmed';
+                    successMessage = 'Appointment Confirmed.';
+                } else if (action === 'Cancel') {
+                    if (!confirm("Are you sure you want to CANCEL this appointment?")) {
+                        return; // Stop if user cancels confirmation
+                    }
+                    newStatus = 'Cancelled';
+                    successMessage = 'Appointment Cancelled.';
+                } else {
+                    // Handle other buttons (e.g., View Details, which can remain simulated for now)
+                    alert(`${action} appointment ID ${id} simulated.`);
+                    return; 
+                }
+
+                try {
+                    // 🔑 Call the PATCH API to update the status
+                    const response = await fetch(`/api/appointments/${id}`, {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ status: newStatus })
+                    });
+
+                    if (response.ok) {
+                        alert(successMessage);
+                        // Refresh the entire table to show the status change
+                        await fetchAppointments(); 
+                    } else {
+                        const errorData = await response.json();
+                        alert(`Error updating status: ${errorData.message || response.statusText}`);
+                    }
+
+                } catch (error) {
+                    console.error('Network Error during status update:', error);
+                    alert('A network error occurred. Could not update status.');
+                }
+            };
+        });
+    }
+
+    // Highlight the active sidebar link
+    document.addEventListener('DOMContentLoaded', function() {
+        // ... (Your existing sidebar highlight logic) ...
+        const path = window.location.pathname;
+        const links = document.querySelectorAll('.nav-link-list a');
+        links.forEach(link => {
+            if (path.includes(link.getAttribute('href'))) {
+                document.querySelectorAll('.nav-link-list li').forEach(li => li.classList.remove('active-link'));
+                link.parentNode.classList.add('active-link');
+            }
+        });
+
+        // Initial Load
+        fetchAppointments();
+    });
+</script>
+</html>

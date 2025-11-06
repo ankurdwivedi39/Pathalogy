@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Confirmed - Khushipath</title>
-    
+    <link rel="stylesheet" href="/FP/style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <style>
@@ -317,6 +317,44 @@
 
         // CRITICAL FIX: Call updateCartCount when the page is fully loaded.
         document.addEventListener('DOMContentLoaded', updateCartCount);
+
+        // --- CART COUNT HELPER FUNCTIONS (RETAINED) ---
+    function getCart() {
+        const cartString = localStorage.getItem('khushipathCart');
+        return cartString ? JSON.parse(cartString) : [];
+    }
+
+    function updateCartCount() {
+        const cart = getCart();
+        const cartCountElement = document.getElementById('cart-count');
+        
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+        if (cartCountElement) {
+            cartCountElement.textContent = totalItems;
+            cartCountElement.style.display = totalItems > 0 ? 'inline-block' : 'none';
+        }
+    }
+    // --- END CART COUNT HELPER FUNCTIONS ---
+
+    // 🔑 NEW FUNCTION: Clears the cart data from local storage
+    function clearCart() {
+        localStorage.removeItem('khushipathCart');
+        console.log("Shopping cart cleared from local storage.");
+    }
+
+    // 🔑 CRITICAL FIX: Run the logic on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        // 1. Clear the cart immediately upon loading the success page
+        clearCart(); 
+
+        // 2. Update the cart count displayed in the navbar to reflect 0 items
+        updateCartCount();
+        
+        // FUTURE: If the checkout included an API call, you would also 
+        // fetch the actual order details using the Order ID from the URL 
+        // (if it were a real API flow).
+    });
 </script>
 </body>
 </html>

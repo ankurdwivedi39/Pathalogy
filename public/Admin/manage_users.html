@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Users - Khushipath Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3f51b5; /* Blue */
+            --secondary-color: #f44336; /* Red */
+            --bg-color: #f4f4f4;
+            --active-link-color: #536dfe;
+        }
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-color); }
+        
+        /* --- Existing Styles (Sidebar, Main Content, Table, etc.) --- */
+        .sidebar { /* ... (Sidebar styles from previous response) ... */ height: 100vh; width: 250px; position: fixed; top: 0; left: 0; background-color: var(--primary-color); color: white; padding-top: 20px; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); transition: width 0.3s; }
+        .sidebar h2 { /* ... */ text-align: center; margin-bottom: 30px; padding-bottom: 15px; font-size: 1.5em; }
+        .nav-link-list { /* ... */ list-style: none; padding: 0; }
+        .nav-link-list a { /* ... */ display: block; padding: 15px 20px; color: white; text-decoration: none; font-size: 1.1em; transition: background-color 0.3s; }
+        .nav-link-list a:hover { /* ... */ background-color: var(--active-link-color); }
+        .nav-link-list i { /* ... */ margin-right: 10px; }
+        .main-content { /* ... */ margin-left: 250px; padding: 40px; }
+        .main-content h1 { /* ... */ color: var(--primary-color); border-bottom: 2px solid #ddd; padding-bottom: 10px; margin-bottom: 30px; }
+        .logout-btn-container { /* ... */ position: absolute; bottom: 20px; width: 100%; padding: 0 20px; box-sizing: border-box; }
+        .logout-btn { /* ... */ display: block; padding: 10px; background-color: var(--secondary-color); color: white; text-decoration: none; border-radius: 4px; text-align: center; font-weight: bold; }
+        .logout-btn:hover { /* ... */ background-color: #d32f2f; }
+        .user-controls { /* ... */ display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .add-user-btn { /* ... */ background-color: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; text-decoration: none; font-size: 1em; transition: background-color 0.3s; }
+        .add-user-btn:hover { /* ... */ background-color: #45a049; }
+        .user-table { /* ... */ width: 100%; border-collapse: collapse; background: white; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); border-radius: 8px; overflow: hidden; }
+        .user-table th, .user-table td { /* ... */ padding: 12px 15px; text-align: left; border-bottom: 1px solid #ddd; }
+        .user-table th { /* ... */ background-color: var(--primary-color); color: white; font-weight: 600; text-transform: uppercase; font-size: 0.9em; }
+        .user-table tr:hover { /* ... */ background-color: #f1f1f1; }
+        .action-link { /* ... */ margin-right: 10px; color: var(--primary-color); text-decoration: none; font-weight: bold; cursor: pointer; }
+        .action-link.delete { /* ... */ color: var(--secondary-color); }
+
+        /* **NEW STYLES FOR MODALS** */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto; /* 10% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+            max-width: 500px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close-btn:hover,
+        .close-btn:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .form-actions {
+            text-align: right;
+        }
+        .form-actions button {
+            padding: 10px 20px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-save {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        .btn-cancel {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2><i class="fas fa-shield-alt"></i> Khushipath Admin</h2>
+        
+        <ul class="nav-link-list">
+            <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li id="manage-users-link"><a href="manage_users.html" style="background-color: var(--active-link-color);"><i class="fas fa-user-circle"></i> Manage Users</a></li>
+            <li><a href="/Admin/manage_tests_packages.html"><i class="fas fa-flask"></i> Test & Packages</a></li>
+             <li><a href="/admin/system-settings"><i class="fas fa-cog"></i> System Settings</a></li>
+            <li><a href="/Admin/manage_appointments.html"><i class="fas fa-calendar-check"></i> Appointments</a></li>
+            <li><a href="/Admin/analytics_reports.html"><i class="fas fa-chart-line"></i> Analytics & Reports</a></li>
+            <li><a href="/Admin/cmanage_cotact.html"><i class="fas fa-inbox"></i> Contact Messages</a></li>
+        </ul>
+
+        <div class="logout-btn-container">
+            <a href="/logout" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Log Out
+            </a>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <h1><i class="fas fa-user-circle"></i> User Management</h1>
+        <p>A complete list of registered user accounts. You can edit, view, or remove users.</p>
+
+        <div class="user-controls">
+            <div class="search-bar">
+                <input type="text" placeholder="Search Users..." style="padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+            </div>
+            <button id="addUserBtn" class="add-user-btn">
+                <i class="fas fa-plus"></i> Add New User
+            </button>
+        </div>
+
+        <table class="user-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="userTableBody">
+                </tbody>
+        </table>
+    </div>
+
+    <div id="createUserModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Create New User</h2>
+            <form id="createUserForm">
+                <div class="form-group">
+                    <label for="newUserName">Full Name</label>
+                    <input type="text" id="newUserName" required>
+                </div>
+                <div class="form-group">
+                    <label for="newUserEmail">Email Address</label>
+                    <input type="email" id="newUserEmail" required>
+                </div>
+                <div class="form-group">
+    <label for="newUserRole">Role</label>
+    <select id="newUserRole">
+        <option value="user">User</option> 
+        
+        <option value="admin">Administrator</option>
+        
+        <option value="manager">Manager</option> 
+    </select>
+</div>
+                <div class="form-group">
+                    <label for="newUserPassword">Password</label>
+                    <input type="password" id="newUserPassword" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" onclick="document.getElementById('createUserModal').style.display='none'">Cancel</button>
+                    <button type="submit" class="btn-save">Create User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="editUserModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Edit User: <span id="editUserNameDisplay"></span></h2>
+            <form id="editUserForm">
+                <input type="hidden" id="editUserId">
+                <div class="form-group">
+                    <label for="editName">Full Name</label>
+                    <input type="text" id="editName" required>
+                </div>
+                <div class="form-group">
+                    <label for="editEmail">Email Address</label>
+                    <input type="email" id="editEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="editRole">Role</label>
+                    <select id="editRole">
+                        <option value="User">User</option>
+                        <option value="Administrator">Administrator</option>
+                        <option value="Manager">Manager</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editStatus">Status</label>
+                    <select id="editStatus">
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" onclick="document.getElementById('editUserModal').style.display='none'">Cancel</button>
+                    <button type="submit" class="btn-save">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+    // --- Global Variables ---
+    const createModal = document.getElementById('createUserModal');
+    const editModal = document.getElementById('editUserModal');
+    const addBtn = document.getElementById('addUserBtn');
+    const closeBtns = document.querySelectorAll('.close-btn');
+    const userTableBody = document.getElementById('userTableBody'); 
+
+    // --- Utility Functions ---
+
+    function closeAllModals() {
+        createModal.style.display = 'none';
+        editModal.style.display = 'none';
+    }
+
+    addBtn.onclick = function() { createModal.style.display = 'block'; }
+    closeBtns.forEach(btn => { btn.onclick = closeAllModals; });
+    window.onclick = function(event) {
+        if (event.target == createModal || event.target == editModal) {
+            closeAllModals();
+        }
+    }
+
+    // --- Dynamic Table Functions ---
+
+    // 1. Function to create a table row from a user object
+    function createTableRow(user) {
+        const row = document.createElement('tr');
+        row.dataset.id = user._id;
+        row.dataset.name = user.username;
+        row.dataset.email = user.email;
+        row.dataset.role = user.role;
+        
+        // Simple status logic: assume all fetched users are Active
+        const status = 'Active'; 
+        const statusColor = '#4CAF50';
+        
+        row.innerHTML = `
+            <td>${user._id.substring(user._id.length - 4)}</td> 
+            <td>${user.username}</td>
+            <td>${user.email}</td>
+            <td>${user.role.charAt(0).toUpperCase() + user.role.slice(1)}</td>
+            <td><span style="color: ${statusColor}; font-weight: bold;">${status}</span></td>
+            <td>
+                <button class="action-link edit-btn" data-id="${user._id}">Edit</button>
+                <a href="#" class="action-link view-btn" data-id="${user._id}">View</a>
+                <button class="action-link delete delete-btn" data-id="${user._id}" data-name="${user.username}">Delete</button>
+            </td>
+        `;
+        return row;
+    }
+
+    // 2. Function to fetch and display all users
+    async function fetchUsers() {
+        try {
+            const response = await fetch('/api/users'); 
+            
+            if (!response.ok) {
+                if (response.status === 401 || response.status === 403) {
+                    alert("Session expired or unauthorized. Redirecting to admin login.");
+                    window.location.href = '/AdminLogin'; 
+                    return;
+                }
+                throw new Error('Failed to fetch user data.');
+            }
+            
+            const users = await response.json();
+            userTableBody.innerHTML = ''; 
+
+            users.forEach(user => {
+                userTableBody.appendChild(createTableRow(user));
+            });
+
+            // After loading, re-bind event listeners for edit/delete buttons
+            bindTableActionListeners();
+
+        } catch (error) {
+            console.error('Error loading users:', error);
+            userTableBody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: red;">Error loading users. Check server logs/DB connection.</td></tr>`;
+        }
+    }
+    
+    // 3. Bind listeners to all action buttons using Event Delegation on the table body
+    // 🔑 FIX: Declaring this function as async is optional, but declaring the handler is crucial.
+    function bindTableActionListeners() { 
+        // 🔑 CRITICAL FIX: The event handler must be ASYNC because it uses await fetch()
+        userTableBody.onclick = async function(event) {
+            const target = event.target;
+            const row = target.closest('tr');
+
+            if (target.classList.contains('edit-btn')) {
+                // EDIT Functionality (Still Simulated)
+                const id = target.dataset.id;
+                const name = row.dataset.name;
+                const email = row.dataset.email;
+                const role = row.dataset.role;
+                
+                // Populate the edit form
+                document.getElementById('editUserId').value = id;
+                document.getElementById('editUserNameDisplay').textContent = name;
+                document.getElementById('editName').value = name;
+                document.getElementById('editEmail').value = email;
+                
+                // NOTE: Role in modal uses Title Case, which must be fixed for a real UPATE route
+                document.getElementById('editRole').value = role.charAt(0).toUpperCase() + role.slice(1); 
+                document.getElementById('editStatus').value = 'Active'; // Simulated status
+                editModal.style.display = 'block';
+
+            } else if (target.classList.contains('delete-btn')) {
+                // DELETE Functionality (REAL)
+                const userId = target.dataset.id;
+                const name = target.dataset.name;
+
+                if (confirm(`Are you sure you want to permanently delete the user: ${name}?`)) {
+                    try {
+                        // Call the new DELETE API route
+                        const response = await fetch(`/api/users/${userId}`, {
+                            method: 'DELETE',
+                        });
+
+                        if (response.status === 204) {
+                            alert(`User ${name} deleted successfully.`);
+                            // Remove the row directly from the DOM for a quick update
+                            row.remove();
+                        } else if (response.status === 403) {
+                            alert("Forbidden: Cannot delete your own active admin account.");
+                        } else {
+                            const errorData = await response.json();
+                            alert(`Error deleting user: ${errorData.message || response.statusText}`);
+                        }
+                    } catch (error) {
+                        console.error('Network Error during deletion:', error);
+                        alert('A network error occurred during deletion.');
+                    }
+                }
+            }
+        };
+    }
+
+    // --- Form Submission (Real Create) ---
+
+    document.getElementById('createUserForm').onsubmit = async function(e) {
+        e.preventDefault();
+        
+        const name = document.getElementById('newUserName').value;
+        const email = document.getElementById('newUserEmail').value;
+        const role = document.getElementById('newUserRole').value;
+        const password = document.getElementById('newUserPassword').value;
+
+        try {
+            const response = await fetch('/api/users', { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: name,
+                    email: email,
+                    role: role.toLowerCase(), // Ensure lowercase role for schema
+                    password: password 
+                })
+            });
+
+            if (response.ok) {
+                alert(`User '${name}' created successfully!`);
+                closeAllModals();
+                // SUCCESS: Re-fetch the data to update the table immediately!
+                await fetchUsers(); 
+            } else {
+                const errorData = await response.json();
+                alert(`Error creating user: ${errorData.message || response.statusText}`);
+            }
+        } catch (error) {
+            console.error('Network Error:', error);
+            alert('A network error occurred. Check server logs.');
+        }
+    };
+
+    // --- Form Submission (Simulated Edit) ---
+    document.getElementById('editUserForm').onsubmit = function(e) {
+        e.preventDefault();
+        const id = document.getElementById('editUserId').value;
+        const name = document.getElementById('editName').value;
+        alert(`User ID ${id} (Name: ${name}) updated successfully (simulated).`);
+        closeAllModals();
+        // In a real app, you would run await fetchUsers(); here
+        fetchUsers(); // Simulate: refresh table after a simulated success
+    };
+    
+    // --- Initial Load ---
+    document.addEventListener('DOMContentLoaded', fetchUsers);
+
+</script>
+</body>
+</html>

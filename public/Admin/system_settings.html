@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Settings - Khushipath Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Reusing core admin styles for consistency */
+        :root {
+            --primary-color: #3f51b5; /* Blue */
+            --secondary-color: #f44336; /* Red */
+            --bg-color: #f4f4f4;
+            --active-link-color: #536dfe;
+        }
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-color); }
+        .sidebar { height: 100vh; width: 250px; position: fixed; top: 0; left: 0; background-color: var(--primary-color); color: white; padding-top: 20px; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); }
+        .sidebar h2 { text-align: center; margin-bottom: 30px; padding-bottom: 15px; font-size: 1.5em; }
+        .nav-link-list { list-style: none; padding: 0; }
+        .nav-link-list a { display: block; padding: 15px 20px; color: white; text-decoration: none; font-size: 1.1em; transition: background-color 0.3s; }
+        .nav-link-list a:hover { background-color: var(--active-link-color); }
+        .nav-link-list .active-link a { background-color: var(--active-link-color); }
+        .nav-link-list i { margin-right: 10px; }
+        .main-content { margin-left: 250px; padding: 40px; }
+        .main-content h1 { color: var(--primary-color); border-bottom: 2px solid #ddd; padding-bottom: 10px; margin-bottom: 30px; }
+        .logout-btn-container { position: absolute; bottom: 20px; width: 100%; padding: 0 20px; box-sizing: border-box; }
+        .logout-btn { display: block; padding: 10px; background-color: var(--secondary-color); color: white; text-decoration: none; border-radius: 4px; text-align: center; font-weight: bold; }
+        
+        /* Settings Form Styles */
+        .settings-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            max-width: 900px;
+        }
+        .setting-group {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-top: 3px solid #f1c40f;
+        }
+        .setting-group h3 {
+            color: #d35400;
+            border-bottom: 1px dashed #eee;
+            padding-bottom: 10px;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        .form-row {
+            margin-bottom: 15px;
+        }
+        .form-row label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .form-row input[type="text"], 
+        .form-row input[type="number"],
+        .form-row select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .btn-save-settings {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        .btn-save-settings:hover {
+            background-color: #293a98;
+        }
+        @media (max-width: 768px) {
+            .settings-form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2><i class="fas fa-shield-alt"></i> Khushipath Admin</h2>
+        
+        <ul class="nav-link-list">
+            <li><a href="/admin/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="/Admin/manage_users.html"><i class="fas fa-user-circle"></i> Manage Users</a></li>
+            <li><a href="/Admin/manage_tests_packages.html"><i class="fas fa-flask"></i> Test & Packages</a></li>
+            <li><a href="/admin/system-settings"><i class="fas fa-cog"></i> System Settings</a></li>
+            <li><a href="/Admin/manage_appointments.html"><i class="fas fa-calendar-check"></i> Appointments</a></li>
+            <li><a href="/Admin/analytics_reports.html"><i class="fas fa-chart-line"></i> Analytics & Reports</a></li>
+        </ul>
+
+        <div class="logout-btn-container">
+            <a href="/logout" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Log Out
+            </a>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <h1><i class="fas fa-cog"></i> System Settings</h1>
+        <p>Configure core application variables, API keys, and general site behavior.</p>
+
+        <form id="systemSettingsForm">
+            <div class="settings-form-grid">
+                
+                <div class="setting-group">
+                    <h3>General Settings</h3>
+                    <div class="form-row">
+                        <label for="siteName">Site Name</label>
+                        <input type="text" id="siteName" value="Khushipath" required>
+                    </div>
+                    <div class="form-row">
+                        <label for="defaultRole">Default Registration Role</label>
+                        <select id="defaultRole">
+                            <option value="user">User</option>
+                            <option value="manager">Manager</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <label for="reportTime">Default Report Delivery Time (Hours)</label>
+                        <input type="number" id="reportTime" value="24" min="1" required>
+                    </div>
+                </div>
+
+                <div class="setting-group">
+                    <h3>API & Integration</h3>
+                    <div class="form-row">
+                        <label for="paymentApiKey">Payment Gateway API Key</label>
+                        <input type="text" id="paymentApiKey" value="sk_test_**************">
+                    </div>
+                    <div class="form-row">
+                        <label for="smsGateway">SMS Gateway URL</label>
+                        <input type="text" id="smsGateway" value="https://api.sms.com/send">
+                    </div>
+                    <div class="form-row">
+                        <label for="adminEmail">Contact/Error Email</label>
+                        <input type="email" id="adminEmail" value="admin@khushipath.com" required>
+                    </div>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn-save-settings">
+                <i class="fas fa-save"></i> Save System Settings
+            </button>
+        </form>
+    </div>
+</body>
+<script>
+    // Simple placeholder script for saving settings (Currently simulated)
+    document.getElementById('systemSettingsForm').onsubmit = function(e) {
+        e.preventDefault();
+        
+        // In a real application, an API call would be made here (e.g., PUT /api/settings)
+        // to save the form data to a dedicated Settings collection in MongoDB.
+        
+        const siteName = document.getElementById('siteName').value;
+        
+        alert(`Settings saved successfully (Simulated): Site Name updated to "${siteName}"`);
+        // You would typically reload settings data here or show a success toast.
+    };
+    
+    // Highlight the active sidebar link
+    document.addEventListener('DOMContentLoaded', function() {
+        const path = window.location.pathname;
+        const links = document.querySelectorAll('.nav-link-list a');
+        links.forEach(link => {
+            if (link.getAttribute('href') === path) {
+                link.parentNode.classList.add('active-link');
+            }
+        });
+    });
+</script>
+<script>
+    const settingsForm = document.getElementById('systemSettingsForm');
+    
+    // --- 1. Function to Fetch and Populate Settings ---
+    async function fetchSettings() {
+        try {
+            const response = await fetch('/api/settings');
+            
+            if (!response.ok) {
+                if (response.status === 401 || response.status === 403) {
+                    alert("Session expired or unauthorized. Redirecting to admin login.");
+                    window.location.href = '/AdminLogin'; 
+                    return;
+                }
+                throw new Error('Failed to fetch settings data.');
+            }
+            
+            const settings = await response.json();
+            
+            // Populate the form fields with fetched data
+            document.getElementById('siteName').value = settings.siteName || 'Khushipath';
+            document.getElementById('defaultRole').value = settings.defaultRegistrationRole || 'user';
+            document.getElementById('reportTime').value = settings.defaultReportDeliveryTime || 24;
+            document.getElementById('paymentApiKey').value = settings.paymentGatewayApiKey || 'sk_test_PLACEHOLDER';
+            document.getElementById('smsGateway').value = settings.smsGatewayUrl || 'https://api.sms.com/send';
+            document.getElementById('adminEmail').value = settings.adminEmail || 'admin@khushipath.com';
+
+        } catch (error) {
+            console.error('Error loading settings:', error);
+            alert('Failed to load system settings. Using default values.');
+        }
+    }
+
+    // --- 2. Form Submission (Real Save) ---
+    settingsForm.onsubmit = async function(e) {
+        e.preventDefault();
+        
+        // Collect data from the form
+        const settingsData = {
+            siteName: document.getElementById('siteName').value,
+            defaultRegistrationRole: document.getElementById('defaultRole').value,
+            defaultReportDeliveryTime: parseInt(document.getElementById('reportTime').value),
+            paymentGatewayApiKey: document.getElementById('paymentApiKey').value,
+            smsGatewayUrl: document.getElementById('smsGateway').value,
+            adminEmail: document.getElementById('adminEmail').value,
+        };
+
+        try {
+            // 🔑 Call the new PUT API route
+            const response = await fetch('/api/settings', { 
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(settingsData)
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                alert(`Settings saved successfully! Site Name updated to "${result.settings.siteName}"`);
+                // Re-fetch to confirm and update any dependent fields (optional here, but good practice)
+                await fetchSettings(); 
+            } else {
+                const errorData = await response.json();
+                alert(`Error saving settings: ${errorData.message || response.statusText}`);
+            }
+        } catch (error) {
+            console.error('Network Error during save:', error);
+            alert('A network error occurred. Could not save settings.');
+        }
+    };
+    
+    // Highlight the active sidebar link
+    document.addEventListener('DOMContentLoaded', function() {
+        const path = window.location.pathname;
+        const links = document.querySelectorAll('.nav-link-list a');
+        links.forEach(link => {
+            if (link.getAttribute('href') === path) {
+                link.parentNode.classList.add('active-link');
+            }
+        });
+        
+        // Initial load of settings data
+        fetchSettings(); 
+    });
+</script>
+</html>

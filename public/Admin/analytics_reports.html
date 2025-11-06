@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics & Reports - Khushipath Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Reusing core admin styles for consistency */
+        :root {
+            --primary-color: #3f51b5; /* Blue */
+            --secondary-color: #f44336; /* Red */
+            --bg-color: #f4f4f4;
+            --active-link-color: #536dfe;
+        }
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-color); }
+        .sidebar { height: 100vh; width: 250px; position: fixed; top: 0; left: 0; background-color: var(--primary-color); color: white; padding-top: 20px; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); }
+        .sidebar h2 { text-align: center; margin-bottom: 30px; padding-bottom: 15px; font-size: 1.5em; }
+        .nav-link-list { list-style: none; padding: 0; }
+        .nav-link-list a { display: block; padding: 15px 20px; color: white; text-decoration: none; font-size: 1.1em; transition: background-color 0.3s; }
+        .nav-link-list a:hover { background-color: var(--active-link-color); }
+        .nav-link-list .active-link a { background-color: var(--active-link-color); }
+        .nav-link-list i { margin-right: 10px; }
+        .main-content { margin-left: 250px; padding: 40px; }
+        .main-content h1 { color: var(--primary-color); border-bottom: 2px solid #ddd; padding-bottom: 10px; margin-bottom: 30px; }
+        .logout-btn-container { position: absolute; bottom: 20px; width: 100%; padding: 0 20px; box-sizing: border-box; }
+        .logout-btn { display: block; padding: 10px; background-color: var(--secondary-color); color: white; text-decoration: none; border-radius: 4px; text-align: center; font-weight: bold; }
+        
+        /* Analytics Specific Styles */
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .report-card {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #00c19e;
+        }
+        .report-card h3 {
+            color: #007b62;
+            margin-top: 0;
+            border-bottom: 1px dashed #eee;
+            padding-bottom: 10px;
+        }
+        .report-card p {
+            font-size: 0.9em;
+            color: #555;
+        }
+        .report-card a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2><i class="fas fa-shield-alt"></i> Khushipath Admin</h2>
+        
+        <ul class="nav-link-list">
+            <li><a href="/admin/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="/Admin/manage_users.html"><i class="fas fa-user-circle"></i> Manage Users</a></li>
+            <li><a href="/admin/manage-inventory"><i class="fas fa-flask"></i> Test & Packages</a></li>
+             <li><a href="/admin/system-settings"><i class="fas fa-cog"></i> System Settings</a></li>
+            <li><a href="/admin/appointments"><i class="fas fa-calendar-check"></i> Appointments</a></li>
+            <li class="active-link"><a href="/admin/analytics"><i class="fas fa-chart-line"></i> Analytics & Reports</a></li>
+            <li><a href="/admin/contact-messages"><i class="fas fa-inbox"></i> Contact Messages</a></li>
+
+        </ul>
+
+        <div class="logout-btn-container">
+            <a href="/logout" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Log Out
+            </a>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <h1><i class="fas fa-chart-line"></i> Analytics & Reports</h1>
+        <p>Monitor key performance indicators, sales trends, and user behavior.</p>
+
+        <div class="analytics-grid">
+            <div class="report-card">
+                <h3>Sales Overview</h3>
+                <p>View daily, weekly, and monthly revenue and order counts.</p>
+                <a href="#">Generate Report →</a>
+            </div>
+            <div class="report-card">
+                <h3>Popularity Report</h3>
+                <p>See the top 10 most booked tests and packages.</p>
+                <a href="#">Generate Report →</a>
+            </div>
+            <div class="report-card">
+                <h3>Customer Demographics</h3>
+                <p>Analyze user registration trends and geographic data.</p>
+                <a href="#">Generate Report →</a>
+            </div>
+            <div class="report-card">
+                <h3>Revenue by Package Type</h3>
+                <p>Breakdown of earnings from individual tests versus health packages.</p>
+                <a href="#">Generate Report →</a>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    // Highlight the active sidebar link
+    document.addEventListener('DOMContentLoaded', function() {
+        const path = window.location.pathname;
+        const links = document.querySelectorAll('.nav-link-list a');
+        links.forEach(link => {
+            // Check if the link href matches the current path
+            if (path.includes(link.getAttribute('href'))) {
+                 // Remove previous active classes
+                document.querySelectorAll('.nav-link-list li').forEach(li => li.classList.remove('active-link'));
+                // Add active class to the parent <li>
+                link.parentNode.classList.add('active-link');
+            }
+        });
+    });
+</script>
+</html>

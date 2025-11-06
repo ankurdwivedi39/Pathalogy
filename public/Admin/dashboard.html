@@ -121,10 +121,12 @@
         <ul class="nav-link-list">
             <li><a href="/admin/dashboard" style="background-color: #536dfe;"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
             
-            <li><a href="#"><i class="fas fa-user-circle"></i> Manage Users</a></li>
-            <li><a href="#"><i class="fas fa-flask"></i> Test & Packages</a></li>
-            <li><a href="#"><i class="fas fa-calendar-check"></i> Appointments</a></li>
-            <li><a href="#"><i class="fas fa-chart-line"></i> Analytics & Reports</a></li>
+            <li><a href="/Admin/manage_users.html"><i class="fas fa-user-circle"></i> Manage Users</a></li>
+            <li><a href="/Admin/manage_tests_packages.html"><i class="fas fa-flask"></i> Test & Packages</a></li>
+            <li><a href="/Admin/manage_appointments.html"><i class="fas fa-calendar-check"></i> Appointments</a></li>
+            <li><a href="/Admin/analytics_reports.html"><i class="fas fa-chart-line"></i> Analytics & Reports</a></li>
+            <li><a href="/admin/system-settings"><i class="fas fa-cog"></i> System Settings</a></li>
+            <li><a href="/admin/contact-messages"><i class="fas fa-inbox"></i> Contact Messages</a></li>
         </ul>
 
         <div class="logout-btn-container">
@@ -144,22 +146,22 @@
                 <div class="icon"><i class="fas fa-user-plus"></i></div>
                 <h3>Quick User Management</h3>
                 <p>View, edit, or delete user accounts and update their roles.</p>
-                <a href="#" style="color: var(--primary-color);">Go to Users →</a>
+                <a href="/Admin/manage_users.html" style="color: var(--primary-color);">Go to Users →</a>
             </div>
 
             <div class="card">
-                <div class="icon"><i class="fas fa-cog"></i></div>
-                <h3>System Settings</h3>
-                <p>Configure general site settings and API keys.</p>
-                <a href="#" style="color: var(--primary-color);">Configure →</a>
-            </div>
+    <div class="icon"><i class="fas fa-cog"></i></div>
+    <h3>System Settings</h3>
+    <p>Configure general site settings and API keys.</p>
+    <a href="/admin/system-settings" style="color: var(--primary-color);">Configure →</a>
+</div>
 
             <div class="card">
-                <div class="icon"><i class="fas fa-box"></i></div>
-                <h3>Packages & Pricing</h3>
-                <p>Add new test packages, modify prices, and manage inventory.</p>
-                <a href="#" style="color: var(--primary-color);">Manage Inventory →</a>
-            </div>
+    <div class="icon"><i class="fas fa-box"></i></div>
+    <h3>Packages & Pricing</h3>
+    <p>Add new test packages, modify prices, and manage inventory.</p>
+    <a href="/admin/manage-inventory" style="color: var(--primary-color);">Manage Inventory →</a>
+</div>
 
         </div>
     </div>

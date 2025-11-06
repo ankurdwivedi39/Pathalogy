@@ -78,64 +78,98 @@
         </div>
       </div>
 
-      <div class="card contact-form">
-        <h2>Send a Message</h2>
-        <form>
-          <div class="grid-2">
-            <div class="field">
-              <label for="name">Name <span class="req">*</span></label>
-              <input type="text" id="name" placeholder="Enter your name">
-            </div>
-            <div class="field">
-              <label for="email">Email <span class="req">*</span></label>
-              <input type="email" id="email" placeholder="Enter your email">
-            </div>
-          </div>
-
-          <div class="field">
-            <label for="phone">Phone</label>
-            <input type="tel" id="phone" placeholder="+91 12345 67890">
-          </div>
-
-          <div class="field">
-            <label for="message">Message <span class="req">*</span></label>
-            <textarea id="message" rows="4" placeholder="Type your message"></textarea>
-          </div>
-
-          <button type="submit" class="btn">Submit</button>
-        </form>
-      </div>
+      <div class="contact-card">
+    <h2>Send a Message</h2>
+    <form id="contactForm">
+        <div class="input-group">
+            <input type="text" id="name" name="name" placeholder="Enter your name" required>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        </div>
+        <div class="input-group">
+            <input type="tel" id="phone" name="phone" placeholder="+91 12345 67890" required>
+        </div>
+        <textarea id="message" name="message" rows="5" placeholder="Type your message" required></textarea>
+        
+        <button type="submit" id="submitBtn">Submit</button> 
+    </form>
+</div>
     </div>
   </div> 
 
   <footer class="footer">
     © 2025 Khushipath. All rights reserved.
   </footer>
-<script>
-   // --- CART COUNT HELPER FUNCTIONS (ADDED) ---
-        function getCart() {
-            // Retrieves cart data from local storage, defaults to empty array
-            const cartString = localStorage.getItem('khushipathCart');
-            return cartString ? JSON.parse(cartString) : [];
-        }
 
-        function updateCartCount() {
-            const cart = getCart();
-            const cartCountElement = document.getElementById('cart-count');
-            
-            // Calculate the total number of items (sum of all quantities)
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  <script>
+    const contactForm = document.getElementById('contactForm');
+    
+    contactForm.onsubmit = async function(e) {
+    // 🔑 CRITICAL: This stops the browser from trying to navigate away (which may hit a protected route)
+    e.preventDefault();
+        
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = true; // Disable button to prevent multiple submissions
+        submitBtn.textContent = 'Sending...';
 
-            if (cartCountElement) {
-                cartCountElement.textContent = totalItems;
-                // Only display the badge if there are items in the cart
-                cartCountElement.style.display = totalItems > 0 ? 'inline-block' : 'none';
+        // Collect form data
+        const formData = new FormData(contactForm);
+        const data = Object.fromEntries(formData.entries());
+
+       try {
+        // 🔑 VERIFY: This route MUST be the unprotected POST route
+        const response = await fetch('/api/contact', { 
+            method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                alert("Thank you! Your message has been received successfully.");
+                contactForm.reset(); // Clear the form
+            } else {
+                const errorData = await response.json();
+                alert(`Error: ${errorData.message || "Could not send message."}`);
             }
+        } catch (error) {
+            console.error('Network Error:', error);
+            alert('A network error occurred. Please try again.');
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Submit';
         }
-        // --- END CART COUNT HELPER FUNCTIONS ---
-
-        // CRITICAL FIX: Call updateCartCount when the page is fully loaded.
-        document.addEventListener('DOMContentLoaded', updateCartCount);
+    };
 </script>
+
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.querySelector("form");
+  const nameField = document.getElementById("name");
+  // ... many other variables ...
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    // // 1️⃣ Authentication check (frontend) ❌ THIS IS THE PROBLEM LINE ❌
+    // const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    // if (!isLoggedIn) {
+    //   alert("⚠️ Please log in to submit the form.");
+    //   window.location.href = "/Login"; // redirect to login page
+    //   return;
+    // }
+
+    // 2️⃣ Get input values
+    // ... (rest of the conflicting validation logic) ...
+  });
+
+  // ✅ Popup Function
+  // ... (rest of the conflicting code) ...
+});
+</script>
+
+
+
+
 </body>
 </html>

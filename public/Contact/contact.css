@@ -59,6 +59,49 @@ html, body {
   padding: 24px;
 }
 
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.popup-box {
+  background: #ffffff;
+  padding: 30px 40px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  max-width: 350px;
+}
+
+.popup-box h3 {
+  color: #0073e6;
+  margin-bottom: 10px;
+}
+
+.popup-box button {
+  margin-top: 15px;
+  padding: 8px 20px;
+  background: #0073e6;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.popup-box button:hover {
+  background: #005bb5;
+}
+
+
 /* Headings */
 .contact-info h2,
 .contact-form h2,

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Messages - Khushipath Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* (Include necessary Admin CSS styles here, as used in manage_users.html) */
+        :root {
+            --primary-color: #3f51b5; 
+            --secondary-color: #f44336; 
+            --bg-color: #f4f4f4;
+            --active-link-color: #536dfe;
+        }
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-color); }
+        .sidebar { height: 100vh; width: 250px; position: fixed; top: 0; left: 0; background-color: var(--primary-color); color: white; padding-top: 20px; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); }
+        .sidebar h2 { text-align: center; margin-bottom: 30px; padding-bottom: 15px; font-size: 1.5em; }
+        .nav-link-list { list-style: none; padding: 0; }
+        .nav-link-list a { display: block; padding: 15px 20px; color: white; text-decoration: none; font-size: 1.1em; transition: background-color 0.3s; }
+        .nav-link-list a:hover { background-color: var(--active-link-color); }
+        .main-content { margin-left: 250px; padding: 40px; }
+        .main-content h1 { color: var(--primary-color); border-bottom: 2px solid #ddd; padding-bottom: 10px; margin-bottom: 30px; }
+        .messages-table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); border-radius: 8px; overflow: hidden; }
+        .messages-table th, .messages-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; }
+        .messages-table th { background-color: #3f51b5; color: white; font-weight: 600; text-transform: uppercase; font-size: 0.9em; }
+        .message-row.unread { background-color: #fff3cd; font-weight: 600; }
+        .message-details-btn { background-color: #17a2b8; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
+        .logout-btn-container { position: absolute; bottom: 20px; width: 100%; padding: 0 20px; box-sizing: border-box; }
+        .logout-btn { display: block; padding: 10px; background-color: var(--secondary-color); color: white; text-decoration: none; border-radius: 4px; text-align: center; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2><i class="fas fa-shield-alt"></i> Khushipath Admin</h2>
+        <ul class="nav-link-list">
+            <li><a href="/admin/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="/Admin/manage_users.html"><i class="fas fa-user-circle"></i> Manage Users</a></li>
+            <li><a href="/Admin/manage_tests_packages"><i class="fas fa-flask"></i> Test & Packages</a></li>
+             <li><a href="/admin/system-settings"><i class="fas fa-cog"></i> System Settings</a></li>
+            <li class="active-link"><a href="/Admin/manage_contact.html"><i class="fas fa-inbox"></i> Contact Messages</a></li>
+            <li><a href="/admin/appointments"><i class="fas fa-calendar-check"></i> Appointments</a></li>
+            <li><a href="/admin/analytics"><i class="fas fa-chart-line"></i> Analytics & Reports</a></li>
+        </ul>
+        <div class="logout-btn-container">
+            <a href="/logout" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Log Out
+            </a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h1><i class="fas fa-inbox"></i> Customer Contact Messages</h1>
+        <p>A list of all inquiries received through the website contact form.</p>
+
+        <table class="messages-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="messagesTableBody">
+                <tr><td colspan="6" style="text-align: center;">Loading messages...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const messagesTableBody = document.getElementById('messagesTableBody');
+
+        function formatDateTime(isoString) {
+            const date = new Date(isoString);
+            return date.toLocaleDateString() + ', ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function createMessageRow(message) {
+            const row = document.createElement('tr');
+            row.className = `message-row ${message.isRead ? '' : 'unread'}`;
+            row.dataset.id = message._id;
+
+            row.innerHTML = `
+                <td>${formatDateTime(message.receivedAt)}</td>
+                <td>${message.name}</td>
+                <td>${message.email}</td>
+                <td>${message.phone}</td>
+                <td><span style="color:${message.isRead ? 'green' : 'red'};">${message.isRead ? 'Read' : 'New'}</span></td>
+                <td>
+                    <button class="message-details-btn" data-id="${message._id}" data-message="${message.message}">View Details</button>
+                </td>
+            `;
+            return row;
+        }
+
+        async function fetchMessages() {
+            messagesTableBody.innerHTML = '<tr><td colspan="6" style="text-align: center;">Loading messages...</td></tr>';
+            try {
+                const response = await fetch('/api/contact');
+                if (!response.ok) {
+                    if (response.status === 401 || response.status === 403) {
+                        alert("Session expired. Redirecting to login.");
+                        window.location.href = '/AdminLogin'; 
+                        return;
+                    }
+                    throw new Error('Failed to fetch messages.');
+                }
+                const messages = await response.json();
+
+                messagesTableBody.innerHTML = '';
+                if (messages.length === 0) {
+                    messagesTableBody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #555;">No contact messages received yet.</td></tr>';
+                } else {
+                    messages.forEach(msg => messagesTableBody.appendChild(createMessageRow(msg)));
+                }
+
+                bindActionListeners();
+
+            } catch (error) {
+                console.error('Error loading messages:', error);
+                messagesTableBody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: red;">Error loading messages. Check server connection.</td></tr>';
+            }
+        }
+
+        // Simple Action Listener for View Details
+        function bindActionListeners() {
+            document.querySelectorAll('.message-details-btn').forEach(button => {
+                button.onclick = function() {
+                    const messageText = this.dataset.message;
+                    const messageId = this.dataset.id;
+
+                    alert(`Message ID: ${messageId}\n\nMessage:\n${messageText}`);
+
+                    // FUTURE: Here, you would call a PATCH /api/contact/:id route 
+                    // to set isRead: true and refresh the table.
+                };
+            });
+        }
+
+        // Initial Load
+        document.addEventListener('DOMContentLoaded', fetchMessages);
+
+        // Highlight the active sidebar link (if not already implemented centrally)
+        document.addEventListener('DOMContentLoaded', function() {
+            const path = window.location.pathname;
+            const links = document.querySelectorAll('.nav-link-list a');
+            links.forEach(link => {
+                if (link.getAttribute('href') === '/admin/contact-messages') {
+                    link.parentNode.classList.add('active-link');
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
