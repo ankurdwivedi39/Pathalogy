@@ -227,71 +227,162 @@
     </nav>
     </header>
 
-    <div class="container">
-        
-        <span class="material-icons success-icon">check_circle</span> 
-        <h1>Thank You! Your Order is Confirmed.</h1>
-        <p class="order-id">Your Order ID is: **KHP-20251106-7890**</p>
+    <div class="container" id="successContainer">
+    
+    <span class="material-icons success-icon">check_circle</span> 
+    <h1 id="mainTitle">Thank You! Your Booking is Confirmed.</h1>
+    <p class="order-id">Your Order ID is: <strong id="dynamicOrderId">KHP-XXXX-XXXX</strong></p>
 
-        <div class="summary-table">
-            <div class="summary-item">
-                <strong>Status</strong>
-                <span>Confirmed</span>
-            </div>
-            <div class="summary-item">
-                <strong>Total Paid</strong>
-                <span>₹2,249</span>
-            </div>
-            <div class="summary-item">
-                <strong>Payment Via</strong>
-                <span>UPI / Wallet</span>
-            </div>
+    <div class="summary-table">
+        <div class="summary-item">
+            <strong>Status</strong>
+            <span id="dynamicStatus">Confirmed</span>
         </div>
-        
-        <hr>
-
-        <div class="section-box next-steps">
-            <h3>🕒 Next Steps for your Swasth Super Package</h3>
-            <ul>
-                <li>We have sent a detailed receipt and scheduling email to **user@example.com**.</li>
-                <li>Our scheduling team will contact you within **2 hours** to coordinate the technician visit.</li>
-                <li>Ensure the **Mobile Number** (9XXXXXXXXX) is available for coordination.</li>
-                <li>Your reports will be available in the 'My Account' section within **24 hours** of sample collection.</li>
-            </ul>
+        <div class="summary-item">
+            <strong>Total Paid</strong>
+            <span id="dynamicTotalPaid">₹0</span>
         </div>
-
-        <div class="section-box">
-            <h3>📦 Order Details</h3>
-            <div class="order-breakdown">
-                <div>
-                    <span>Path-03: Swasth Super Package (x1)</span>
-                    <span>₹2,249</span>
-                </div>
-                <div>
-                    <span>Taxes & Fees</span>
-                    <span>₹0</span>
-                </div>
-                <div>
-                    <span>Delivery Charge</span>
-                    <span>FREE</span>
-                </div>
-                <div class="total-row">
-                    <span>Total Amount Paid</span>
-                    <span>₹2,249</span>
-                </div>
-            </div>
+        <div class="summary-item">
+            <strong>Payment Method</strong>
+            <span id="dynamicPaymentMethod"></span>
         </div>
-
-        <div class="action-buttons">
-            <a href="#" class="primary-btn">View Order in 'My Account'</a>
-            <a href="#" class="secondary-btn">Need Help? Contact Support</a>
-        </div>
-        
-        <a href="#" class="small-link">
-            $\leftarrow$ Continue Shopping
-        </a>
-
     </div>
+    
+    <hr>
+
+    <div class="section-box next-steps">
+        <h3 id="nextStepsTitle">🕒 Next Steps</h3>
+        <ul>
+            <li id="emailConfirmation">We have sent a detailed receipt and scheduling email to <strong id="customerEmailDisplay"></strong>.</li>
+            <li>Our scheduling team will contact you within **2 hours** to coordinate the technician visit.</li>
+            <li id="contactCoordination">Ensure the **Mobile Number** (<strong id="customerPhoneDisplay"></strong>) is available for coordination.</li>
+            <li>Your reports will be available in the 'My Account' section within **24 hours** of sample collection.</li>
+        </ul>
+    </div>
+
+    <div class="section-box">
+        <h3>📦 Order Details</h3>
+        <div class="order-breakdown" id="orderBreakdownList">
+            </div>
+    </div>
+
+    <div class="action-buttons">
+        <a href="/user/dashboard" class="primary-btn">View Order in 'My Account'</a>
+        <a href="/Contact" class="secondary-btn">Need Help? Contact Support</a>
+    </div>
+    
+    <a href="/" class="small-link">
+        $\leftarrow$ Continue Shopping
+    </a>
+
+</div>
+    <script>
+    // Helper function for Indian Rupee formatting
+    const formatter = new Intl.NumberFormat('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        minimumFractionDigits: 0, 
+    });
+    
+    // --- UTILITIES ---
+    function getCart() {
+        const cartString = localStorage.getItem('khushipathCart');
+        return cartString ? JSON.parse(cartString) : [];
+    }
+
+    function updateCartCount() {
+        const totalItems = getCart().reduce((sum, item) => sum + item.quantity, 0);
+        const cartCountElement = document.getElementById('cart-count');
+        if (cartCountElement) {
+            cartCountElement.textContent = totalItems;
+            cartCountElement.style.display = totalItems > 0 ? 'inline-block' : 'none';
+        }
+    }
+
+    // 🔑 NEW CORE FUNCTION: Fetch and render order details
+    async function renderOrderDetails() {
+        // 1. Get Order ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('orderId');
+        
+        if (!orderId) {
+            document.getElementById('mainTitle').textContent = "Error: Order ID Missing.";
+            document.getElementById('dynamicOrderId').textContent = "N/A";
+            document.getElementById('successContainer').style.borderTop = '5px solid red';
+            localStorage.removeItem('khushipathCart');
+            updateCartCount();
+            return;
+        }
+
+        // 2. Clear Cart (Crucial Action)
+        localStorage.removeItem('khushipathCart');
+        updateCartCount();
+        
+        // 3. Fetch Order Data
+        document.getElementById('dynamicOrderId').textContent = "Loading...";
+
+        try {
+            const response = await fetch(`/api/appointments/${orderId}`);
+            if (!response.ok) {
+                throw new Error('Order not found or API failed.');
+            }
+            
+            const order = await response.json();
+            
+            // 4. Populate Confirmation Card
+            
+            // Order ID
+            document.getElementById('dynamicOrderId').textContent = orderId;
+            
+            // Summary Table
+            document.getElementById('dynamicStatus').textContent = order.status;
+            document.getElementById('dynamicTotalPaid').textContent = formatter.format(order.totalPrice);
+            document.getElementById('dynamicPaymentMethod').textContent = order.paymentMethod || 'Not Specified';
+            
+            // Next Steps
+            document.getElementById('customerEmailDisplay').textContent = order.customerEmail;
+            document.getElementById('customerPhoneDisplay').textContent = order.customerPhone;
+            document.getElementById('nextStepsTitle').textContent = `🕒 Next Steps for your ${order.testsBooked[0]?.name || 'Booking'}`;
+
+            // 5. Populate Order Breakdown
+            const breakdownList = document.getElementById('orderBreakdownList');
+            let finalTotalHtml = '';
+            let subtotal = 0;
+
+            order.testsBooked.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                
+                const itemHtml = `
+                    <div>
+                        <span>${item.name} (x${item.quantity})</span>
+                        <span>${formatter.format(itemTotal)}</span>
+                    </div>`;
+                breakdownList.insertAdjacentHTML('beforeend', itemHtml);
+            });
+            
+            // Final Total Row
+            finalTotalHtml += `
+                <div><span>Subtotal:</span><span>${formatter.format(subtotal)}</span></div>
+                <div><span>Taxes & Fees:</span><span>₹0</span></div>
+                <div><span>Delivery Charge:</span><span>FREE</span></div>
+                <div class="total-row"><strong>Total Amount Paid</strong><strong>${formatter.format(order.totalPrice)}</strong></div>
+            `;
+            
+            breakdownList.insertAdjacentHTML('beforeend', finalTotalHtml);
+
+
+        } catch (error) {
+            console.error('Error fetching order details:', error);
+            document.getElementById('mainTitle').textContent = "Order Error: Could not retrieve details.";
+            document.getElementById('dynamicOrderId').textContent = "Please check your email for confirmation.";
+            document.getElementById('successContainer').style.borderTop = '5px solid #f44336';
+        }
+    }
+
+    // --- Initial Load ---
+    document.addEventListener('DOMContentLoaded', renderOrderDetails);
+</script>
     <script>
    // --- CART COUNT HELPER FUNCTIONS (ADDED) ---
         function getCart() {

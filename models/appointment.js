@@ -5,7 +5,7 @@ const AppointmentSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: true,
+        required: false,
     },
     // Customer Contact Details (redundant storage for quick lookup)
     customerName: {

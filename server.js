@@ -589,6 +589,27 @@ app.put("/api/settings", adminAuth, async (req, res) => {
   }
 });
 
+// ----------------- PUBLIC GET Route to Fetch Single Appointment by ID -----------------
+app.get("/api/appointments/:id", async (req, res) => {
+  try {
+    const appointmentId = req.params.id;
+
+    // Fetch the appointment details
+    const appointment = await Appointment.findById(appointmentId);
+
+    if (!appointment) {
+      return res.status(404).json({ message: "Order not found." });
+    }
+
+    // Success response
+    res.status(200).json(appointment);
+    
+  } catch (err) {
+    console.error("❌ Failed to fetch single appointment:", err);
+    res.status(500).json({ message: "Server error while fetching order details." });
+  }
+});
+
 // 💡 A PROTECTED ROUTE FOR APPOINTMENTS MANAGEMENT
 app.get('/admin/appointments', (req, res) => {
     // Check if user is logged in AND has the 'admin' role
@@ -780,6 +801,17 @@ app.post("/api/appointments", async (req, res) => {
     }
     res.status(500).json({ message: "A server error occurred during booking." });
   }
+});
+
+app.get('/Checkout', (req, res) => {
+    // Check if user is NOT logged in
+    if (!req.session.userId) {
+        // Redirect if not logged in
+        // You can use a query parameter to return the user here later
+        return res.redirect('/Login?returnTo=/Checkout'); 
+    }
+    // Logged in user can access
+    res.sendFile(path.join(__dirname, 'public/Checkout', 'checkout.html'));   
 });
 
  // --------- start server ------
