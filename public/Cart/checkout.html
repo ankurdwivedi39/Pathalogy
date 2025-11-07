@@ -419,6 +419,56 @@
             }
         }
         document.addEventListener('DOMContentLoaded', updateCartCount);
+
+        // 💡 NEW FUNCTION: Enforces Minimum Date/Time to Prevent Past Bookings
+    function setMinDateTime() {
+        const now = new Date();
+        
+        // 1. Format the current date as YYYY-MM-DD (Required format for input[type=date])
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const todayDate = `${year}-${month}-${day}`;
+
+        // 2. Format the current time as HH:MM (Required format for input[type=time])
+        const hour = String(now.getHours()).padStart(2, '0');
+        const minute = String(now.getMinutes()).padStart(2, '0');
+        const currentTime = `${hour}:${minute}`;
+
+        const dateInput = document.getElementById('appointmentDate');
+        const timeInput = document.getElementById('appointmentTime');
+
+        // Set minimum date to TODAY
+        dateInput.min = todayDate;
+        
+        // Add event listener to adjust time input based on the selected date
+        dateInput.addEventListener('change', function() {
+            const selectedDate = this.value;
+
+            if (selectedDate === todayDate) {
+                // If today is selected, minimum time is now (plus a small buffer, e.g., 5 mins)
+                timeInput.min = currentTime;
+            } else {
+                // If a future date is selected, reset minimum time to allow all times (00:00)
+                timeInput.min = "00:00";
+            }
+        });
+        
+        // Run the change listener once on load to initialize the time for today's date
+        dateInput.value = todayDate; 
+        dateInput.dispatchEvent(new Event('change'));
+    }
+
+    // --- Initial Load ---
+    document.addEventListener('DOMContentLoaded', () => {
+        // ... (Your existing DOMContentLoaded logic) ...
+        
+        // 🔑 Call the new function here:
+        setMinDateTime(); 
+        
+        // ... (Your existing call to initializeSummaryData) ...
+        initializeSummaryData(); 
+    });
     </script>
 </body>
 </html>
