@@ -434,6 +434,17 @@
         console.log("Shopping cart cleared from local storage.");
     }
 
+    // 🔑 ADDED: Get Order ID and update the button link on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('orderId');
+        const viewOrderBtn = document.getElementById('viewOrderBtn'); // Target the new link
+
+        if (orderId && viewOrderBtn) {
+            // Update the button's href to include the order ID as a parameter
+            viewOrderBtn.href = `/user/appointments?orderId=${orderId}`;
+        }
+
     // 🔑 CRITICAL FIX: Run the logic on page load
     document.addEventListener('DOMContentLoaded', () => {
         // 1. Clear the cart immediately upon loading the success page

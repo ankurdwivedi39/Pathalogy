@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Lab Centers - Khushipath Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* BASE ADMIN DASHBOARD STYLES (Reused from other admin pages) */
+        :root {
+            --primary-color: #3f51b5; 
+            --secondary-color: #f44336; 
+            --bg-color: #f4f4f4;
+            --active-link-color: #536dfe;
+        }
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-color); }
+        .sidebar { height: 100vh; width: 250px; position: fixed; top: 0; left: 0; background-color: var(--primary-color); color: white; padding-top: 20px; box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); }
+        .sidebar h2 { text-align: center; margin-bottom: 30px; padding-bottom: 15px; font-size: 1.5em; }
+        .nav-link-list { list-style: none; padding: 0; }
+        .nav-link-list a { display: block; padding: 15px 20px; color: white; text-decoration: none; font-size: 1.1em; transition: background-color 0.3s; }
+        .nav-link-list a:hover { background-color: var(--active-link-color); }
+        .nav-link-list .active-link a { background-color: var(--active-link-color); }
+        .nav-link-list i { margin-right: 10px; }
+        .main-content { margin-left: 250px; padding: 40px; }
+        .main-content h1 { color: var(--primary-color); border-bottom: 2px solid #ddd; padding-bottom: 10px; margin-bottom: 30px; }
+        .logout-btn-container { position: absolute; bottom: 20px; width: 100%; padding: 0 20px; box-sizing: border-box; }
+        .logout-btn { display: block; padding: 10px; background-color: var(--secondary-color); color: white; text-decoration: none; border-radius: 4px; text-align: center; font-weight: bold; }
+        
+        /* Labs Table and Controls */
+        .lab-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .add-lab-btn { background-color: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; font-size: 1em; transition: background-color 0.3s; }
+        .lab-table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); border-radius: 8px; overflow: hidden; }
+        .lab-table th, .lab-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #ddd; }
+        .lab-table th { background-color: #6c757d; color: white; font-weight: 600; text-transform: uppercase; font-size: 0.9em; }
+        .lab-table td .action-btn { background-color: var(--primary-color); color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; margin-right: 5px; }
+        
+        /* Modal Styles (CRITICAL FOR POPUP) */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4); }
+        .modal-content { background-color: #fefefe; margin: 10% auto; padding: 20px; border-radius: 8px; max-width: 600px; position: relative; }
+        .close-btn { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .btn-save { background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .btn-cancel { background-color: #ddd; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2><i class="fas fa-shield-alt"></i> Khushipath Admin</h2>
+        
+        <ul class="nav-link-list">
+            <li><a href="/admin/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="/Admin/manage_users.html"><i class="fas fa-user-circle"></i> Manage Users</a></li>
+            <li><a href="/admin/manage-inventory"><i class="fas fa-flask"></i> Test & Packages</a></li>
+            <li><a href="/admin/appointments"><i class="fas fa-calendar-check"></i> Appointments</a></li>
+            <li><a href="/admin/analytics"><i class="fas fa-chart-line"></i> Analytics & Reports</a></li>
+            <li><a href="/admin/system-settings"><i class="fas fa-cog"></i> System Settings</a></li>
+            <li class="active-link"><a href="/admin/manage-labs"><i class="fas fa-map-marker-alt"></i> Manage Labs</a></li>
+        </ul>
+
+        <div class="logout-btn-container">
+            <a href="/logout" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Log Out
+            </a>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <h1><i class="fas fa-map-marker-alt"></i> Manage Lab Centers</h1>
+        <p>A complete list of active and inactive diagnostic lab/collection centers.</p>
+
+        <div class="lab-controls">
+            <input type="text" placeholder="Search by City or Lab Name..." style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 40%;">
+            <button id="addLabBtn" class="add-lab-btn">
+                <i class="fas fa-plus"></i> Add New Lab
+            </button>
+        </div>
+
+        <table class="lab-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Lab Name</th>
+                    <th>Location (City)</th>
+                    <th>Pincode</th>
+                    <th>Working Hours</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="labsTableBody">
+                <tr><td colspan="7" style="text-align: center;">Loading lab centers...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="addLabModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" data-modal="addLabModal" onclick="document.getElementById('addLabModal').style.display='none'">&times;</span>
+        <h2>Add New Lab Center</h2>
+        <form id="addLabForm">
+            <div class="form-group">
+                <label for="labName">Lab Name</label>
+                <input type="text" id="labName" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="labAddress">Address</label>
+                <input type="text" id="labAddress" name="address" required>
+            </div>
+            <div class="flex-row">
+                <div class="form-group" style="flex: 1;">
+                    <label for="labCity">City</label>
+                    <input type="text" id="labCity" name="city" required>
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label for="labPincode">Pincode</label>
+                    <input type="text" id="labPincode" name="pincode" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="labHours">Working Hours (e.g., 9:00 AM - 6:00 PM)</label>
+                <input type="text" id="labHours" name="workingHours" value="Mon-Sat: 8:00 AM - 8:00 PM">
+            </div>
+            <div class="form-group">
+                <label for="labStatus">Status</label>
+                <select id="labStatus" name="isAvailable">
+                    <option value="true">Active (Visible)</option>
+                    <option value="false">Inactive (Hidden)</option>
+                </select>
+            </div>
+            
+            <div class="form-actions" style="text-align: right; margin-top: 20px;">
+                <button type="button" class="btn-cancel" onclick="document.getElementById('addLabModal').style.display='none'">Cancel</button>
+                <button type="submit" class="btn-save">Create Lab</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="editLabModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" data-modal="editLabModal" onclick="document.getElementById('editLabModal').style.display='none'">&times;</span>
+        <h2>Edit Lab Center: <span id="editLabNameDisplay"></span></h2>
+        <form id="editLabForm">
+            <input type="hidden" id="editLabIdHidden">
+            
+            <div class="form-group">
+                <label for="editLabName">Lab Name</label>
+                <input type="text" id="editLabName" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="editLabAddress">Address</label>
+                <input type="text" id="editLabAddress" name="address" required>
+            </div>
+            <div class="flex-row">
+                <div class="form-group" style="flex: 1;">
+                    <label for="editLabCity">City</label>
+                    <input type="text" id="editLabCity" name="city" required>
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label for="editLabPincode">Pincode</label>
+                    <input type="text" id="editLabPincode" name="pincode" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="editLabHours">Working Hours</label>
+                <input type="text" id="editLabHours" name="workingHours">
+            </div>
+            <div class="form-group">
+                <label for="editLabStatus">Status</label>
+                <select id="editLabStatus" name="isAvailable">
+                    <option value="true">Active (Visible)</option>
+                    <option value="false">Inactive (Hidden)</option>
+                </select>
+            </div>
+            
+            <div class="form-actions" style="text-align: right; margin-top: 20px;">
+                <button type="button" class="btn-cancel" onclick="document.getElementById('editLabModal').style.display='none'">Cancel</button>
+                <button type="submit" class="btn-save" style="background-color: #007bff;">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+    </body>
+<script>
+    // --- Global Variables ---
+    const labsTableBody = document.getElementById('labsTableBody');
+    const addLabModal = document.getElementById('addLabModal');
+    const addLabForm = document.getElementById('addLabForm');
+    const addLabBtn = document.getElementById('addLabBtn');
+    const editLabModal = document.getElementById('editLabModal'); // 💡 NEW
+const editLabForm = document.getElementById('editLabForm');   // 💡 NEW
+    
+    // Helper function for status styling
+    function getStatusBadge(isAvailable) {
+        if (isAvailable) {
+            return `<span style="color: green; font-weight: bold;">Active</span>`;
+        } else {
+            return `<span style="color: red; font-weight: bold;">Inactive</span>`;
+        }
+    }
+
+    // 1. Function to create a table row
+    function createLabRow(lab) {
+        const row = document.createElement('tr');
+        row.dataset.id = lab._id;
+        
+        row.innerHTML = `
+            <td>${lab._id.substring(lab._id.length - 4)}</td>
+            <td>${lab.name}</td>
+            <td>${lab.city}</td>
+            <td>${lab.pincode}</td>
+            <td>${lab.workingHours}</td>
+            <td>${getStatusBadge(lab.isAvailable)}</td>
+            <td>
+                <button class="action-btn edit-btn" data-id="${lab._id}">Edit</button>
+                <button class="action-btn delete-btn" data-id="${lab._id}" style="background-color:#dc3545;">Delete</button>
+            </td>
+        `;
+        return row;
+    }
+
+    // 2. Function to fetch all labs (Admin-protected endpoint is needed)
+    async function fetchLabs() {
+        labsTableBody.innerHTML = '<tr><td colspan="7" style="text-align: center;">Loading lab centers...</td></tr>';
+        
+        try {
+            // NOTE: This assumes the GET /api/labs endpoint returns all lab data, including isAvailable status
+            const response = await fetch('/api/labs'); 
+            
+            if (!response.ok) {
+                if (response.status === 401 || response.status === 403) {
+                    alert("Session expired or unauthorized. Redirecting to admin login.");
+                    window.location.href = '/AdminLogin'; 
+                    return;
+                }
+                throw new Error('Failed to fetch lab centers.');
+            }
+            
+            const labs = await response.json();
+            
+            labsTableBody.innerHTML = '';
+            
+            if (labs.length === 0) {
+                labsTableBody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: #555;">No lab centers found in the database.</td></tr>';
+            } else {
+                labs.forEach(lab => labsTableBody.appendChild(createLabRow(lab)));
+            }
+            
+            bindActionListeners();
+
+        } catch (error) {
+            console.error('Error loading labs:', error);
+            labsTableBody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: red;">Error loading labs. Check server connection.</td></tr>';
+        }
+    }
+    
+    // 3. Action Listeners (REAL Edit/Delete Logic)
+function bindActionListeners() {
+    // Event delegation for Edit/Delete buttons on the table
+    document.querySelectorAll('.action-btn').forEach(button => {
+        button.onclick = async function() { // 🔑 MUST be async now
+            const action = this.textContent.trim();
+            const id = this.dataset.id;
+            const row = this.closest('tr'); // Get the table row for quick DOM removal
+            const labName = row.querySelector('td:nth-child(2)').textContent; // Get the lab name from the second column
+            
+            if (action === 'Edit') {
+                // 🔑 REAL EDIT LOGIC
+                try {
+                    // Fetch full lab details using the new GET API
+                    const response = await fetch(`/api/labs/${id}`);
+                    if (!response.ok) throw new Error('Failed to fetch lab details.');
+                    
+                    const lab = await response.json();
+
+                    // 1. Populate Modal Fields
+                    document.getElementById('editLabIdHidden').value = lab._id;
+                    document.getElementById('editLabNameDisplay').textContent = lab.name;
+                    document.getElementById('editLabName').value = lab.name;
+                    document.getElementById('editLabAddress').value = lab.address;
+                    document.getElementById('editLabCity').value = lab.city;
+                    document.getElementById('editLabPincode').value = lab.pincode;
+                    document.getElementById('editLabHours').value = lab.workingHours;
+                    
+                    // Set Status Dropdown correctly (true/false)
+                    document.getElementById('editLabStatus').value = lab.isAvailable.toString();
+                    
+                    // 2. Open Modal
+                    editLabModal.style.display = 'block';
+
+                } catch (error) {
+                    alert("Error loading lab data. Check console.");
+                    console.error('Fetch Error:', error);
+                }
+
+            } else if (action === 'Delete') {
+                // FUTURE: Implement DELETE logic here
+                alert(`Delete lab center ID ${id} (Are you sure you want to delete lab center: ${labName}?).`);
+            }
+       if (action === 'Delete') {
+                // 🔑 REAL DELETE LOGIC
+                if (confirm(`Are you sure you want to permanently delete lab center: ${labName}?`)) {
+                    try {
+                        const response = await fetch(`/api/labs/${id}`, {
+                            method: 'DELETE',
+                        });
+
+                        if (response.status === 204) {
+                            alert(`Lab center "${labName}" deleted successfully.`);
+                            row.remove(); // Remove the row instantly from the table
+                        } else if (response.status === 404) {
+                             alert(`Error: Lab center "${labName}" not found.`);
+                        } else {
+                            const errorData = await response.json();
+                            alert(`Error deleting lab: ${errorData.message || response.statusText}`);
+                        }
+                    } catch (error) {
+                        console.error('Network Error during deletion:', error);
+                        alert('A network error occurred during deletion.');
+                    }
+                }
+            }
+        };
+    });
+}
+
+// 🔑 NEW: Form Submission Handler for Editing (Calls PUT /api/labs/:id)
+editLabForm.onsubmit = async function(e) {
+    e.preventDefault();
+    
+    const labId = document.getElementById('editLabIdHidden').value;
+    const formData = new FormData(editLabForm);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+        const response = await fetch(`/api/labs/${labId}`, { 
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+            alert(`Lab center '${data.name}' updated successfully!`);
+            document.getElementById('editLabModal').style.display = 'none';
+            await fetchLabs(); // Refresh the lab list
+        } else {
+            const errorData = await response.json();
+            alert(`Error updating lab: ${errorData.message || response.statusText}`);
+        }
+    } catch (error) {
+        console.error('Network Error:', error);
+        alert('A network error occurred. Check server logs.');
+    }
+};
+
+    // 🔑 CORRECTED: Add Button Handler (Static)
+    addLabBtn.onclick = function() {
+        addLabModal.style.display = 'block';
+        addLabForm.reset();
+    };
+    
+    // 🔑 Form Submission Handler (Calls POST /api/labs)
+    addLabForm.onsubmit = async function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(addLabForm);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            const response = await fetch('/api/labs', { 
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                alert(`Lab center '${data.name}' created successfully!`);
+                document.getElementById('addLabModal').style.display = 'none';
+                await fetchLabs(); // Refresh the lab list
+            } else {
+                const errorData = await response.json();
+                alert(`Error creating lab: ${errorData.message || response.statusText}`);
+            }
+        } catch (error) {
+            console.error('Network Error:', error);
+            alert('A network error occurred. Check server logs.');
+        }
+    };
+
+
+    // Highlight the active sidebar link and Initial Load
+    document.addEventListener('DOMContentLoaded', function() {
+        // ... (Sidebar highlight logic) ...
+        const path = window.location.pathname;
+        const links = document.querySelectorAll('.nav-link-list a');
+        links.forEach(link => {
+            if (path.includes(link.getAttribute('href'))) {
+                document.querySelectorAll('.nav-link-list li').forEach(li => li.classList.remove('active-link'));
+                link.parentNode.classList.add('active-link');
+            }
+        });
+
+        // Initial Load
+        fetchLabs();
+    });
+</script>
+</html>

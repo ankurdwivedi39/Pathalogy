@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Appointments - Khushipath</title>
+    <link rel="stylesheet" href="/FP/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body { padding-top: 80px; background-color: #f8f9fa; }
+        .appts-container { max-width: 1100px; margin: 40px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        h1 { color: #3f51b5; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; }
+        .appts-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .appts-table th, .appts-table td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        .appts-table th { background-color: #f1f1f1; font-weight: 600; }
+        .status-badge { padding: 4px 8px; border-radius: 12px; font-size: 0.85em; font-weight: 600; display: inline-block; }
+        .status-Pending { background-color: #ffc107; color: #333; }
+        .status-Confirmed { background-color: #28a745; color: white; }
+        .status-Cancelled { background-color: #dc3545; color: white; }
+        
+        /* Specific Order Details View */
+        #orderDetailsView { margin-top: 30px; padding: 20px; border: 1px solid #cce5ff; background: #e0f0ff; border-radius: 8px; display: none; }
+    </style>
+</head>
+<body>
+    <div class="appts-container">
+        <h1><i class="fas fa-calendar-check"></i> My Appointments</h1>
+        <p>Review your booking history and status updates.</p>
+
+        <div id="orderDetailsView">
+            <h2>Order <span id="currentOrderIdDisplay"></span> Details</h2>
+            <p>Customer: <span id="customerNameDisplay"></span> | Date: <span id="appointmentDateDisplay"></span></p>
+            </div>
+
+        <h2>Booking History</h2>
+        <table class="appts-table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Date & Time</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody id="appointmentHistoryBody">
+                <tr><td colspan="6" style="text-align: center;">Loading history...</td></tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <script>
+        // Helper function for currency formatting
+        const formatter = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0, });
+        
+        // 1. Function to fetch ALL appointments for the logged-in user
+        async function fetchUserAppointments() {
+            const historyBody = document.getElementById('appointmentHistoryBody');
+            historyBody.innerHTML = '<tr><td colspan="6" style="text-align: center;">Fetching appointments...</td></tr>';
+            
+            try {
+                // NOTE: This requires a new protected route: GET /api/user/appointments
+                const response = await fetch('/api/user/appointments'); 
+                if (!response.ok) {
+                    if (response.status === 401) window.location.href = '/Login';
+                    throw new Error('Failed to fetch user history.');
+                }
+                
+                const appointments = await response.json();
+
+                historyBody.innerHTML = '';
+                if (appointments.length === 0) {
+                    historyBody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #6c757d;">You have no past bookings.</td></tr>';
+                } else {
+                    appointments.forEach(appt => {
+                        const displayId = "ORD" + appt._id.substring(appt._id.length - 4);
+                        const date = new Date(appt.appointmentDateTime).toLocaleDateString();
+                        const time = new Date(appt.appointmentDateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                        
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${displayId}</td>
+                            <td>${date} @ ${time}</td>
+                            <td>${appt.collectionType}</td>
+                            <td><span class="status-badge status-${appt.status.replace(/\s/g, '')}">${appt.status}</span></td>
+                            <td>${formatter.format(appt.totalPrice)}</td>
+                            <td><a href="?orderId=${appt._id}">View</a></td>
+                        `;
+                        historyBody.appendChild(row);
+                    });
+                }
+
+            } catch (error) {
+                console.error('Error loading history:', error);
+                historyBody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: red;">Error loading booking history.</td></tr>';
+            }
+        }
+        
+        // 2. Function to load details of a specific order
+        async function loadSpecificOrder(orderId) {
+            try {
+                // Uses the existing PUBLIC API route: GET /api/appointments/:id
+                const response = await fetch(`/api/appointments/${orderId}`);
+                if (!response.ok) throw new Error('Order details not found.');
+                
+                const order = await response.json();
+                
+                // Populate Details View
+                document.getElementById('currentOrderIdDisplay').textContent = "ORD" + order._id.substring(order._id.length - 4);
+                document.getElementById('customerNameDisplay').textContent = order.customerName;
+                document.getElementById('appointmentDateDisplay').textContent = new Date(order.appointmentDateTime).toLocaleString();
+                
+                document.getElementById('orderDetailsView').style.display = 'block';
+                
+            } catch (error) {
+                alert(`Error loading Order ID ${orderId}. It may not exist.`);
+                console.error('Failed to load specific order:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const specificOrderId = urlParams.get('orderId');
+
+            if (specificOrderId) {
+                loadSpecificOrder(specificOrderId);
+            }
+            
+            fetchUserAppointments();
+        });
+    </script>
+</body>
+</html>

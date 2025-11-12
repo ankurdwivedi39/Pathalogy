@@ -11,12 +11,8 @@ const TestPackage = require("./models/test_package"); // 💡 NEW: Import TestPa
 const Setting = require("./models/setting"); // 💡 NEW: Import Setting model
 const ContactMessage = require("./models/contact_message"); // 💡 NEW: Import ContactMessage model
 const Appointment = require("./models/appointment"); // 💡 NEW: Import Appointment model
-
-// const app = express();
-
-//import DB Models
-//  const connectDB = require("./db")
-// const User = require("./models/user") // 🚨 NOTE: Make sure your User model has the 'role' field
+const Lab = require("./models/Lab"); // 💡 NEW: Import Lab model
+const Report = require("./models/Report"); // 💡 NEW: Import Report model
 
 const app = express();
 const Port = 5000;
@@ -92,9 +88,9 @@ app.get('/About', (req, res) => {
  res.sendFile(path.join(__dirname, 'public/About', 'about.html'));   
 });
 
-app.get('/Register', (req, res) => {
- res.sendFile(path.join(__dirname, 'public/Register', 'regi.html'));   
-});
+// app.get('/Register', (req, res) => {
+//  res.sendFile(path.join(__dirname, 'public/Register', 'regi.html'));   
+// });
 
 // 💡 User Login Page
 app.get('/Login', (req, res) => {
@@ -153,6 +149,17 @@ app.get('/TokenGen', (req, res) => {
 });
 app.get('/Packages', (req, res) => {
  res.sendFile(path.join(__dirname, 'public/Packages', 'packages.html'));   
+});
+
+app.get('/Checkout', (req, res) => {
+    // Check if user is NOT logged in
+    if (!req.session.userId) {
+        // Redirect if not logged in
+        // You can use a query parameter to return the user here later
+        return res.redirect('/Login?returnTo=/Checkout'); 
+    }
+    // Logged in user can access
+    res.sendFile(path.join(__dirname, 'public/Checkout', 'checkout.html'));   
 });
 
 
@@ -322,10 +329,8 @@ app.post("/api/users", adminAuth, async (req, res) => {
      return res.status(400).json({ message: "Email already exists. Please use another one." });
     }
 
-    // 3. Hash the password
     const hashedpassword = await bcrypt.hash(password, 10);
 
-    // 4. Create and Save the New User
    const newUser = new User({
       username: username,
       email: email,
@@ -543,8 +548,6 @@ app.get('/admin/system-settings', (req, res) => {
     }
 });
 
-// server.js (Add this protected GET route)
-
 // ----------------- GET Route to Fetch System Settings (Admin-Protected) -----------------
 app.get("/api/settings", adminAuth, async (req, res) => {
   try {
@@ -559,8 +562,6 @@ app.get("/api/settings", adminAuth, async (req, res) => {
     res.status(500).json({ message: "Server error while fetching settings." });
   }
 });
-
-// server.js (Add this protected PUT route)
 
 // ----------------- PUT Route to Update System Settings (Admin-Protected) -----------------
 app.put("/api/settings", adminAuth, async (req, res) => {
@@ -751,40 +752,44 @@ app.post("/api/appointments", async (req, res) => {
     // Note: This route is PUBLIC and does NOT use adminAuth.
     // It is expected to be called from the Checkout Page.
     
-    const { 
-        customerName, 
-        customerEmail, 
-        customerPhone, 
-        appointmentDateTime, 
-        collectionType, 
-        testsBooked, // This is expected to be an array of items from the cart
-        totalPrice 
+   const { 
+        customerName, customerEmail, customerPhone, 
+        appointmentDateTime, collectionType, testsBooked, 
+        totalPrice, labCenterId, 
+        // 🔑 Destructure address fields
+        deliveryAddress, city, pincode 
     } = req.body;
 
-    // 1. Basic Validation
-    if (!customerName || !customerEmail || !customerPhone || !appointmentDateTime || !collectionType || !testsBooked || totalPrice == null) {
-      return res.status(400).json({ message: "Missing required booking details." });
+    // 🔑 CRITICAL VALIDATION LOGIC:
+    // Check always required fields (Mongoose validates totalPrice, appointmentDateTime)
+    if (!customerName || !customerEmail || !customerPhone || !appointmentDateTime || !testsBooked || totalPrice == null) {
+      return res.status(400).json({ message: "Missing required contact or summary details." });
     }
-    if (testsBooked.length === 0) {
-        return res.status(400).json({ message: "Cannot create appointment with an empty cart." });
+    
+    // Check conditional fields
+    if (collectionType === 'Lab Visit' && !labCenterId) {
+         return res.status(400).json({ message: "Lab Center selection is required for Lab Visit." });
     }
-
-    // 2. Determine User ID (Optional but recommended: Link the booking to a logged-in user)
-    // Assuming the user is logged in, attach their ID. If not, userId will be null.
-    const userId = req.session.userId || null; 
+    
+    // 🔑 ENFORCE ADDRESS FOR HOME COLLECTION 🔑
+    if (collectionType === 'Home Collection' && (!deliveryAddress || !city || !pincode)) {
+        return res.status(400).json({ message: "Address, city, and pincode are required for Home Collection." });
+    }
 
     // 3. Create and Save the New Appointment
     const newAppointment = new Appointment({
-        userId,
-        customerName,
-        customerEmail,
-        customerPhone,
-        appointmentDateTime: new Date(appointmentDateTime), // Convert string to Date object
+        // ... (existing fields) ...
+        // 🔑 PASS ALL FIELDS TO MONGOOSE 🔑
+        customerName, customerEmail, customerPhone,
+        appointmentDateTime: new Date(appointmentDateTime),
         collectionType,
         testsBooked,
-        totalPrice
-        // Status defaults to 'Pending' as defined in the schema
-    });
+        totalPrice,
+        deliveryAddress, 
+        city, 
+        pincode,
+        labCenterId: labCenterId,
+        });
 
     await newAppointment.save();
 
@@ -795,23 +800,234 @@ app.post("/api/appointments", async (req, res) => {
     });
     
   } catch (err) {
-    console.error("❌ Appointment Booking Error:", err);
+    console.error("❌ Appointment Booking Error:", err); // <-- Check your terminal for this full error
     if (err.name === 'ValidationError') {
+         // 🔑 This sends the Mongoose validation error to the frontend pop-up
          return res.status(400).json({ message: `Validation Error: ${err.message}` });
     }
     res.status(500).json({ message: "A server error occurred during booking." });
   }
 });
 
-app.get('/Checkout', (req, res) => {
-    // Check if user is NOT logged in
-    if (!req.session.userId) {
-        // Redirect if not logged in
-        // You can use a query parameter to return the user here later
-        return res.redirect('/Login?returnTo=/Checkout'); 
+app.get('/admin/manage-labs', (req, res) => {
+    // Check if user is logged in AND has the 'admin' role
+    if (req.session.userId && req.session.role === 'admin') {
+        // 🔑 NOTE: The file is assumed to be in public/Admin/manage_labs.html
+        res.sendFile(path.join(__dirname, 'public/Admin', 'manage_labs.html'));
+    } else {
+        // Not authorized/logged in, redirect to admin login
+        res.redirect('/AdminLogin'); 
     }
-    // Logged in user can access
-    res.sendFile(path.join(__dirname, 'public/Checkout', 'checkout.html'));   
+});
+
+// ----------------- POST Route to Create New Lab Center (Admin-Protected) -----------------
+app.post("/api/labs", adminAuth, async (req, res) => {
+  try {
+    const { name, address, city, pincode, workingHours, isAvailable } = req.body;
+
+    // 1. Basic Validation
+    if (!name || !address || !city || !pincode) {
+      return res.status(400).json({ message: "Name, address, city, and pincode are required." });
+    }
+    
+    // 2. Create and Save the New Lab Center
+    const newLab = new Lab({
+      name: name,
+      address: address,
+      city: city,
+      pincode: pincode,
+      workingHours: workingHours || 'Mon-Sat: 8:00 AM - 8:00 PM', // Use default if not provided
+      isAvailable: isAvailable === 'true' // Convert string 'true'/'false' from form to Boolean
+    });
+
+    await newLab.save();
+
+    // 3. Success Response: 201 Created
+    res.status(201).json({ 
+        message: `Lab center '${name}' created successfully.`, 
+        lab: newLab 
+    });
+    
+  } catch (err) {
+    console.error("❌ Lab Creation Error:", err);
+    if (err.name === 'ValidationError') {
+         return res.status(400).json({ message: `Validation Error: ${err.message}` });
+    }
+    res.status(500).json({ message: "Server error during lab creation." });
+  }
+});
+
+// server.js (Add this protected GET route)
+
+// ----------------- GET Route to Fetch SINGLE Lab by ID (Admin-Protected) -----------------
+app.get("/api/labs", async (req, res) => {
+  try {
+    // 🔑 Ensure the Lab model is correctly imported at the top of server.js
+    // const Lab = require("./models/Lab");
+    
+    // Fetch only active labs (assuming isAvailable field exists)
+    const labs = await Lab.find({ isAvailable: true }).select('-isAvailable');
+    
+    res.status(200).json(labs);
+    
+  } catch (err) {
+    console.error("❌ Failed to fetch lab centers:", err);
+    // If you see this error in your console, the database connection is likely the issue.
+    res.status(500).json({ message: "Server error while fetching lab centers." });
+  }
+});
+
+// ----------------- PUT Route to Update Lab Center (Admin-Protected) -----------------
+app.put("/api/labs/:id", adminAuth, async (req, res) => {
+  try {
+    const labIdToUpdate = req.params.id;
+    const { name, address, city, pincode, workingHours, isAvailable } = req.body;
+
+    // 1. Basic Validation (Name and Address are essential)
+    if (!name || !address) {
+      return res.status(400).json({ message: "Name and Address are required." });
+    }
+
+    // 2. Prepare update object
+    const updates = {
+      name,
+      address,
+      city,
+      pincode,
+      workingHours,
+      // Ensure isAvailable is correctly converted to a Boolean
+      isAvailable: isAvailable === 'true' || isAvailable === true // Handles boolean or string 'true'
+    };
+
+    // 3. Find and Update
+    const updatedLab = await Lab.findByIdAndUpdate(labIdToUpdate, updates, { 
+        new: true, // Return the new document
+        runValidators: true 
+    });
+
+    if (!updatedLab) {
+      return res.status(404).json({ message: "Lab center not found." });
+    }
+
+    // 4. Success Response
+    res.status(200).json({ 
+        message: `Lab center '${updatedLab.name}' updated successfully.`, 
+        lab: updatedLab 
+    });
+    
+  } catch (err) {
+    console.error("❌ Lab Update Error:", err);
+    if (err.name === 'ValidationError') {
+         return res.status(400).json({ message: `Validation Error: ${err.message}` });
+    }
+    res.status(500).json({ message: "Server error during lab update." });
+  }
+});
+
+// ----------------- DELETE Route to Remove a Lab Center (Admin-Protected) -----------------
+app.delete("/api/labs/:id", adminAuth, async (req, res) => {
+  try {
+    const labIdToDelete = req.params.id;
+    
+    // Find and delete the lab center by MongoDB ID (_id)
+    const result = await Lab.findByIdAndDelete(labIdToDelete);
+
+    if (!result) {
+      return res.status(404).json({ message: "Lab center not found." });
+    }
+
+    // Success response: 204 No Content is standard for a successful DELETE
+    res.status(204).send(); 
+    
+  } catch (err) {
+    console.error("❌ Failed to delete lab center:", err);
+    res.status(400).json({ message: "Failed to delete item. Check ID format or server logs." });
+  }
+});
+
+// 💡 A PROTECTED ROUTE FOR USER APPOINTMENT HISTORY
+app.get('/user/appointments', (req, res) => {
+    // Check if user is logged in
+    if (req.session.userId) {
+        // 🔑 NOTE: The file is assumed to be in public/UserDashboard/user_appointments.html
+        res.sendFile(path.join(__dirname, 'public/UserDashboard', 'user_appointments.html'));
+    } else {
+        // Not authorized/logged in, redirect
+        res.redirect('/Login'); 
+    }
+});
+
+// ----------------- GET Route to Fetch Appointments for Logged-In User -----------------
+app.get("/api/user/appointments", (req, res, next) => {
+    // Middleware to ensure the user is logged in
+    if (!req.session.userId) {
+        return res.status(401).json({ message: "Unauthorized. Please log in to view appointments." });
+    }
+    next();
+}, async (req, res) => {
+  try {
+    const userId = req.session.userId;
+    
+    // Find appointments where the userId field matches the current session user
+    const appointments = await Appointment.find({ userId: userId })
+      .sort({ appointmentDateTime: -1 }) // Newest first
+      .select('-testsBooked'); // Exclude bulky details from the list view
+
+    res.status(200).json(appointments);
+    
+  } catch (err) {
+    console.error("❌ Failed to fetch user appointments:", err);
+    res.status(500).json({ message: "Server error while fetching appointment history." });
+  }
+});
+
+// ----------------- GET Route to Fetch User Dashboard Summary (Protected) -----------------
+app.get("/api/user/summary", (req, res, next) => {
+    if (!req.session.userId) {
+        return res.status(401).json({ message: "Unauthorized. Please log in." });
+    }
+    next();
+}, async (req, res) => {
+  try {
+    const userId = req.session.userId;
+    const today = new Date();
+    
+    // 1. Total Reports (Uses the new Report model)
+    const totalReports = await Report.countDocuments({ 
+        userId: userId, 
+        status: { $in: ['Ready', 'Archived'] } 
+    });
+
+    // 2. Upcoming Appointments/Tests (Any status before Report Ready)
+    const upcomingTests = await Appointment.countDocuments({
+        userId: userId,
+        appointmentDateTime: { $gte: today }, 
+        status: { $in: ['Pending', 'Confirmed', 'Sample Collected'] }
+    });
+
+    // 3. Pending Payments (Uses the new paymentStatus field)
+    const pendingPayments = await Appointment.countDocuments({
+        userId: userId,
+        paymentStatus: 'Pending Payment'
+    });
+
+    // 4. Latest Test Results (Uses the new Report model)
+    const latestResults = await Report.find({ userId: userId })
+        .sort({ generatedAt: -1 }) // Sort by newest first
+        .limit(2)
+        .select('reportId status generatedAt'); // Select fields for display
+
+    res.status(200).json({
+        totalReports,
+        upcomingTests,
+        pendingPayments,
+        latestResults
+    });
+    
+  } catch (err) {
+    console.error("❌ Failed to fetch user dashboard summary:", err);
+    res.status(500).json({ message: "Server error while fetching summary data." });
+  }
 });
 
  // --------- start server ------

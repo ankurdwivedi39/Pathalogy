@@ -21,11 +21,33 @@ const AppointmentSchema = new mongoose.Schema({
         required: true,
     },
 
+    // 🔑 ADDED FIELDS FOR HOME COLLECTION ADDRESS
+    deliveryAddress: {
+        type: String,
+        required: false, // Enforced by server only for Home Collection
+    },
+    city: {
+        type: String,
+        required: false, // Enforced by server only for Home Collection
+    },
+    pincode: {
+        type: String,
+        required: false, // Enforced by server only for Home Collection
+    },
+
     // Appointment Details
     appointmentDateTime: {
         type: Date,
         required: true,
     },
+    
+    // 💡 NEW FIELD: Store the MongoDB ID of the selected lab center
+    labCenterId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Lab',
+       
+    },
+    
     // Type of service requested
     collectionType: {
         type: String,
@@ -47,6 +69,13 @@ const AppointmentSchema = new mongoose.Schema({
     totalPrice: {
         type: Number,
         required: true,
+    },
+
+    // 🔑 NEW FIELD: Tracks the payment state
+    paymentStatus: {
+        type: String,
+        enum: ['Pending Payment', 'Paid (CoSC)', 'Paid (Online)', 'Refunded'],
+        default: 'Pending Payment',
     },
 
     // Management Status

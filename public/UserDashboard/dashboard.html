@@ -114,7 +114,7 @@
 </head>
 <body>
     <div class="header">
-        <h1>Welcome, User! </h1>
+        <h1 id="welcomeUserHeader">Welcome, User! </h1> 
         <a href="/logout" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
 
@@ -125,7 +125,7 @@
             <ul>
                 <li><a href="/user/dashboard"><i class="fas fa-tachometer-alt"></i> Overview</a></li>
                 <li><a href="#"><i class="fas fa-file-alt"></i> My Test Reports</a></li>
-                <li><a href="#"><i class="fas fa-calendar-alt"></i> Upcoming Appointments</a></li>
+                <li><a href="/user/appointments"><i class="fas fa-calendar-alt"></i> Upcoming Appointments</a></li>
                 <li><a href="#"><i class="fas fa-user-edit"></i> Edit Profile</a></li>
                 <li><a href="#"><i class="fas fa-bell"></i> Notifications</a></li>
             </ul>
@@ -137,15 +137,15 @@
                 <h2>Quick Summary</h2>
                 <div class="card-grid">
                     <div class="stat-box">
-                        <div class="count">3</div>
+                        <div class="count" id="totalReportsCount">...</div> 
                         <div class="label">Total Reports</div>
                     </div>
                     <div class="stat-box">
-                        <div class="count" style="color: var(--user-secondary);">1</div>
+                        <div class="count" id="upcomingTestsCount" style="color: var(--user-secondary);">...</div> 
                         <div class="label">Upcoming Tests</div>
                     </div>
                     <div class="stat-box">
-                        <div class="count">2</div>
+                        <div class="count" id="pendingPaymentsCount">...</div> 
                         <div class="label">Pending Payments</div>
                     </div>
                 </div>
@@ -153,12 +153,74 @@
 
             <div class="info-card">
                 <h2>Latest Test Results</h2>
-                <p>Report ID: **KH0045** - Status: <span style="color: green; font-weight: bold;">Ready</span></p>
-                <p>Report ID: **KH0044** - Status: <span style="color: gray;">Archived</span></p>
+                <div id="latestResultsContainer"> 
+                    <p>Loading results...</p>
+                </div>
                 <a href="#" style="color: var(--user-primary); margin-top: 10px; display: block;">View All Reports →</a>
             </div>
             
         </div>
     </div>
+    <script>
+        // Helper function for status styling
+        function getStatusStyle(status) {
+            if (status === 'Ready') return 'color: green; font-weight: bold;';
+            if (status === 'Archived') return 'color: gray;';
+            if (status === 'Pending Payment') return 'color: orange; font-weight: bold;';
+            return 'color: #555;';
+        }
+
+        async function fetchDashboardData() {
+            try {
+                // 🔑 Call the protected route we designed in server.js
+                const response = await fetch('/api/user/summary');
+                
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        alert("Session expired. Redirecting to login.");
+                        window.location.href = '/Login';
+                        return;
+                    }
+                    throw new Error('Failed to fetch dashboard data.');
+                }
+                
+                const data = await response.json();
+
+                // 1. Update Welcome Header (Optional, requires server to return username)
+                // document.getElementById('welcomeUserHeader').textContent = `Welcome, ${data.username || 'User'}!`;
+                
+                // 2. Populate Quick Summary
+                document.getElementById('totalReportsCount').textContent = data.totalReports;
+                document.getElementById('upcomingTestsCount').textContent = data.upcomingTests;
+                document.getElementById('pendingPaymentsCount').textContent = data.pendingPayments;
+
+                // 3. Populate Latest Test Results
+                const resultsContainer = document.getElementById('latestResultsContainer');
+                resultsContainer.innerHTML = '';
+
+                if (data.latestResults && data.latestResults.length > 0) {
+                    data.latestResults.forEach(report => {
+                        const statusStyle = getStatusStyle(report.status);
+                        const p = document.createElement('p');
+                        const displayId = report.reportId ? "KH" + report.reportId.substring(report.reportId.length - 4) + "**" : 'N/A';
+                        
+                        p.innerHTML = `
+                            Report ID: <b>${displayId}</b> - Status: 
+                            <span style="${statusStyle}">${report.status}</span> 
+                        `;
+                        resultsContainer.appendChild(p);
+                    });
+                } else {
+                    resultsContainer.innerHTML = '<p>No recent reports available. Book a test today!</p>';
+                }
+
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+                document.getElementById('latestResultsContainer').innerHTML = '<p style="color: red;">Failed to load summary data.</p>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchDashboardData);
+    </script>
 </body>
 </html>
