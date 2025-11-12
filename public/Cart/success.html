@@ -6,6 +6,8 @@
     <title>Order Confirmed - Khushipath</title>
     <link rel="stylesheet" href="/FP/style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 
     <style>
         /* --- General Reset & Body Styles --- */
@@ -24,7 +26,7 @@
             align-items: center;
             padding: 15px 50px;
             background-color: #ffffff;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         
         .logo {
@@ -185,6 +187,15 @@
             color: #6c757d;
             font-size: 14px;
         }
+        
+        /* Custom Token Box Style */
+        .token-box {
+            border: 1px solid #ff9800;
+            border-left: 5px solid #ff9800;
+            background-color: #fffaf0;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -248,6 +259,27 @@
         </div>
     </div>
     
+    <div id="tokenTrackerBox" class="section-box token-box" style="display: none;">
+        <h3 style="color: var(--user-secondary, #ff9800); margin-top: 0;"><i class="fas fa-ticket-alt"></i> Live Token Status</h3>
+        
+        <div style="display: flex; justify-content: space-between; font-size: 15px;">
+            <p style="margin: 0;">Service Type: <strong id="tokenServiceType">...</strong></p>
+            <p style="margin: 0;">Current Status: <span id="tokenStatusDisplay" style="font-weight: bold;">...</span></p>
+        </div>
+
+        <div style="font-size: 1.8em; margin: 15px 0; font-weight: bold;">Token Number: <strong id="tokenNumberDisplay" style="color: #007bff;">...</strong></div>
+        
+        <div style="display: flex; justify-content: space-around; text-align: center; border-top: 1px solid #eee; padding-top: 10px;">
+            <div>
+                <p style="margin: 0; font-size: 1.4em;"><strong id="peopleBeforeDisplay">...</strong></p>
+                <p style="margin: 0; font-size: 0.9em; color: #555;">People Ahead</p>
+            </div>
+            <div>
+                <p style="margin: 0; font-size: 1.4em;"><strong id="estimatedTimeDisplay">...</strong></p>
+                <p style="margin: 0; font-size: 0.9em; color: #555;">Est. Wait (Min)</p>
+            </div>
+        </div>
+    </div>
     <hr>
 
     <div class="section-box next-steps">
@@ -267,7 +299,7 @@
     </div>
 
     <div class="action-buttons">
-        <a href="/user/dashboard" class="primary-btn">View Order in 'My Account'</a>
+        <a id="viewOrderBtn" href="/user/appointments" class="primary-btn">View Order in 'My Account'</a>
         <a href="/Contact" class="secondary-btn">Need Help? Contact Support</a>
     </div>
     
@@ -278,16 +310,21 @@
 </div>
     <script>
     // Helper function for Indian Rupee formatting
-    const formatter = new Intl.NumberFormat('en-IN', {
-        style: 'currency',
-        currency: 'INR',
-        minimumFractionDigits: 0, 
-    });
+    const formatter = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0, });
+    
+    // --- GLOBAL TOKEN VARIABLES ---
+    let currentTokenNumber = null;
+    let currentServiceType = null;
     
     // --- UTILITIES ---
     function getCart() {
         const cartString = localStorage.getItem('khushipathCart');
         return cartString ? JSON.parse(cartString) : [];
+    }
+
+    function clearCart() {
+        localStorage.removeItem('khushipathCart');
+        console.log("Shopping cart cleared from local storage.");
     }
 
     function updateCartCount() {
@@ -299,27 +336,97 @@
         }
     }
 
-    // 🔑 NEW CORE FUNCTION: Fetch and render order details
+    // --- TOKEN TRACKER FUNCTIONS ---
+    
+    function updateTokenTracker(data, initial = false) {
+        document.getElementById('tokenNumberDisplay').textContent = data.tokenNumber || currentTokenNumber;
+        document.getElementById('peopleBeforeDisplay').textContent = data.peopleBefore;
+        document.getElementById('estimatedTimeDisplay').textContent = data.estimatedTime;
+        document.getElementById('tokenStatusDisplay').textContent = data.currentStatus || 'Waiting';
+        document.getElementById('tokenStatusDisplay').style.color = data.currentStatus === 'Waiting' ? '#ff9800' : '#28a745';
+        
+        if (initial && data.serviceType) {
+             document.getElementById('tokenServiceType').textContent = data.serviceType;
+        }
+
+        document.getElementById('tokenTrackerBox').style.display = 'block';
+    }
+
+    function startAutoRefresh() {
+        setInterval(async () => {
+            if (!currentTokenNumber) return;
+            try {
+                const res = await fetch(`/api/token/status/${currentTokenNumber}`);
+                const data = await res.json();
+
+                if (data.success) {
+                    updateTokenTracker({
+                        peopleBefore: data.peopleBefore,
+                        estimatedTime: data.estimatedTime,
+                        currentStatus: data.currentStatus
+                    });
+                }
+            } catch (err) {
+                console.error("Token status refresh error:", err);
+            }
+        }, 10000); // refresh every 10 seconds
+    }
+    
+    async function generateToken(appointmentId, customerName, collectionType) {
+        try {
+            const res = await fetch("/api/token/generate", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ appointmentId, serviceType: collectionType, customerName }),
+            });
+
+            const data = await res.json();
+            if (data.success) {
+                currentTokenNumber = data.tokenNumber;
+                updateTokenTracker({ 
+                    tokenNumber: data.tokenNumber, 
+                    peopleBefore: data.peopleBefore, 
+                    estimatedTime: data.estimatedTime,
+                    serviceType: collectionType,
+                    currentStatus: 'Waiting'
+                }, true);
+                startAutoRefresh();
+            } else {
+                console.error("Token API Error:", data.message);
+                document.getElementById('tokenTrackerBox').innerHTML = `<h3 style="color:red;">Token Error: ${data.message}</h3>`;
+            }
+        } catch (err) {
+            console.error("Token Network Error:", err);
+            document.getElementById('tokenTrackerBox').innerHTML = '<h3 style="color:red;">Token Error: Connection lost.</h3>';
+        }
+    }
+
+
+    // 🔑 CORE FUNCTION: Fetch and render order details
     async function renderOrderDetails() {
-        // 1. Get Order ID from URL
         const urlParams = new URLSearchParams(window.location.search);
         const orderId = urlParams.get('orderId');
-        
+        const viewOrderBtn = document.getElementById('viewOrderBtn');
+
         if (!orderId) {
             document.getElementById('mainTitle').textContent = "Error: Order ID Missing.";
             document.getElementById('dynamicOrderId').textContent = "N/A";
-            document.getElementById('successContainer').style.borderTop = '5px solid red';
-            localStorage.removeItem('khushipathCart');
+            clearCart();
             updateCartCount();
             return;
         }
 
-        // 2. Clear Cart (Crucial Action)
-        localStorage.removeItem('khushipathCart');
+        // Set Link for "View Order in My Account"
+        if (viewOrderBtn) {
+            viewOrderBtn.href = `/user/appointments?orderId=${orderId}`;
+        }
+
+        // 3. Clear Cart (Crucial Action)
+        clearCart();
         updateCartCount();
         
-        // 3. Fetch Order Data
-        document.getElementById('dynamicOrderId').textContent = "Loading...";
+        // 4. Fetch Order Data
+        document.getElementById('dynamicOrderId').textContent = orderId;
 
         try {
             const response = await fetch(`/api/appointments/${orderId}`);
@@ -329,12 +436,7 @@
             
             const order = await response.json();
             
-            // 4. Populate Confirmation Card
-            
-            // Order ID
-            document.getElementById('dynamicOrderId').textContent = orderId;
-            
-            // Summary Table
+            // 5. Populate Confirmation Card
             document.getElementById('dynamicStatus').textContent = order.status;
             document.getElementById('dynamicTotalPaid').textContent = formatter.format(order.totalPrice);
             document.getElementById('dynamicPaymentMethod').textContent = order.paymentMethod || 'Not Specified';
@@ -344,15 +446,12 @@
             document.getElementById('customerPhoneDisplay').textContent = order.customerPhone;
             document.getElementById('nextStepsTitle').textContent = `🕒 Next Steps for your ${order.testsBooked[0]?.name || 'Booking'}`;
 
-            // 5. Populate Order Breakdown
+            // 6. Populate Order Breakdown
             const breakdownList = document.getElementById('orderBreakdownList');
-            let finalTotalHtml = '';
-            let subtotal = 0;
-
+            breakdownList.innerHTML = ''; // Clear existing content
+            
             order.testsBooked.forEach(item => {
                 const itemTotal = item.price * item.quantity;
-                subtotal += itemTotal;
-                
                 const itemHtml = `
                     <div>
                         <span>${item.name} (x${item.quantity})</span>
@@ -361,102 +460,34 @@
                 breakdownList.insertAdjacentHTML('beforeend', itemHtml);
             });
             
-            // Final Total Row
-            finalTotalHtml += `
-                <div><span>Subtotal:</span><span>${formatter.format(subtotal)}</span></div>
+            // Final Total Row (Must match totals below)
+            breakdownList.insertAdjacentHTML('beforeend', `
+                <div><span>Subtotal:</span><span>${formatter.format(order.totalPrice)}</span></div>
                 <div><span>Taxes & Fees:</span><span>₹0</span></div>
                 <div><span>Delivery Charge:</span><span>FREE</span></div>
                 <div class="total-row"><strong>Total Amount Paid</strong><strong>${formatter.format(order.totalPrice)}</strong></div>
-            `;
-            
-            breakdownList.insertAdjacentHTML('beforeend', finalTotalHtml);
+            `);
 
+            // 🔑 7. CONDITIONAL TOKEN INITIATION
+            const tokenBox = document.getElementById('tokenTrackerBox');
+            
+            if (order.collectionType === 'Lab Visit') {
+                generateToken(order._id, order.customerName, order.collectionType);
+                if (tokenBox) tokenBox.style.display = 'block'; 
+            } else {
+                // Hide the token box if it's Home Collection
+                if (tokenBox) tokenBox.style.display = 'none';
+            }
 
         } catch (error) {
             console.error('Error fetching order details:', error);
             document.getElementById('mainTitle').textContent = "Order Error: Could not retrieve details.";
-            document.getElementById('dynamicOrderId').textContent = "Please check your email for confirmation.";
             document.getElementById('successContainer').style.borderTop = '5px solid #f44336';
         }
     }
 
     // --- Initial Load ---
     document.addEventListener('DOMContentLoaded', renderOrderDetails);
-</script>
-    <script>
-   // --- CART COUNT HELPER FUNCTIONS (ADDED) ---
-        function getCart() {
-            // Retrieves cart data from local storage, defaults to empty array
-            const cartString = localStorage.getItem('khushipathCart');
-            return cartString ? JSON.parse(cartString) : [];
-        }
-
-        function updateCartCount() {
-            const cart = getCart();
-            const cartCountElement = document.getElementById('cart-count');
-            
-            // Calculate the total number of items (sum of all quantities)
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-
-            if (cartCountElement) {
-                cartCountElement.textContent = totalItems;
-                // Only display the badge if there are items in the cart
-                cartCountElement.style.display = totalItems > 0 ? 'inline-block' : 'none';
-            }
-        }
-        // --- END CART COUNT HELPER FUNCTIONS ---
-
-        // CRITICAL FIX: Call updateCartCount when the page is fully loaded.
-        document.addEventListener('DOMContentLoaded', updateCartCount);
-
-        // --- CART COUNT HELPER FUNCTIONS (RETAINED) ---
-    function getCart() {
-        const cartString = localStorage.getItem('khushipathCart');
-        return cartString ? JSON.parse(cartString) : [];
-    }
-
-    function updateCartCount() {
-        const cart = getCart();
-        const cartCountElement = document.getElementById('cart-count');
-        
-        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-
-        if (cartCountElement) {
-            cartCountElement.textContent = totalItems;
-            cartCountElement.style.display = totalItems > 0 ? 'inline-block' : 'none';
-        }
-    }
-    // --- END CART COUNT HELPER FUNCTIONS ---
-
-    // 🔑 NEW FUNCTION: Clears the cart data from local storage
-    function clearCart() {
-        localStorage.removeItem('khushipathCart');
-        console.log("Shopping cart cleared from local storage.");
-    }
-
-    // 🔑 ADDED: Get Order ID and update the button link on page load
-    document.addEventListener('DOMContentLoaded', function() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const orderId = urlParams.get('orderId');
-        const viewOrderBtn = document.getElementById('viewOrderBtn'); // Target the new link
-
-        if (orderId && viewOrderBtn) {
-            // Update the button's href to include the order ID as a parameter
-            viewOrderBtn.href = `/user/appointments?orderId=${orderId}`;
-        }
-
-    // 🔑 CRITICAL FIX: Run the logic on page load
-    document.addEventListener('DOMContentLoaded', () => {
-        // 1. Clear the cart immediately upon loading the success page
-        clearCart(); 
-
-        // 2. Update the cart count displayed in the navbar to reflect 0 items
-        updateCartCount();
-        
-        // FUTURE: If the checkout included an API call, you would also 
-        // fetch the actual order details using the Order ID from the URL 
-        // (if it were a real API flow).
-    });
 </script>
 </body>
 </html>

@@ -13,6 +13,7 @@ const ContactMessage = require("./models/contact_message"); // 💡 NEW: Import 
 const Appointment = require("./models/appointment"); // 💡 NEW: Import Appointment model
 const Lab = require("./models/Lab"); // 💡 NEW: Import Lab model
 const Report = require("./models/Report"); // 💡 NEW: Import Report model
+const Token = require("./models/Token"); // 💡 NEW: Import Token model
 
 const app = express();
 const Port = 5000;
@@ -1309,6 +1310,197 @@ app.get('/user/notifications', (req, res) => {
 app.get('/FP/find-centre.html', (req, res) => {
     // Note: This route should map to the file path shown in your screenshot's status bar
     res.sendFile(path.join(__dirname, 'public/FP', 'find-centre.html'));
+});
+
+// ----------------- PUBLIC POST Route to Generate Token -----------------
+app.post("/api/token/generate", async (req, res) => {
+    try {
+        const { appointmentId, serviceType, customerName } = req.body;
+
+        if (!appointmentId || !serviceType) {
+            return res.status(400).json({ message: "Appointment ID and Service Type are required." });
+        }
+        
+        // 1. Check for existing token
+        if (await Token.findOne({ appointmentId })) {
+            return res.status(400).json({ message: "Token already generated for this appointment." });
+        }
+
+        // 2. Determine next token number (Crude sequential logic)
+        const lastToken = await Token.findOne({ serviceType }).sort({ createdAt: -1 });
+        const lastNum = lastToken ? parseInt(lastToken.tokenNumber.split('-')[1]) : 0;
+        const newNum = lastNum + 1;
+        const prefix = serviceType === 'Lab Visit' ? 'L' : 'H';
+        const tokenNumber = `${prefix}-${String(newNum).padStart(3, '0')}`;
+
+        // 3. Create and Save Token
+        const newToken = new Token({
+            appointmentId,
+            tokenNumber,
+            customerName,
+            serviceType,
+            status: 'Waiting'
+        });
+
+        await newToken.save();
+        
+        // 4. Calculate queue position (only people currently 'Waiting' and same serviceType)
+        const peopleBefore = await Token.countDocuments({ 
+            serviceType, 
+            status: 'Waiting', 
+            _id: { $lt: newToken._id } 
+        });
+
+        res.status(201).json({
+            success: true,
+            tokenNumber,
+            peopleBefore,
+            estimatedTime: peopleBefore * 10 // Assuming 10 minutes per person
+        });
+
+    } catch (err) {
+        console.error("❌ Token Generation Error:", err);
+        res.status(500).json({ message: "Server error during token generation." });
+    }
+});
+
+// ----------------- PUBLIC GET Route to Check Token Status -----------------
+app.get("/api/token/status/:tokenNumber", async (req, res) => {
+    try {
+        const { tokenNumber } = req.params;
+
+        const token = await Token.findOne({ tokenNumber });
+
+        if (!token) {
+            return res.status(404).json({ success: false, message: "Token not found." });
+        }
+
+        // Calculate queue position again based on service type
+        const peopleBefore = await Token.countDocuments({
+            serviceType: token.serviceType,
+            status: 'Waiting',
+            _id: { $lt: token._id } 
+        });
+
+        res.status(200).json({
+            success: true,
+            peopleBefore,
+            currentStatus: token.status,
+            estimatedTime: peopleBefore * 10 
+        });
+
+    } catch (err) {
+        console.error("❌ Token Status Error:", err);
+        res.status(500).json({ message: "Server error checking status." });
+    }
+});
+
+// 💡 PROTECTED ROUTE TO SERVE THE TOKEN TRACKER PAGE
+app.get('/user/track-token', (req, res) => {
+    if (req.session.userId) {
+        // 🔑 NOTE: The file is assumed to be in public/UserDashboard/user_token_tracker.html
+        res.sendFile(path.join(__dirname, 'public/UserDashboard', 'user_token_tracker.html'));
+    } else {
+        res.redirect('/Login'); 
+    }
+});
+
+// ----------------- PATCH Route to Update Token Status (Admin-Protected) -----------------
+app.patch("/api/admin/token/:appointmentId", adminAuth, async (req, res) => {
+    try {
+        const { status } = req.body;
+        const appointmentId = req.params.appointmentId;
+
+        if (!['Processing', 'Complete', 'Waiting'].includes(status)) {
+            return res.status(400).json({ message: "Invalid token status provided." });
+        }
+
+        // 1. Find and update the linked Token document
+        const updatedToken = await Token.findOneAndUpdate(
+            { appointmentId: appointmentId },
+            { $set: { status: status } },
+            { new: true }
+        );
+
+        if (!updatedToken) {
+            return res.status(404).json({ message: "Token not found for this appointment ID." });
+        }
+        
+        // 2. Automatically update the corresponding Appointment status for consistency
+        await Appointment.findByIdAndUpdate(appointmentId, { 
+            $set: { status: 'Confirmed' } 
+        });
+
+
+        res.status(200).json({
+            message: `Token ${updatedToken.tokenNumber} status updated to ${status}.`,
+            token: updatedToken
+        });
+
+    } catch (err) {
+        console.error("❌ Admin Token Update Error:", err);
+        res.status(500).json({ message: "Server error updating token status." });
+    }
+});
+
+// ----------------- ADMIN GET Route to Fetch FULL Appointment Details by ID -----------------
+app.get("/api/appointments/details/:id", adminAuth, async (req, res) => {
+  try {
+    const appointmentId = req.params.id;
+
+    // Fetch the appointment details and populate the linked Lab Center details
+    const appointment = await Appointment.findById(appointmentId)
+      .populate('labCenterId'); // Populate lab details if available
+
+    if (!appointment) {
+      return res.status(404).json({ message: "Appointment details not found." });
+    }
+
+    res.status(200).json(appointment);
+    
+  } catch (err) {
+    console.error("❌ Failed to fetch detailed appointment:", err);
+    res.status(500).json({ message: "Server error while fetching appointment details." });
+  }
+});
+
+// ----------------- PATCH Route to Update Appointment Status (Admin-Protected) -----------------
+app.patch("/api/appointments/:id", adminAuth, async (req, res) => {
+  try {
+    const appointmentId = req.params.id;
+    const { status } = req.body; // Expects status like 'Sample Collected' or 'Processing'
+
+    // 1. Basic Validation
+    if (!status) {
+      return res.status(400).json({ message: "Status field is required for update." });
+    }
+
+    // 2. Find and Update the Appointment
+    const updatedAppointment = await Appointment.findByIdAndUpdate(
+      appointmentId,
+      { $set: { status: status } }, // Only update the status field
+      { new: true, runValidators: true } 
+    ).select('-testsBooked'); 
+
+    if (!updatedAppointment) {
+      return res.status(404).json({ message: "Appointment not found." });
+    }
+    
+    // NOTE: If this was a Lab Visit, you would also add logic here to update the Token status!
+
+    // 3. Success Response
+    res.status(200).json({ 
+        message: `Appointment status updated to ${updatedAppointment.status}.`, 
+        appointment: updatedAppointment 
+    });
+    
+  } catch (err) {
+    console.error("❌ Failed to update appointment status:", err);
+    if (err.name === 'ValidationError') {
+         return res.status(400).json({ message: `Validation Error: ${err.message}` });
+    }
+    res.status(500).json({ message: "Server error during status update." });
+  }
 });
 
  // --------- start server ------

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Token Tracker - Khushipath</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Reused styles from User Dashboard */
+        :root { --user-primary: #009688; --user-secondary: #ff9800; --bg-color: #f7f7f7; }
+        body { padding-top: 20px; background-color: var(--bg-color); }
+        .tracker-container { max-width: 600px; margin: 40px auto; padding: 30px; background: white; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center; }
+        h1 { color: var(--user-primary); border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 30px; }
+        
+        .tracker-box { border: 2px solid var(--user-secondary); padding: 20px; border-radius: 8px; margin-top: 20px; }
+        .token-display { font-size: 2.5em; color: #007bff; font-weight: bold; margin: 15px 0; }
+        .queue-stats { display: flex; justify-content: space-around; margin-top: 20px; }
+        .queue-stats div { text-align: center; }
+        .queue-stats .number { font-size: 1.6em; font-weight: bold; color: #f44336; }
+    </style>
+</head>
+<body>
+    <div class="tracker-container">
+        <h1><i class="fas fa-ticket-alt"></i> Live Token Status</h1>
+        <p>Enter your Appointment ID or Token Number to check your position in the queue.</p>
+
+        <div class="search-box" style="margin-bottom: 20px;">
+            <input type="text" id="searchId" placeholder="Enter Order ID or Token No." style="padding: 10px; width: 70%; border: 1px solid #ccc; border-radius: 5px;">
+            <button id="trackBtn" style="padding: 10px 15px; background: var(--user-primary); color: white; border: none; border-radius: 5px; cursor: pointer;">Track</button>
+        </div>
+
+        <div id="statusResult" class="tracker-box" style="display: none;">
+            <p>Service Type: <strong id="serviceTypeDisplay">N/A</strong></p>
+            <div class="token-display" id="tokenNumberDisplay"></div>
+            <p>Current Status: <span id="currentStatusDisplay" style="color: #ff9800; font-weight: bold;"></span></p>
+
+            <div class="queue-stats">
+                <div>
+                    <div class="number" id="peopleAheadDisplay">0</div>
+                    <div>People Ahead</div>
+                </div>
+                <div>
+                    <div class="number" id="waitTimeDisplay">0</div>
+                    <div>Est. Wait (Min)</div>
+                </div>
+            </div>
+        </div>
+        
+        <p id="messageArea" style="color: red; margin-top: 20px;"></p>
+    </div>
+    
+    <script>
+        const searchInput = document.getElementById('searchId');
+        const trackBtn = document.getElementById('trackBtn');
+        const statusResult = document.getElementById('statusResult');
+        const messageArea = document.getElementById('messageArea');
+        
+        let currentToken = null;
+
+        // --- 1. STATUS POLLING FUNCTION ---
+        async function fetchTokenStatus() {
+            if (!currentToken) return;
+
+            messageArea.textContent = 'Refreshing status...';
+            
+            try {
+                // Calls the public API endpoint for status check
+                const response = await fetch(`/api/token/status/${currentToken}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    document.getElementById('peopleAheadDisplay').textContent = data.peopleBefore;
+                    document.getElementById('waitTimeDisplay').textContent = data.estimatedTime;
+                    document.getElementById('currentStatusDisplay').textContent = data.currentStatus;
+                    messageArea.textContent = 'Status is live.';
+                } else {
+                    messageArea.textContent = data.message || 'Token not found.';
+                }
+            } catch (err) {
+                messageArea.textContent = 'Error connecting to server.';
+            }
+        }
+
+        // --- 2. INITIAL TRACKING LOGIC ---
+        trackBtn.addEventListener('click', async () => {
+            const query = searchInput.value.trim();
+            if (!query) {
+                messageArea.textContent = "Please enter an ID or Token Number.";
+                return;
+            }
+            
+            // Assuming the user enters the TOKEN NUMBER (e.g., L-001)
+            // If the user enters an Order ID, an extra API call would be needed to convert it to a Token Number.
+            currentToken = query.toUpperCase(); 
+
+            statusResult.style.display = 'none';
+            messageArea.textContent = 'Fetching token status...';
+
+            try {
+                const response = await fetch(`/api/token/status/${currentToken}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    // Update initial display
+                    document.getElementById('tokenNumberDisplay').textContent = currentToken;
+                    document.getElementById('peopleAheadDisplay').textContent = data.peopleBefore;
+                    document.getElementById('waitTimeDisplay').textContent = data.estimatedTime;
+                    document.getElementById('currentStatusDisplay').textContent = data.currentStatus;
+                    // Note: Service Type cannot be accurately determined from just the status check response
+                    
+                    statusResult.style.display = 'block';
+                    messageArea.textContent = 'Tracking started.';
+                    
+                    // Start polling immediately
+                    setInterval(fetchTokenStatus, 10000); 
+                } else {
+                    messageArea.textContent = data.message || 'Token not found. Please check your ID.';
+                }
+            } catch (err) {
+                messageArea.textContent = 'Network error. Could not connect to tracker API.';
+            }
+        });
+    </script>
+</body>
+</html>

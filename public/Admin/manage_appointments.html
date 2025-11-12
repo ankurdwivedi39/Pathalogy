@@ -61,6 +61,79 @@
         <h1><i class="fas fa-calendar-check"></i> Appointments Management</h1>
         <p>View, confirm, or cancel scheduled home collections and lab visits.</p>
 
+       <div id="appointmentGroups">
+    
+    <h2 style="color: #ff9800; margin-top: 30px;"><i class="fas fa-hourglass-half"></i> 1. Pending (New)</h2>
+    <div id="pendingGroup">
+        <table class="appointments-table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer Name</th>
+                    <th>Date & Time</th>
+                    <th>Type</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="pendingTableBody">
+                </tbody>
+        </table>
+        <div id="detailsModal" class="modal">
+    <div class="modal-content" style="max-width: 800px;">
+        <span class="close-btn" onclick="document.getElementById('detailsModal').style.display='none'">&times;</span>
+        <h2>Order Details: <span id="modalOrderIdDisplay"></span></h2>
+        
+        <div style="display: flex; gap: 30px; text-align: left;">
+            <div style="flex: 1;">
+                <h3 style="color: #3f51b5;">Customer & Scheduling</h3>
+                <p><strong>Name:</strong> <span id="detailCustomerName"></span></p>
+                <p><strong>Email:</strong> <span id="detailCustomerEmail"></span></p>
+                <p><strong>Phone:</strong> <span id="detailCustomerPhone"></span></p>
+                <p><strong>Date & Time:</strong> <span id="detailDateTime"></span></p>
+                <p><strong>Service Type:</strong> <span id="detailCollectionType"></span></p>
+                <p><strong>Current Status:</strong> <span id="detailStatus"></span></p>
+                <p><strong>Payment Method:</strong> <span id="detailPaymentMethod"></span></p>
+            </div>
+            
+            <div style="flex: 1;">
+                <h3 style="color: #3f51b5;">Location Details</h3>
+                <div id="detailLocationInfo">
+                    <p>Loading...</p>
+                </div>
+            </div>
+        </div>
+        
+        <h3 style="color: #3f51b5; margin-top: 20px;">Tests Booked</h3>
+        <table class="lab-table" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody id="detailTestsTableBody">
+                </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" style="text-align: right; font-weight: bold;">TOTAL:</td>
+                    <td style="font-weight: bold;"><span id="detailTotalAmount"></span></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+<style>
+    /* Add basic modal styles if they are not defined globally */
+    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4); }
+    .modal-content { background-color: #fefefe; margin: 5% auto; padding: 25px; border-radius: 8px; max-width: 600px; position: relative; }
+</style>
+    </div>
+
+    <h2 style="color: #007bff; margin-top: 30px;"><i class="fas fa-calendar-check"></i> 2. Confirmed / Scheduled</h2>
+    <div id="confirmedGroup">
         <table class="appointments-table">
             <thead>
                 <tr>
@@ -72,35 +145,60 @@
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody id="appointmentsTableBody">
-                <tr>
-                    <td>ORD1001</td>
-                    <td>Ravi Sharma</td>
-                    <td>07-11-2025, 10:00 AM</td>
-                    <td>Home Collection</td>
-                    <td><span class="status-badge status-pending">Pending</span></td>
-                    <td>
-                        <button class="action-btn">Confirm</button>
-                        <button class="action-btn" style="background-color:#dc3545;">Cancel</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>ORD1002</td>
-                    <td>Sita Verma</td>
-                    <td>06-11-2025, 09:30 AM</td>
-                    <td>Lab Visit</td>
-                    <td><span class="status-badge status-confirmed">Confirmed</span></td>
-                    <td>
-                        <button class="action-btn" style="background-color:#6c757d;">View Report</button>
-                    </td>
-                </tr>
-                
-            </tbody>
+            <tbody id="confirmedTableBody">
+                </tbody>
         </table>
+    </div>
+
+    <style>
+    /* ... (existing styles) ... */
+    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4); }
+    .modal-content { background-color: #fefefe; margin: 5% auto; padding: 25px; border-radius: 8px; max-width: 600px; position: relative; }
+    
+    /* 🔑 FIX: Increase Close Button Size for Usability */
+    .close-btn { 
+        color: #333; /* Darker color */
+        float: right; 
+        font-size: 32px; /* Increased from 28px */
+        font-weight: bold; 
+        cursor: pointer; 
+        padding: 5px; /* Added padding to clickable area */
+        line-height: 1;
+    }
+</style>
+
+    <h2 style="color: #3f51b5; margin-top: 30px;"><i class="fas fa-flask"></i> 3. Processing / Sample Collected</h2>
+    <div id="processingGroup">
+        <table class="appointments-table">
+            <thead>
+                <tr><th>Order ID</th><th>Customer Name</th><th>Status</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="processingTableBody">
+                </tbody>
+        </table>
+    </div>
+    
+    <h2 style="color: #6c757d; margin-top: 30px;"><i class="fas fa-archive"></i> 4. History / Closed</h2>
+    <div id="historyGroup">
+        <table class="appointments-table">
+            <thead>
+                <tr><th>Order ID</th><th>Customer Name</th><th>Status</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="historyTableBody">
+                </tbody>
+        </table>
+    </div>
+
+</div>
     </div>
 </body>
 <script>
     const appointmentsTableBody = document.getElementById('appointmentsTableBody');
+    const formatter = new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+    minimumFractionDigits: 0, 
+});
     
     // Helper function for status styling
     function getStatusBadge(status) {
@@ -130,112 +228,287 @@
         const customerName = appointment.customerName || (appointment.userId ? appointment.userId.username : 'N/A');
         
         row.innerHTML = `
+        <td>${displayOrderId}</td>
+        <td>${customerName}</td>
+        <td>${formatDateTime(appointment.appointmentDateTime)}</td>
+        <td>${appointment.collectionType}</td>
+        <td>${getStatusBadge(appointment.status)}</td>
+        <td>
+            <button class="action-btn view-details-btn" data-id="${appointment._id}">Details</button>
+            
+            ${appointment.status === 'Pending' ? 
+                `<button class="action-btn confirm-btn" data-id="${appointment._id}" data-action="Confirm" style="background-color:#007bff;">Confirm</button>` : 
+                ''
+            }
+            
+            ${appointment.status === 'Confirmed' ? 
+                `<button class="action-btn token-process-btn" data-id="${appointment._id}" data-action="Processing" style="background-color:#f1c40f;">Start Processing</button>` : 
+                ''
+            }
+
+            ${appointment.status !== 'Cancelled' ? 
+                `<button class="action-btn cancel-btn" data-id="${appointment._id}" data-action="Cancel" style="background-color:#dc3545;">Cancel</button>` : 
+                ''
+            }
+        </td>
+    `;
+    return row;
+}
+
+    // 1. Function to create a table row (Simplified headers for groups)
+function createAppointmentRow(appointment, groupName) {
+    const row = document.createElement('tr');
+    row.dataset.id = appointment._id;
+    const displayOrderId = "ORD" + appointment._id.substring(appointment._id.length - 4); 
+    const customerName = appointment.customerName || (appointment.userId ? appointment.userId.username : 'N/A');
+    const statusBadge = getStatusBadge(appointment.status);
+    const dateTime = formatDateTime(appointment.appointmentDateTime);
+    // --- Global Table Body Targets (Must be defined at the top of the script) ---
+const pendingTableBody = document.getElementById('pendingTableBody');
+const confirmedTableBody = document.getElementById('confirmedTableBody');
+const processingTableBody = document.getElementById('processingTableBody');
+const historyTableBody = document.getElementById('historyTableBody');
+const detailsModal = document.getElementById('detailsModal');
+const detailTestsTableBody = document.getElementById('detailTestsTableBody'); // For the table in the modal
+// --- End Targets ---
+
+    let actions = `
+        <button class="action-btn view-details-btn" data-id="${appointment._id}">Details</button>
+    `;
+
+    // 🔑 Actions based on group 🔑
+    if (groupName === 'pending') {
+        actions += `<button class="action-btn confirm-btn" data-id="${appointment._id}" data-action="Confirmed" style="background-color:#007bff;">Confirm</button>`;
+        actions += `<button class="action-btn cancel-btn" data-id="${appointment._id}" data-action="Cancelled" style="background-color:#dc3545;">Cancel</button>`;
+        
+        // Structure for Pending group (5 columns)
+        row.innerHTML = `
             <td>${displayOrderId}</td>
             <td>${customerName}</td>
-            <td>${formatDateTime(appointment.appointmentDateTime)}</td>
+            <td>${dateTime}</td>
             <td>${appointment.collectionType}</td>
-            <td>${getStatusBadge(appointment.status)}</td>
-            <td>
-                <button class="action-btn view-details-btn" data-id="${appointment._id}">Details</button>
-                ${appointment.status === 'Pending' ? 
-                    `<button class="action-btn confirm-btn" data-id="${appointment._id}" style="background-color:#007bff;">Confirm</button>` : 
-                    ''
-                }
-                ${appointment.status !== 'Cancelled' ? 
-                    `<button class="action-btn cancel-btn" data-id="${appointment._id}" style="background-color:#dc3545;">Cancel</button>` : 
-                    ''
-                }
-            </td>
+            <td>${actions}</td>
         `;
-        return row;
-    }
-
-    // 2. Function to fetch all appointments
-    async function fetchAppointments() {
-        appointmentsTableBody.innerHTML = '<tr><td colspan="6" style="text-align: center;">Loading appointments...</td></tr>';
+    } else if (groupName === 'confirmed') {
+        actions += `<button class="action-btn token-process-btn" data-id="${appointment._id}" data-action="Sample Collected" style="background-color:#f1c40f;">Start Processing</button>`;
+        actions += `<button class="action-btn cancel-btn" data-id="${appointment._id}" data-action="Cancelled" style="background-color:#dc3545;">Cancel</button>`;
         
-        try {
-            const response = await fetch('/api/appointments');
-            
-            if (!response.ok) {
-                if (response.status === 401 || response.status === 403) {
-                    alert("Session expired or unauthorized. Redirecting to login.");
-                    window.location.href = '/AdminLogin'; 
-                    return;
-                }
-                throw new Error('Failed to fetch appointments.');
-            }
-            
-            const appointments = await response.json();
-            
-            appointmentsTableBody.innerHTML = '';
-            
-            if (appointments.length === 0) {
-                appointmentsTableBody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #555;">No appointments scheduled yet.</td></tr>';
-            } else {
-                appointments.forEach((appt, index) => appointmentsTableBody.appendChild(createAppointmentRow(appt, index)));
-            }
-            
-            // Bind listeners after dynamic content is added
-            bindActionListeners();
-
-        } catch (error) {
-            console.error('Error loading appointments:', error);
-            appointmentsTableBody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: red;">Error loading appointments. Check server connection.</td></tr>';
-        }
+        // Structure for Confirmed group (6 columns)
+        row.innerHTML = `
+            <td>${displayOrderId}</td>
+            <td>${customerName}</td>
+            <td>${dateTime}</td>
+            <td>${appointment.collectionType}</td>
+            <td>${statusBadge}</td>
+            <td>${actions}</td>
+        `;
+    } else if (groupName === 'processing') {
+        // Example action for processing: Mark as Report Ready
+        actions += `<button class="action-btn" data-id="${appointment._id}" data-action="Report Ready" style="background-color:#28a745;">Report Ready</button>`;
+        
+        // Structure for Processing group (4 columns)
+        row.innerHTML = `
+            <td>${displayOrderId}</td>
+            <td>${customerName}</td>
+            <td>${statusBadge}</td>
+            <td>${actions}</td>
+        `;
+    } else { // History Group
+         // Structure for History group (4 columns)
+         row.innerHTML = `
+            <td>${displayOrderId}</td>
+            <td>${customerName}</td>
+            <td>${statusBadge}</td>
+            <td><button class="action-btn view-details-btn" data-id="${appointment._id}">View</button></td>
+        `;
     }
+
+    return row;
+}
+
+// 2. Function to fetch all appointments (Modified to group data)
+async function fetchAppointments() {
+    // 1. Clear all sections and show loading
+    [pendingTableBody, confirmedTableBody, processingTableBody, historyTableBody].forEach(tbody => {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">Loading...</td></tr>';
+    });
+
+    try {
+        const response = await fetch('/api/appointments');
+        
+        if (!response.ok) { /* ... handle authorization error ... */ }
+        
+        const appointments = await response.json();
+
+        // 2. Clear loading messages
+        [pendingTableBody, confirmedTableBody, processingTableBody, historyTableBody].forEach(tbody => {
+            tbody.innerHTML = '';
+        });
+
+        if (appointments.length === 0) {
+            document.getElementById('pendingGroup').innerHTML = '<p class="text-center">No appointments found.</p>';
+        } else {
+            // 3. Loop and distribute appointments into the correct group
+            appointments.forEach(appt => {
+                const status = appt.status;
+                let groupName = 'history'; // Default to history
+
+                if (status === 'Pending') {
+                    pendingTableBody.appendChild(createAppointmentRow(appt, 'pending'));
+                } else if (status === 'Confirmed') {
+                    confirmedTableBody.appendChild(createAppointmentRow(appt, 'confirmed'));
+                } else if (status === 'Sample Collected' || status === 'Processing') {
+                    processingTableBody.appendChild(createAppointmentRow(appt, 'processing'));
+                } else { // Cancelled, Report Ready, etc.
+                    historyTableBody.appendChild(createAppointmentRow(appt, 'history'));
+                }
+            });
+        }
+        
+        // 4. Bind listeners after dynamic content is added
+        bindActionListeners();
+
+    } catch (error) {
+        console.error('Error loading appointments:', error);
+        document.getElementById('pendingGroup').innerHTML = '<p style="color: red;">Error connecting to server.</p>';
+    }
+}
     
     // 3. Action Listeners (Real Status Update Logic)
-    function bindActionListeners() {
-        document.querySelectorAll('.action-btn').forEach(button => {
-            button.onclick = async function() { // 🔑 Must be ASYNC
-                const action = this.textContent.trim();
-                const id = this.dataset.id;
-                let newStatus = '';
-                let successMessage = '';
+    
+// manage_appointments.html (Inside function bindActionListeners, focus on the 'Start Processing' logic)
 
-                // Determine the new status based on the button clicked
-                if (action === 'Confirm') {
-                    newStatus = 'Confirmed';
-                    successMessage = 'Appointment Confirmed.';
-                } else if (action === 'Cancel') {
-                    if (!confirm("Are you sure you want to CANCEL this appointment?")) {
-                        return; // Stop if user cancels confirmation
-                    }
-                    newStatus = 'Cancelled';
-                    successMessage = 'Appointment Cancelled.';
-                } else {
-                    // Handle other buttons (e.g., View Details, which can remain simulated for now)
-                    alert(`${action} appointment ID ${id} simulated.`);
-                    return; 
+function bindActionListeners() {
+    document.querySelectorAll('.action-btn').forEach(button => {
+        button.onclick = async function() { 
+            const actionText = this.textContent.trim();
+            const id = this.dataset.id;
+            
+            let newStatus = '';
+            let isTokenAction = false;
+            let confirmMessage = '';
+
+            // --- 1. DETERMINE ACTION ---
+            if (actionText === 'Confirm') {
+                newStatus = 'Confirmed';
+                confirmMessage = 'Confirm this appointment?';
+            } else if (actionText === 'Cancel') {
+                newStatus = 'Cancelled';
+                confirmMessage = 'Are you sure you want to CANCEL this appointment?';
+            } else if (actionText === 'Start Processing') {
+                newStatus = 'Sample Collected'; // Or 'Processing'
+                confirmMessage = 'Start sample processing/collection?';
+                isTokenAction = true; // Flag for potential token update
+            } else if (actionText === 'Details') {
+                await fetchAndDisplayDetails(id);
+                return;
+            }
+
+            if (!confirmMessage || !confirm(confirmMessage)) return;
+
+            try {
+                // --- 2. API CALLS ---
+                let appointmentApiUrl = `/api/appointments/${id}`;
+                let tokenApiUrl = `/api/admin/token/${id}`; // Assuming Appointment ID is passed
+
+                // 2a. Update Appointment Status (Always required)
+                const apptResponse = await fetch(appointmentApiUrl, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status: newStatus })
+                });
+
+                if (!apptResponse.ok) {
+                    const errorData = await apptResponse.json();
+                    throw new Error(`Appointment update failed: ${errorData.message}`);
                 }
-
-                try {
-                    // 🔑 Call the PATCH API to update the status
-                    const response = await fetch(`/api/appointments/${id}`, {
+                
+                // 2b. Update Token Status (If Start Processing was clicked)
+                if (isTokenAction) {
+                    // Update Token status from Waiting to Processing (L-001 is now out of the queue)
+                    await fetch(tokenApiUrl, {
                         method: 'PATCH',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ status: newStatus })
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ status: 'Processing' }) // Or 'Complete'
                     });
-
-                    if (response.ok) {
-                        alert(successMessage);
-                        // Refresh the entire table to show the status change
-                        await fetchAppointments(); 
-                    } else {
-                        const errorData = await response.json();
-                        alert(`Error updating status: ${errorData.message || response.statusText}`);
-                    }
-
-                } catch (error) {
-                    console.error('Network Error during status update:', error);
-                    alert('A network error occurred. Could not update status.');
                 }
-            };
+
+
+                alert(`Status successfully updated to ${newStatus}.`);
+                await fetchAppointments(); // Refresh the table to show the new grouping
+
+            } catch (error) {
+                console.error('Error during status change:', error);
+                alert(`Error changing status: ${error.message}`);
+            }
+        };
+    });
+}
+
+// 💡 NEW FUNCTION: Fetches details and populates the modal
+async function fetchAndDisplayDetails(appointmentId) {
+    detailsModal.style.display = 'block';
+    
+    // Clear old data and show loading state
+    document.getElementById('modalOrderIdDisplay').textContent = `Loading...`;
+    detailTestsTableBody.innerHTML = '<tr><td colspan="4">Fetching data...</td></tr>';
+    
+    try {
+        const response = await fetch(`/api/appointments/details/${appointmentId}`);
+        if (!response.ok) throw new Error('Order data fetch failed.');
+        
+        const order = await response.json();
+        
+        // --- Populate Header and Basic Info ---
+        const displayOrderId = "ORD" + order._id.substring(order._id.length - 4);
+        document.getElementById('modalOrderIdDisplay').textContent = displayOrderId;
+        
+        document.getElementById('detailCustomerName').textContent = order.customerName;
+        document.getElementById('detailCustomerEmail').textContent = order.customerEmail;
+        document.getElementById('detailCustomerPhone').textContent = order.customerPhone;
+        document.getElementById('detailDateTime').textContent = formatDateTime(order.appointmentDateTime);
+        document.getElementById('detailCollectionType').textContent = order.collectionType;
+        document.getElementById('detailStatus').textContent = order.status;
+        document.getElementById('detailPaymentMethod').textContent = order.paymentMethod || 'Not Recorded';
+        
+        // --- Populate Location Info (Conditional) ---
+        const locationInfoDiv = document.getElementById('detailLocationInfo');
+        if (order.collectionType === 'Home Collection') {
+            locationInfoDiv.innerHTML = `
+                <p><strong>Address:</strong> ${order.deliveryAddress}, ${order.city} - ${order.pincode}</p>
+            `;
+        } else if (order.labCenterId && order.labCenterId.name) {
+            // Check if Mongoose population worked (order.labCenterId will be the object)
+            locationInfoDiv.innerHTML = `
+                <p><strong>Lab Center:</strong> ${order.labCenterId.name}</p>
+                <p><strong>Location:</strong> ${order.labCenterId.address}, ${order.labCenterId.city}</p>
+                <p><strong>Hours:</strong> ${order.labCenterId.workingHours}</p>
+            `;
+        } else {
+             locationInfoDiv.innerHTML = `<p style="color: red;">Lab details pending.</p>`;
+        }
+        
+        // --- Populate Tests Breakdown ---
+        detailTestsTableBody.innerHTML = '';
+        order.testsBooked.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${item.name}</td>
+                <td>${item.quantity}</td>
+                <td>${formatter.format(item.price)}</td>
+                <td>${formatter.format(item.price * item.quantity)}</td>
+            `;
+            detailTestsTableBody.appendChild(row);
         });
+        
+        document.getElementById('detailTotalAmount').textContent = formatter.format(order.totalPrice);
+        
+    } catch (error) {
+        console.error('Error fetching details:', error);
+        document.getElementById('modalOrderIdDisplay').textContent = `Error: ${error.message}`;
+        detailTestsTableBody.innerHTML = '<tr><td colspan="4" style="color: red;">Could not load data.</td></tr>';
     }
+}
 
     // Highlight the active sidebar link
     document.addEventListener('DOMContentLoaded', function() {
