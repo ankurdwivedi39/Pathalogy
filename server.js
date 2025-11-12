@@ -1030,6 +1030,287 @@ app.get("/api/user/summary", (req, res, next) => {
   }
 });
 
+// 💡 A PROTECTED ROUTE FOR USER TEST REPORTS
+app.get('/user/reports', (req, res) => {
+    // Check if user is logged in
+    if (req.session.userId) {
+        // 🔑 NOTE: The file is assumed to be in public/UserDashboard/user_reports.html
+        res.sendFile(path.join(__dirname, 'public/UserDashboard', 'user_reports.html'));
+    } else {
+        // Not authorized/logged in, redirect
+        res.redirect('/Login'); 
+    }
+});
+
+// ----------------- GET Route to Fetch All Reports for Logged-In User -----------------
+app.get("/api/user/reports", (req, res, next) => {
+    // Middleware to ensure the user is logged in
+    if (!req.session.userId) {
+        return res.status(401).json({ message: "Unauthorized. Please log in to view reports." });
+    }
+    next();
+}, async (req, res) => {
+  try {
+    const userId = req.session.userId;
+    
+    // Find all reports linked to the current session user, ordered by newest first.
+    const reports = await Report.find({ userId: userId })
+      .sort({ generatedAt: -1 })
+      .select('reportId appointmentId status generatedAt'); // Select only necessary fields
+
+    res.status(200).json(reports);
+    
+  } catch (err) {
+    console.error("❌ Failed to fetch user reports:", err);
+    res.status(500).json({ message: "Server error while fetching report history." });
+  }
+});
+
+// 💡 A PROTECTED ROUTE FOR EDIT PROFILE
+app.get('/user/edit-profile', (req, res) => {
+    // Check if user is logged in
+    if (req.session.userId) {
+        // 🔑 NOTE: The file is assumed to be in public/UserDashboard/edit_profile.html
+        res.sendFile(path.join(__dirname, 'public/UserDashboard', 'edit_profile.html'));
+    } else {
+        // Not authorized/logged in, redirect
+        res.redirect('/Login'); 
+    }
+});
+
+// ----------------- GET Route to Fetch Current User Profile -----------------
+app.get("/api/user/profile", (req, res, next) => {
+    // Check if the user is logged in
+    if (!req.session.userId) {
+        return res.status(401).json({ message: "Unauthorized. Please log in." });
+    }
+    next();
+}, async (req, res) => {
+    try {
+        const userId = req.session.userId;
+        
+        // Find the user by ID and exclude sensitive data like the password
+        const user = await User.findById(userId).select('-password');
+
+        if (!user) {
+            // This should ideally not happen if session is valid
+            return res.status(404).json({ message: "User profile not found." });
+        }
+
+        res.status(200).json(user);
+        
+    } catch (err) {
+        console.error("❌ Failed to fetch user profile:", err);
+        res.status(500).json({ message: "Server error fetching profile data." });
+    }
+});
+
+// ----------------- PUT Route to Update Current User Profile -----------------
+app.put("/api/user/profile", (req, res, next) => {
+    if (!req.session.userId) {
+        return res.status(401).json({ message: "Unauthorized. Please log in to update." });
+    }
+    next();
+}, async (req, res) => {
+    try {
+        const userId = req.session.userId;
+        const { username, phone } = req.body; // Capture fields from the "Save Details" form
+
+        // 1. Prepare update object
+        const updates = {};
+        if (username) updates.username = username;
+        if (phone) updates.phone = phone; // Ensure your User model has a 'phone' field!
+
+        if (Object.keys(updates).length === 0) {
+             return res.status(400).json({ message: "No fields submitted for update." });
+        }
+
+        // 2. Find and update the user document
+        const updatedUser = await User.findByIdAndUpdate(userId, updates, {
+            new: true,
+            runValidators: true 
+        }).select('-password');
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: "User profile not found for update." });
+        }
+
+        res.status(200).json({ 
+            message: "Profile updated successfully.",
+            user: updatedUser
+        });
+
+    } catch (err) {
+        console.error("❌ Failed to update user profile:", err);
+        if (err.name === 'ValidationError') {
+            return res.status(400).json({ message: `Validation Error: ${err.message}` });
+        }
+        res.status(500).json({ message: "Server error during profile update." });
+    }
+});
+
+// ----------------- PUT Route to Change User Password -----------------
+app.put("/api/user/password", (req, res, next) => {
+    // Check if the user is logged in
+    if (!req.session.userId) {
+        return res.status(401).json({ message: "Unauthorized. Please log in." });
+    }
+    next();
+}, async (req, res) => {
+    try {
+        const userId = req.session.userId;
+        const { oldPassword, newPassword, confirmNewPassword } = req.body;
+
+        // 1. Validation and Match Check
+        if (!oldPassword || !newPassword || !confirmNewPassword) {
+            return res.status(400).json({ message: "All password fields are required." });
+        }
+        if (newPassword !== confirmNewPassword) {
+            return res.status(400).json({ message: "New passwords do not match." });
+        }
+        if (newPassword.length < 6) { // Enforce minimum length
+             return res.status(400).json({ message: "New password must be at least 6 characters long." });
+        }
+
+        // 2. Fetch User Record (Need the current hashed password)
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "User not found." });
+        }
+
+        // 3. Verify Old Password (Use bcrypt.compare)
+        const isMatch = await bcrypt.compare(oldPassword, user.password);
+        if (!isMatch) {
+            return res.status(401).json({ message: "The old password entered is incorrect." });
+        }
+
+        // 4. Hash New Password and Update Database
+        const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+        
+        await User.findByIdAndUpdate(userId, { 
+            $set: { password: hashedNewPassword } 
+        });
+
+        // 5. Success Response
+        res.status(200).json({ 
+            message: "Password updated successfully. You will remain logged in."
+        });
+
+    } catch (err) {
+        console.error("❌ Failed to change password:", err);
+        res.status(500).json({ message: "Server error during password update." });
+    }
+});
+
+// ----------------- GET Route to Fetch User Notifications (Protected) -----------------
+app.get("/api/user/notifications", (req, res, next) => {
+    if (!req.session.userId) {
+        return res.status(401).json({ message: "Unauthorized. Please log in." });
+    }
+    next();
+}, async (req, res) => {
+  try {
+    const userId = req.session.userId;
+    const notifications = [];
+    const now = new Date();
+    
+    // --- 1. Fetch APPOINTMENTS (Check Status and Payment) ---
+    const appointments = await Appointment.find({ userId: userId })
+        .sort({ createdAt: -1 })
+        .select('appointmentDateTime status paymentStatus totalPrice testsBooked');
+
+    for (const appt of appointments) {
+        const orderIdDisplay = "ORD" + appt._id.toString().slice(-4);
+        const apptTime = new Date(appt.appointmentDateTime);
+        const isFuture = apptTime > now;
+
+        // 1a. Payment Pending Alert (High Priority)
+        if (appt.paymentStatus === 'Pending Payment') {
+            notifications.push({
+                id: `payment_${appt._id}`,
+                type: 'payment',
+                title: 'Payment Required',
+                message: `Action required: Your payment of ${appt.totalPrice} for order ${orderIdDisplay} is still pending.`,
+                time: 'Requires Action',
+                status: 'unread'
+            });
+        }
+        
+        // 1b. Upcoming Appointment Alert (12 hours before)
+        const twelveHoursBefore = new Date(apptTime.getTime() - (12 * 60 * 60 * 1000));
+        
+        if (isFuture && appt.status === 'Confirmed' && now > twelveHoursBefore) {
+            notifications.push({
+                id: `appt_${appt._id}`,
+                type: 'appointment',
+                title: 'Upcoming Appointment Reminder',
+                message: `Your sample collection is scheduled for ${apptTime.toLocaleString()} today/tomorrow.`,
+                time: 'Scheduled',
+                status: 'unread'
+            });
+        }
+        
+        // 1c. Sample Collected Alert (If status is S.Collected)
+        if (appt.status === 'Sample Collected') {
+             notifications.push({
+                id: `collected_${appt._id}`,
+                type: 'info',
+                title: 'Sample Received',
+                message: `Sample for order ${orderIdDisplay} received and is now processing.`,
+                time: 'Processing',
+                status: 'read' // Low priority for display
+            });
+        }
+    }
+    
+    // --- 2. Fetch REPORTS (Check Status) ---
+    // NOTE: This assumes Report model is correctly imported and linked.
+    const reports = await Report.find({ userId: userId })
+        .sort({ generatedAt: -1 })
+        .limit(5); // Show latest 5 report status changes
+
+    for (const report of reports) {
+        if (report.status === 'Ready') {
+            notifications.push({
+                id: `report_${report._id}`,
+                type: 'report',
+                title: 'Report Ready for Download!',
+                message: `Your results for report ${report.reportId} are finalized.`,
+                time: new Date(report.generatedAt).toLocaleString(),
+                status: 'unread'
+            });
+        }
+    }
+
+    // Sort all notifications by time (newest first)
+    // NOTE: We rely on the frontend to sort or time-stamp based on createdAt/generatedAt if available
+
+    res.status(200).json(notifications);
+    
+  } catch (err) {
+    console.error("❌ Failed to fetch user notifications:", err);
+    res.status(500).json({ message: "Server error while fetching notifications." });
+  }
+});
+
+// 💡 A PROTECTED ROUTE TO SERVE THE NOTIFICATIONS HTML PAGE
+app.get('/user/notifications', (req, res) => {
+    // Check if user is logged in
+    if (req.session.userId) {
+        // 🔑 Serve the HTML file from the UserDashboard directory
+        res.sendFile(path.join(__dirname, 'public/UserDashboard', 'user_notifications.html'));
+    } else {
+        // Not authorized/logged in, redirect
+        res.redirect('/Login'); 
+    }
+});
+
+// 💡 PUBLIC ROUTE TO SERVE THE CENTER FINDER PAGE
+app.get('/FP/find-centre.html', (req, res) => {
+    // Note: This route should map to the file path shown in your screenshot's status bar
+    res.sendFile(path.join(__dirname, 'public/FP', 'find-centre.html'));
+});
+
  // --------- start server ------
  app.listen(Port, () => {
     console.log(`Server is running on http://localhost:${Port}`);

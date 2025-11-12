@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile - Khushipath</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Reused styles from User Dashboard */
+        :root {
+            --user-primary: #009688; 
+            --user-secondary: #ff9800; 
+            --bg-color: #f7f7f7;
+        }
+        body { padding-top: 20px; background-color: var(--bg-color); }
+        .profile-container { max-width: 800px; margin: 40px auto; padding: 30px; background: white; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        h1 { color: var(--user-primary); border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 30px; }
+        
+        /* Form Styles */
+        .form-section { border: 1px solid #ddd; padding: 25px; border-radius: 6px; margin-bottom: 20px; }
+        .form-section h3 { color: var(--user-secondary); margin-top: 0; border-bottom: 1px dashed #eee; padding-bottom: 10px; margin-bottom: 20px; }
+        .form-row { margin-bottom: 15px; }
+        .form-row label { display: block; font-weight: 600; margin-bottom: 5px; }
+        .form-row input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .form-group-half { display: flex; gap: 20px; }
+        .form-group-half > div { flex: 1; }
+        .save-btn { background-color: var(--user-primary); color: white; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <h1><i class="fas fa-user-edit"></i> Edit Profile</h1>
+        <p>Update your personal details and password.</p>
+
+        <form id="detailsForm">
+            <div class="form-section">
+                <h3>Personal Details</h3>
+                <div class="form-group-half">
+                    <div>
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div>
+                        <label for="email">Email Address (Read-Only)</label>
+                        <input type="email" id="email" name="email" disabled>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label for="phone">Mobile Number</label>
+                    <input type="tel" id="phone" name="phone">
+                </div>
+                
+                <button type="submit" class="save-btn"><i class="fas fa-save"></i> Save Details</button>
+            </div>
+        </form>
+
+        <form id="passwordForm">
+            <div class="form-section">
+                <h3>Change Password</h3>
+                <div class="form-row">
+                    <label for="oldPassword">Old Password</label>
+                    <input type="password" id="oldPassword" name="oldPassword" required>
+                </div>
+                <div class="form-group-half">
+                    <div>
+                        <label for="newPassword">New Password</label>
+                        <input type="password" id="newPassword" name="newPassword" required>
+                    </div>
+                    <div>
+                        <label for="confirmNewPassword">Confirm New Password</label>
+                        <input type="password" id="confirmNewPassword" name="confirmNewPassword" required>
+                    </div>
+                </div>
+                <button type="submit" class="save-btn" style="background-color: var(--user-secondary);"><i class="fas fa-lock"></i> Change Password</button>
+            </div>
+        </form>
+    </div>
+    
+    <script>
+        // Placeholder for user data (to be fetched from API)
+        let currentUser = {};
+
+        // 1. Fetch User Data (GET /api/user/profile)
+        async function fetchUserProfile() {
+            try {
+                // NOTE: This protected API route must be implemented in server.js
+                const response = await fetch('/api/user/profile'); 
+                if (response.status === 401) window.location.href = '/Login';
+                if (!response.ok) throw new Error('Failed to fetch profile.');
+
+                currentUser = await response.json();
+                
+                // Populate forms
+                document.getElementById('username').value = currentUser.username || '';
+                document.getElementById('email').value = currentUser.email || 'N/A';
+                document.getElementById('phone').value = currentUser.phone || '';
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                alert('Could not load user profile data.');
+            }
+        }
+
+        // 2. Handle Details Submission (PUT /api/user/profile)
+        document.getElementById('detailsForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+            
+            // Assuming the PUT API is PUT /api/user/profile and handles data validation
+            alert('Simulating details update...');
+            console.log('Updating details:', data);
+            
+            // FUTURE: Real PUT API call goes here
+            // const response = await fetch('/api/user/profile', { method: 'PUT', ... });
+            
+            alert('Details updated successfully (SIMULATED)!');
+            fetchUserProfile(); // Refresh data
+        };
+
+        // 3. Handle Password Submission (PUT /api/user/password)
+document.getElementById('passwordForm').onsubmit = async function(e) {
+    e.preventDefault();
+    const oldPassword = document.getElementById('oldPassword').value;
+    const newPassword = document.getElementById('newPassword').value;
+    const confirmNewPassword = document.getElementById('confirmNewPassword').value;
+
+    if (newPassword !== confirmNewPassword) {
+        alert('New passwords do not match.');
+        return;
+    }
+    
+    // 🔑 REAL PUT API CALL
+    try {
+        const response = await fetch('/api/user/password', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ oldPassword, newPassword, confirmNewPassword })
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            alert(result.message);
+            this.reset(); // Clear the form on success
+        } else {
+            // Displays error messages from validation (e.g., "The old password entered is incorrect.")
+            alert('Error: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Network Error:', error);
+        alert('A network error occurred. Please try again.');
+    }
+};
+
+        document.addEventListener('DOMContentLoaded', fetchUserProfile);
+    </script>
+</body>
+</html>

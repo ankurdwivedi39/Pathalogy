@@ -4,157 +4,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Find Nearest Centre - Khushipath</title>
+    <link rel="stylesheet" href="/FP/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="/FP/style.css"> 
-    
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fc;
-            padding-top: 60px; /* Space for the fixed navbar */
-            margin: 0;
-        }
-
-           /* --- Navbar Container (The dark blue bar) --- */
-.navbar {
-    width: 100%;
-    /* The light blue/grey bar color */
-    background-color: #ffffff; 
-    /* Shadow for the floating effect */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-    padding: 10px 40px;
-    
-    /* Use Flexbox to align logo and links horizontally */
-    display: flex;
-    justify-content: space-between; /* Pushes logo left, links right */
-    align-items: center;
-    
-    /* Fixed at the top, if desired */
-    /* position: fixed; 
-       top: 0;
-       z-index: 1000; */
-}
-
-        .centre-container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            display: flex;
-            gap: 20px;
-            min-height: 80vh;
-        }
+        /* Base styles */
+        body { padding-top: 100px; background-color: #f8f9fa; }
+        .center-container { max-width: 900px; margin: 40px auto; padding: 30px; background: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        h1 { color: #3f51b5; font-size: 2em; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 30px; text-align: center; }
         
-        h1 {
-            color: #1a4e69;
-            font-size: 2em;
-            margin-bottom: 20px;
-            text-align: center;
-            width: 100%;
-        }
-
-        /* --- Left Column: Search and Locations List --- */
-        .sidebar {
-            width: 350px;
-            background: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .search-box {
-            display: flex;
+        /* Lab Card Styles */
+        .lab-list { display: grid; gap: 20px; }
+        .lab-card {
             border: 1px solid #ddd;
-            border-radius: 5px;
-            overflow: hidden;
-            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: flex-start;
+            transition: box-shadow 0.2s;
+            border-left: 5px solid #28a745;
         }
-
-        .search-box input {
-            border: none;
-            padding: 10px;
-            width: 100%;
-            font-size: 1em;
+        .lab-card:hover {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
-
-        .search-box button {
-            background: #4a90e2;
-            border: none;
-            color: white;
-            padding: 10px 15px;
-            cursor: pointer;
+        .lab-icon {
+            font-size: 30px;
+            color: #3f51b5;
+            margin-right: 20px;
         }
-        
-        /* --- Location Cards --- */
-        .location-card {
-            padding: 15px;
-            border-bottom: 1px dashed #eee;
-            cursor: pointer;
-            transition: background-color 0.2s;
+        .lab-details {
+            flex-grow: 1;
         }
-        
-        .location-card:hover {
-            background-color: #e9f5ff; /* Light blue hover effect */
+        .lab-details h3 {
+            margin-top: 0;
+            margin-bottom: 5px;
+            color: #333;
         }
-        
-        .location-card h4 {
-            color: #1a4e69;
-            margin: 0 0 5px 0;
-            font-size: 1.1em;
-        }
-        
-        .location-card p {
-            margin: 2px 0;
-            font-size: 0.9em;
+        .lab-details p {
+            margin: 3px 0;
+            font-size: 0.95em;
             color: #555;
         }
-
-        .distance {
-            font-weight: bold;
-            color: #2ecc71; /* Green accent for distance */
-            margin-top: 5px;
-            display: block;
+        .lab-details .hours {
+            font-weight: 600;
+            color: #28a745;
+            margin-top: 10px;
         }
-
-        /* --- Right Column: Map Integration --- */
-        .map-section {
-            flex-grow: 1;
-            background: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            /* Placeholder style for the map area */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5em;
-            color: #aaa;
-            background-color: #e9f0f7;
+        .status-badge {
+            font-size: 0.8em;
+            padding: 4px 8px;
+            background-color: #e0f2f1;
+            border-radius: 5px;
+            color: #009688;
         }
-
-        /* Responsive adjustments for smaller screens */
-        @media (max-width: 900px) {
-            .centre-container {
-                flex-direction: column;
-            }
-            .sidebar {
-                width: auto;
-                max-height: 40vh; /* Shorter sidebar on mobile */
-            }
-            .map-section {
-                height: 400px;
-            }
+        .not-found {
+            text-align: center;
+            padding: 50px;
+            color: #6c757d;
         }
     </style>
 </head>
 <body>
     <nav class="navbar">
         <div class="logo">
-            <img src="/FP/image/khushipath logo.png" alt="Khushipath Logo" style="height: 30px;" />
-            <h1>Khushipath</h1>
+            <a href="/" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
+                <img src="/FP/image/khushipath logo.png" alt="Khushipath Logo" />
+                <h1>Khushipath</h1>
+            </a>
         </div>
         <ul class="nav-links">
             <li><a href="/">Home</a></li>
@@ -164,88 +79,87 @@
             <li><a href="/Doctor">Doctors</a></li>
             <li><a href="/Contact">Contact</a></li>
             <li><a href="/Login">Login</a></li>
-             <li>
-            <a href="/Cart" title="Shopping Cart">
-                <i class="fas fa-shopping-cart"></i> 
-                <span id="cart-count" style="
-                    display: inline-block; 
-                    background-color: #e74c3c; 
-                    color: white; 
-                    border-radius: 50%; 
-                    padding: 2px 6px; 
-                    font-size: 0.8em; 
-                    margin-left: 5px;
-                    font-weight: bold;
-                    position: relative; 
-                    top: -10px; 
-                    left: -10px; 
-                ">0</span>
-            </a>
-        </li>
+            <li><a href="/Cart" title="Shopping Cart"><i class="fas fa-shopping-cart"></i><span id="cart-count">0</span></a></li>
         </ul>
     </nav>
+    
+    <div class="center-container">
+        <h1><i class="fas fa-map-marker-alt"></i> Find Your Nearest Khushipath Centre</h1>
+        <p style="text-align: center; margin-bottom: 40px; color: #555;">Below is a list of our currently active lab centers and collection points.</p>
 
-    <div class="centre-container">
-        <h1>Find Your Nearest Khushipath Centre</h1>
-        
-        <div class="sidebar">
-            <div class="search-box">
-                <input type="text" id="location-search" placeholder="Enter City, Pincode, or Address...">
-                <button onclick="searchLocations()">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
-            
-            <p style="font-weight: 600; color: #4a90e2;">3 Centres Found near Prayagraj:</p>
-
-            <div id="location-list">
-                <div class="location-card" data-lat="28.6139" data-lon="77.2090">
-                    <h4>Khushipath Lab - CP (Main Branch)</h4>
-                    <p>Tambaku Gali, Prayagraj - 811001</p>
-                    <span class="distance"><i class="fas fa-route"></i> 2.5 km</span>
-                </div>
-
-                <div class="location-card" data-lat="28.5355" data-lon="77.3910">
-                    <h4>Khushipath Collection Centre - Naini</h4>
-                    <p>Shop No. 4, Sector 18 Market, Prayagraj - 811001</p>
-                    <span class="distance"><i class="fas fa-route"></i> 8.1 km</span>
-                </div>
-                
-                <div class="location-card" data-lat="28.6946" data-lon="77.1594">
-                    <h4>Khushipath Collection Centre - Jhalwa</h4>
-                    <p>Plot 5, Pocket D-12, Sector 7, Rohini, Prayagraj - 811001</p>
-                    <span class="distance"><i class="fas fa-route"></i> 15.0 km</span>
-                </div>
-                
-                </div>
-        </div>
-
-        <div class="map-section">
-            <i class="fas fa-map-marked-alt" style="margin-right: 15px;"></i> 
-            Map Integration Area (e.g., Google Maps)
+        <div id="labList" class="lab-list">
+            <div style="text-align: center;">Loading active lab locations...</div>
         </div>
     </div>
 
     <script>
-        // Placeholder JavaScript for map interaction (to be replaced by actual map API calls)
-        
-        function searchLocations() {
-            const query = document.getElementById('location-search').value;
-            console.log("Searching for: " + query);
-            alert("Search functionality requires backend integration or a map API (like Google Maps) to locate " + query);
+        const labListContainer = document.getElementById('labList');
+
+        // Function to create an individual lab card HTML
+        function createLabCard(lab) {
+            const status = lab.isAvailable ? 'Active' : 'Inactive';
+
+            return `
+                <div class="lab-card">
+                    <div class="lab-icon"><i class="fas fa-flask"></i></div>
+                    <div class="lab-details">
+                        <h3>${lab.name} (${lab.city})</h3>
+                        <p><strong>Address:</strong> ${lab.address}, Pincode: ${lab.pincode}</p>
+                        <p class="hours"><i class="far fa-clock"></i> ${lab.workingHours}</p>
+                    </div>
+                    <span class="status-badge">${status}</span>
+                </div>
+            `;
         }
 
-        document.querySelectorAll('.location-card').forEach(card => {
-            card.addEventListener('click', (event) => {
-                const lat = card.getAttribute('data-lat');
-                const lon = card.getAttribute('data-lon');
-                const name = card.querySelector('h4').textContent;
+        // Main function to fetch labs from the public API
+        async function fetchLabCenters() {
+            labListContainer.innerHTML = '<div style="text-align: center;">Fetching data from server...</div>';
+            
+            try {
+                // Calls the public API endpoint GET /api/labs
+                const response = await fetch('/api/labs');
                 
-                console.log(`Centering map on: ${name} (${lat}, ${lon})`);
-                // In a real application, you would call map.setCenter({lat: lat, lng: lon}) here.
-                alert(`Map would center on ${name} now!`);
-            });
-        });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok.');
+                }
+                
+                const labs = await response.json();
+                
+                if (labs.length === 0) {
+                    labListContainer.innerHTML = '<div class="not-found">No active lab centers are currently listed.</div>';
+                    return;
+                }
+
+                // Render the labs
+                labListContainer.innerHTML = labs.map(createLabCard).join('');
+
+            } catch (error) {
+                console.error('Error fetching lab data:', error);
+                labListContainer.innerHTML = '<div class="not-found" style="color: red;">Error connecting to the server or database.</div>';
+            }
+        }
+        
+        // Initial load on page ready
+        document.addEventListener('DOMContentLoaded', fetchLabCenters);
+        
+        // --- CART COUNT HELPER (Included for Navbar) ---
+        function getCart() {
+            const cartString = localStorage.getItem('khushipathCart');
+            return cartString ? JSON.parse(cartString) : [];
+        }
+
+        function updateCartCount() {
+            const cart = getCart();
+            const cartCountElement = document.getElementById('cart-count');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+            if (cartCountElement) {
+                cartCountElement.textContent = totalItems;
+                cartCountElement.style.display = totalItems > 0 ? 'inline-block' : 'none';
+            }
+        }
+        document.addEventListener('DOMContentLoaded', updateCartCount);
     </script>
 </body>
 </html>

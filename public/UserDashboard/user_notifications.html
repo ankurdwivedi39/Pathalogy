@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - Khushipath</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Reused styles from User Dashboard */
+        :root {
+            --user-primary: #009688; 
+            --user-secondary: #ff9800; 
+            --bg-color: #f7f7f7;
+        }
+        body { padding-top: 20px; background-color: var(--bg-color); }
+        .notifications-container { max-width: 800px; margin: 40px auto; padding: 30px; background: white; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        h1 { color: var(--user-primary); border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 30px; }
+        
+        /* Notification List Styles */
+        .notification-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.2s;
+        }
+        .notification-item:hover {
+            background-color: #f0f8ff;
+        }
+        .notification-icon {
+            font-size: 24px;
+            color: var(--user-secondary);
+            margin-right: 15px;
+        }
+        .notification-content {
+            flex-grow: 1;
+            text-align: left;
+        }
+        .notification-content p {
+            margin: 0;
+            font-size: 0.9em;
+        }
+        .notification-content strong {
+            font-size: 1.05em;
+            display: block;
+            margin-bottom: 3px;
+        }
+        .time-stamp {
+            font-size: 0.8em;
+            color: #999;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="notifications-container">
+        <h1><i class="fas fa-bell"></i> Notifications</h1>
+        <p>Your latest updates, report alerts, and appointment confirmations.</p>
+
+        <div id="notificationsList">
+            <div style="text-align: center; padding: 30px; color: #6c757d;">Loading notifications...</div>
+        </div>
+    </div>
+    
+   <script>
+    const notificationsList = document.getElementById('notificationsList');
+
+    function getIcon(type) {
+        if (type === 'report') return '<i class="fas fa-file-download" style="color: #009688;"></i>';
+        if (type === 'appointment') return '<i class="fas fa-calendar-check" style="color: #ff9800;"></i>';
+        if (type === 'payment') return '<i class="fas fa-exclamation-circle" style="color: #f44336;"></i>';
+        if (type === 'info') return '<i class="fas fa-info-circle" style="color: #3f51b5;"></i>';
+        return '<i class="fas fa-bell"></i>';
+    }
+
+    function renderNotifications(notifications) {
+        notificationsList.innerHTML = '';
+        if (notifications.length === 0) {
+            notificationsList.innerHTML = '<div style="text-align: center; padding: 30px; color: #6c757d;">You are all caught up! No new notifications.</div>';
+            return;
+        }
+
+        notifications.forEach(note => {
+            const item = document.createElement('div');
+            // Highlight unread items
+            if (note.status === 'unread') {
+                item.style.backgroundColor = '#fffbe6'; // Light yellow background
+            }
+            item.className = 'notification-item';
+            
+            // NOTE: The 'time' field from the API is now a string (e.g., 'Requires Action' or a date string)
+            const timeDisplay = note.time.includes('Action') ? `<strong style="color:#f44336;">${note.time}</strong>` : note.time;
+
+            item.innerHTML = `
+                <div class="notification-icon">${getIcon(note.type)}</div>
+                <div class="notification-content">
+                    <strong>${note.title}</strong>
+                    <p>${note.message}</p>
+                </div>
+                <div class="time-stamp">${timeDisplay}</div>
+            `;
+            notificationsList.appendChild(item);
+        });
+    }
+
+    // 1. Fetch notifications
+    async function fetchNotifications() {
+        notificationsList.innerHTML = '<div style="text-align: center; padding: 30px; color: #6c757d;">Fetching latest updates...</div>';
+        
+        try {
+            const response = await fetch('/api/user/notifications');
+            
+            if (!response.ok) {
+                if (response.status === 401) {
+                    notificationsList.innerHTML = '<div style="text-align: center; padding: 30px; color: red;">Session expired. Please <a href="/Login">log in</a>.</div>';
+                    return;
+                }
+                throw new Error('Failed to fetch user notifications.');
+            }
+            
+            const notifications = await response.json();
+            renderNotifications(notifications);
+
+        } catch (error) {
+            console.error('Error loading notifications:', error);
+            notificationsList.innerHTML = '<div style="text-align: center; padding: 30px; color: red;">Error connecting to server to load updates.</div>';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', fetchNotifications);
+</script>
+</body>
+</html>

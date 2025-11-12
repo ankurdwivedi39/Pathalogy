@@ -114,7 +114,7 @@
 </head>
 <body>
     <div class="header">
-        <h1 id="welcomeUserHeader">Welcome, User! </h1> 
+        <h1 id="welcomeUserHeader">Welcome, <span id="dynamicUsernamePlaceholder">User</span>! </h1> 
         <a href="/logout" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
 
@@ -124,10 +124,10 @@
             <h3 style="color: var(--user-primary); margin-top: 0;">My Account</h3>
             <ul>
                 <li><a href="/user/dashboard"><i class="fas fa-tachometer-alt"></i> Overview</a></li>
-                <li><a href="#"><i class="fas fa-file-alt"></i> My Test Reports</a></li>
+                <li><a href="/user/reports"><i class="fas fa-file-alt"></i> My Test Reports</a></li>
                 <li><a href="/user/appointments"><i class="fas fa-calendar-alt"></i> Upcoming Appointments</a></li>
-                <li><a href="#"><i class="fas fa-user-edit"></i> Edit Profile</a></li>
-                <li><a href="#"><i class="fas fa-bell"></i> Notifications</a></li>
+                <li class="active-link"><a href="/user/edit-profile"><i class="fas fa-user-edit"></i> Edit Profile</a></li>
+                <li><a href="/user/notifications"><i class="fas fa-bell"></i> Notifications</a></li>
             </ul>
         </div>
 
@@ -170,9 +170,31 @@
             return 'color: #555;';
         }
 
+        // 🔑 NEW FUNCTION: Fetches the user's name and updates the welcome header
+        async function fetchAndDisplayUsername() {
+            try {
+                // Uses the existing protected GET /api/user/profile route
+                const response = await fetch('/api/user/profile'); 
+                
+                if (response.ok) {
+                    const user = await response.json();
+                    const usernamePlaceholder = document.getElementById('dynamicUsernamePlaceholder');
+                    
+                    if (user.username && usernamePlaceholder) {
+                        // 🔑 INJECT THE REAL USERNAME
+                        usernamePlaceholder.textContent = user.username; 
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to fetch username for header:', error);
+                // The dashboard will still load summary data even if the name fails
+            }
+        }
+
+
         async function fetchDashboardData() {
             try {
-                // 🔑 Call the protected route we designed in server.js
+                // Call the protected route we designed in server.js
                 const response = await fetch('/api/user/summary');
                 
                 if (!response.ok) {
@@ -186,9 +208,6 @@
                 
                 const data = await response.json();
 
-                // 1. Update Welcome Header (Optional, requires server to return username)
-                // document.getElementById('welcomeUserHeader').textContent = `Welcome, ${data.username || 'User'}!`;
-                
                 // 2. Populate Quick Summary
                 document.getElementById('totalReportsCount').textContent = data.totalReports;
                 document.getElementById('upcomingTestsCount').textContent = data.upcomingTests;
@@ -202,6 +221,7 @@
                     data.latestResults.forEach(report => {
                         const statusStyle = getStatusStyle(report.status);
                         const p = document.createElement('p');
+                        // Use a safe check for reportId existence
                         const displayId = report.reportId ? "KH" + report.reportId.substring(report.reportId.length - 4) + "**" : 'N/A';
                         
                         p.innerHTML = `
@@ -215,12 +235,17 @@
                 }
 
             } catch (error) {
-                console.error('Error loading dashboard data:', error);
+                console.error('Error loading dashboard summary data:', error);
                 document.getElementById('latestResultsContainer').innerHTML = '<p style="color: red;">Failed to load summary data.</p>';
             }
         }
 
-        document.addEventListener('DOMContentLoaded', fetchDashboardData);
+        document.addEventListener('DOMContentLoaded', () => {
+            // 🔑 Fetches username and updates header
+            fetchAndDisplayUsername(); 
+            // Fetches summary counts and reports
+            fetchDashboardData(); 
+        });
     </script>
 </body>
 </html>

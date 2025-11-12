@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Test Reports - Khushipath</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Reused styles from User Dashboard */
+        :root {
+            --user-primary: #009688; 
+            --user-secondary: #ff9800; 
+            --bg-color: #f7f7f7;
+        }
+        body { padding-top: 20px; background-color: var(--bg-color); }
+        .reports-container { max-width: 1000px; margin: 40px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        h1 { color: var(--user-primary); border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; }
+        
+        /* Reports Table Styles */
+        .reports-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .reports-table th, .reports-table td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        .reports-table th { background-color: #e0f2f1; font-weight: 600; color: var(--user-primary); }
+        .status-badge { padding: 5px 10px; border-radius: 15px; font-size: 0.9em; font-weight: 600; display: inline-block; }
+        .status-Ready { background-color: #28a745; color: white; }
+        .status-Archived { background-color: #6c757d; color: white; }
+        .status-Processing { background-color: #ffc107; color: #333; }
+        .download-btn { background-color: #007bff; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="reports-container">
+        <h1><i class="fas fa-file-alt"></i> My Test Reports History</h1>
+        <p>Access and download all your past diagnostic reports instantly.</p>
+
+        <table class="reports-table">
+            <thead>
+                <tr>
+                    <th>Report ID</th>
+                    <th>Booking Date</th>
+                    <th>Tests Performed</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="reportsTableBody">
+                <tr><td colspan="5" style="text-align: center;">Loading report history...</td></tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <script>
+        // Placeholder function for demonstration; actual logic needs /api/user/reports
+        async function fetchUserReports() {
+            const reportsBody = document.getElementById('reportsTableBody');
+            reportsBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Fetching reports...</td></tr>';
+            
+            try {
+                // NOTE: We need a new protected route GET /api/user/reports
+                const response = await fetch('/api/user/reports'); 
+                
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        historyBody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: red;">Session expired. Please <a href="/Login">log in</a>.</td></tr>';
+                        return;
+                    }
+                    throw new Error('Failed to fetch report history.');
+                }
+                
+                const reports = await response.json(); // Assuming this returns an array of Report objects
+
+                reportsBody.innerHTML = '';
+                if (reports.length === 0) {
+                    reportsBody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #6c757d;">You have no completed reports yet.</td></tr>';
+                } else {
+                    reports.forEach(report => {
+                        const statusClass = `status-${report.status.replace(/\s/g, '')}`;
+                        const displayId = report.reportId ? report.reportId : 'ORD' + report.appointmentId.substring(report.appointmentId.length - 4);
+                        
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${displayId}</td>
+                            <td>${new Date(report.generatedAt).toLocaleDateString()}</td>
+                            <td>${report.testNames || 'Full Body Checkup'}</td>
+                            <td><span class="status-badge ${statusClass}">${report.status}</span></td>
+                            <td>
+                                ${report.status === 'Ready' ? 
+                                    `<button class="download-btn" onclick="downloadReport('${report.reportId}')"><i class="fas fa-download"></i> Download</button>` : 
+                                    (report.status === 'Processing' ? 'In Progress' : 'N/A')
+                                }
+                            </td>
+                        `;
+                        reportsBody.appendChild(row);
+                    });
+                }
+
+            } catch (error) {
+                console.error('Error loading reports:', error);
+                reportsBody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: red;">Error loading report history.</td></tr>';
+            }
+        }
+        
+        // Placeholder for future download API call
+        function downloadReport(reportId) {
+            alert(`Simulating download for Report ID: ${reportId}`);
+            // FUTURE: window.location.href = `/api/download/report/${reportId}`;
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchUserReports);
+    </script>
+</body>
+</html>
