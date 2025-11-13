@@ -119,16 +119,20 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const specificOrderId = urlParams.get('orderId');
+       document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const specificOrderId = urlParams.get('orderId');
 
-            if (specificOrderId) {
-                loadSpecificOrder(specificOrderId);
-            }
-            
-            fetchUserAppointments();
-        });
+    if (specificOrderId) {
+        loadSpecificOrder(specificOrderId);
+    }
+
+    // Initial load
+    fetchUserAppointments();
+
+    // Implement Polling: Fetch appointments every 10 seconds (10000 milliseconds)
+    setInterval(fetchUserAppointments, 10000); 
+});
     </script>
 </body>
 </html>

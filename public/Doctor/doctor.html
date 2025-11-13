@@ -5,55 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Doctors - Khushipath</title>
   <link rel="stylesheet" href="/FP/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
 
-     /* --- Navbar Container (The dark blue bar) --- */
-.navbar {
-    width: 100%;
-    /* The light blue/grey bar color */
-    background-color: #ffffff; 
-    /* Shadow for the floating effect */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-    padding: 20px 40px;
-    
-    /* Use Flexbox to align logo and links horizontally */
-    display: flex;
-    justify-content: space-between; /* Pushes logo left, links right */
-    align-items: center;
-    
-    /* Fixed at the top, if desired */
-    /* position: fixed; 
-       top: 0;
-       z-index: 1000; */
-}
-
-    /* General Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
+     body {
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #f9faf5 , #fafafa);
       color: #333;
     
-      line-height: 1.6;
+      line-height: 1.6; /* Improved line spacing for better readability */
       padding-top: 90px; /* Adjust for fixed header height */
+      margin: 0;
+      /* padding: 0; */
+      margin-top: 15;0px;
+
     }
 
     /* Header */
     .header {
       position: fixed;
       top: 0;
-      left: 0;
+      left: -;
       width: 100%;
       background: white;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 5%;
+      padding: 100px 5%;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       z-index: 1000;
     }
@@ -72,7 +50,7 @@
     .header .nav ul {
       list-style: none;
       display: flex;
-      gap: 20px;
+      gap: 200px;
     }
 
     .header .nav a {
@@ -284,11 +262,7 @@
 <body>
 
   <!-- Header -->
-  <header class="header">
-    <div class="logo">
-      <img src="/FP/image/khushipath logo.png" alt="Khushipath Logo" style="height:50px;">
-      <h1>Khushipath</h1>
-    </div>
+  
     <nav class="navbar">
         <div class="logo">
     <a href="/" style="text-decoration: none; color: inherit; display: flex; align-items: center;">
@@ -303,8 +277,7 @@
             <li><a href="/Packages">Packages</a></li>
             <li><a href="/Doctor">Doctors</a></li>
             <li><a href="/Contact">Contact</a></li>
-            <li><a href="/Login">Login</a></li>
-            <li>
+            <li><a href="/user/dashboard">Profile</a></li>
             <a href="/Cart" title="Shopping Cart">
                 <i class="fas fa-shopping-cart"></i> 
                 <span id="cart-count" style="
@@ -313,7 +286,7 @@
                     color: white; 
                     border-radius: 50%; 
                     padding: 2px 6px; 
-                    font-size: 0.8em; 
+                    font-size: 1em; 
                     margin-left: 5px;
                     font-weight: bold;
                     position: relative; 
@@ -321,6 +294,7 @@
                     left: -10px; 
                 ">0</span>
             </a>
+            
         </li>
         </ul>
     </nav>
@@ -380,26 +354,6 @@
             return cartString ? JSON.parse(cartString) : [];
         }
 
-<<<<<<< HEAD
-        function updateCartCount() {
-            const cart = getCart();
-            const cartCountElement = document.getElementById('cart-count');
-            
-            // Calculate the total number of items (sum of all quantities)
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-
-            if (cartCountElement) {
-                cartCountElement.textContent = totalItems;
-                // Only display the badge if there are items in the cart
-                cartCountElement.style.display = totalItems > 0 ? 'inline-block' : 'none';
-            }
-        }
-        // --- END CART COUNT HELPER FUNCTIONS ---
-
-        // CRITICAL FIX: Call updateCartCount when the page is fully loaded.
-        document.addEventListener('DOMContentLoaded', updateCartCount);
-</script>
-=======
   <script>
 document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.querySelector(".search-section input");
@@ -465,6 +419,5 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 
 
->>>>>>> 7e9299ffa6e15a4063f94f83c8cf9df9f1b5c53f
 </body>
 </html>

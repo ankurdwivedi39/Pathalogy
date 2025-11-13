@@ -23,7 +23,7 @@
             <li><a href="/Packages">Packages</a></li>
             <li><a href="/Doctor">Doctors</a></li>
             <li><a href="/Contact">Contact</a></li>
-            <a href="/User/dashboard" class="nav-link profile-icon-link"><i class="fas fa-user-circle"></i> </a></ul>
+            <li><a href="/user/dashboard">Profile</a></li>
             <a href="/Cart" title="Shopping Cart">
                 <i class="fas fa-shopping-cart"></i> 
                 <span id="cart-count" style="
@@ -40,6 +40,7 @@
                     left: -10px; 
                 ">0</span>
             </a>
+            
         </li>
         </ul>
     </nav>
@@ -79,7 +80,7 @@
                 <div class="suggestions-list" id="suggestionsList" style="display: none;"></div>
             </div>
             <div class="or-separator">OR</div>
-            <a href="/PT&P/pt&p.html" class="booking-btn">Choose Popular Tests / Packages <span>❯</span></a>
+            <a href="/user/track-token" class="booking-btn">Track Appointment by Token Number <span>❯</span></a>
             <a href="/user/reports" class="action-link">
                 <div class="action-item">
                     <i class="fas fa-file-download"></i>
@@ -534,6 +535,7 @@
     </footer>
     
     <script src="script.js"></script>
+   
    <script>
 document.addEventListener("DOMContentLoaded", async () => {
   const searchInput = document.getElementById("searchInput");
@@ -601,6 +603,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 });
 </script>
+
+
 
 
     

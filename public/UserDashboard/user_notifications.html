@@ -61,7 +61,8 @@
             <div style="text-align: center; padding: 30px; color: #6c757d;">Loading notifications...</div>
         </div>
     </div>
-    
+
+    <script src="/socket.io/socket.io.js"></script>
    <script>
     const notificationsList = document.getElementById('notificationsList');
 
@@ -127,7 +128,34 @@
         }
     }
 
-    document.addEventListener('DOMContentLoaded', fetchNotifications);
+    document.addEventListener('DOMContentLoaded', () => {
+    // Initial load of existing notifications
+    fetchNotifications(); 
+
+    // ⭐️ START REAL-TIME LISTENERS ⭐️
+
+    // 1. Establish Socket.IO connection
+    const socket = io(); 
+
+    // 2. Listen for a 'new_notification' event from the server
+    socket.on('new_notification', (data) => {
+        console.log('Live notification received:', data);
+        
+        // When a new notification arrives, re-fetch and re-render the list
+        // to show the new item at the top and ensure all statuses are current.
+        fetchNotifications();
+        
+        // Optional: Show a temporary visual alert (e.g., a toast message)
+        // alert(`New Update: ${data.title}`); 
+    });
+
+    // 3. Listen for a 'notification_status_change' event (e.g., confirmation)
+    socket.on('notification_status_change', (data) => {
+        console.log('Notification status updated:', data);
+        // Re-fetch the list to update the status of an existing notification
+        fetchNotifications();
+    });
+});
 </script>
 </body>
 </html>

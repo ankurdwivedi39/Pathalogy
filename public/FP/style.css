@@ -61,7 +61,7 @@ body {
 }
 
 .nav-links li {
-    margin-left: 2rem;
+    margin-left: 1.5rem;
 }
 
 .nav-links a {
@@ -91,6 +91,25 @@ body {
 
 .nav-links a:hover:after {
     width: 100%;
+}
+
+/* 1. General Cart Link Styling */
+.nav-links li .fa-shopping-cart {
+    font-size: 5.25rem; /* Larger icon size */
+    color: var(--dark); /* Use your primary text/dark color */
+    transition: color 0.3s;
+    /* Ensure the icon is slightly above the text baseline */
+    position: relative;
+    top: 2px;
+    margin-right: 0px;
+    cursor: pointer;
+
+
+}
+
+/* Hover effect for the icon */
+.nav-links li a:hover .fa-shopping-cart {
+    color: var(--primary); /* Changes icon color on hover */
 }
 
  /* style of sliders  */

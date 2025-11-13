@@ -82,7 +82,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 // ----------------- Public GET Routes -----------------
 
 app.get('/', (req, res) => {
- res.sendFile(path.join(__dirname, 'public/FP', 'Fp.html'));   
+    // 🔑 CHECK: If the user is NOT logged in (session.userId is missing)
+    if (!req.session.userId) {
+        // Redirect non-logged-in users to the Login page
+        return res.redirect('/Login'); 
+    }
+    
+    // If the user IS logged in, serve the main homepage (Fp.html)
+    res.sendFile(path.join(__dirname, 'public/FP', 'Fp.html'));   
 });
 
 app.get('/About', (req, res) => {
@@ -1501,6 +1508,17 @@ app.patch("/api/appointments/:id", adminAuth, async (req, res) => {
     }
     res.status(500).json({ message: "Server error during status update." });
   }
+});
+
+// 💡 A PROTECTED ROUTE FOR REPORT UPLOAD PAGE
+app.get('/admin/upload-report', adminAuth, (req, res) => {
+    // Check if user is logged in AND has the 'admin' role
+    if (req.session.userId && req.session.role === 'admin') {
+        // NOTE: Assume 'upload_report.html' is placed in public/Admin/
+        res.sendFile(path.join(__dirname, 'public/Admin', 'upload_report.html'));
+    } else {
+        res.redirect('/AdminLogin'); 
+    }
 });
 
  // --------- start server ------
